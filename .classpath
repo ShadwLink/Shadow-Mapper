@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="D:/Data/libs/Personal libs/file_io.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jogl-2.0.2"/>
 	<classpathentry kind="lib" path="D:/Data/libs/Java/inieditor/lib/inieditor.jar"/>
-	<classpathentry kind="lib" path="D:/Data/libs/Personal libs/gtalib.jar"/>
+	<classpathentry kind="lib" path="D:/Data/Projects/Github/ShadowMapper/libs/file_io.jar"/>
+	<classpathentry kind="lib" path="D:/Data/Projects/Github/ShadowMapper/libs/gtalib.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
