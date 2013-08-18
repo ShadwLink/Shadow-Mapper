@@ -11,21 +11,25 @@
 
 package shadowmapper;
 
-import Preview.Preview;
-import IDE.Item_OBJS;
-import IMG.IMG_Item;
-import Texturedic.TextureDic;
-import file_io.ByteReader;
-import file_io.ReadFunctions;
-import file_io.WriteFunctions;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import model.Model;
-import wdr.DrawableModel;
+
+import IDE.Item_OBJS;
+import IMG.IMG_Item;
+import Preview.Preview;
+import Texturedic.TextureDic;
+import Utils.Filter;
+import Utils.Utils;
+import _3DModel.model.Model;
+import _3DModel.wdr.DrawableModel;
+import file_io.ByteReader;
+import file_io.ReadFunctions;
+import file_io.WriteFunctions;
 
 /**
  *
@@ -498,7 +502,7 @@ public class Browser extends javax.swing.JFrame {
             String name = item.getName();
             System.out.println("You selected " + name + " from img " + fm.imgs[listIMG.getSelectedIndex()].getFileName());
             String[] extensions = {".wdr",".wtd",".wbd", ".wbn",".wdd",".wft", ".wpl"};
-            File file = Util.fileChooser(this, Finals.fileSave, new Filter(extensions, "GTA File", false));
+			File file = Utils.fileChooser(this, Finals.fileSave, new Filter(extensions, "GTA File", false));
             ReadFunctions rf = new ReadFunctions();
             if(rf.openFile(fm.imgs[listIMG.getSelectedIndex()].getFileName())){
                 rf.seek(item.getOffset());
@@ -524,7 +528,7 @@ public class Browser extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         if(listIMG.getSelectedIndex() != -1){
             String[] extensions = {".dff",".wdr",".wtd",".wbd", ".wbn",".wdd",".wft",".txd", ".wpl"};
-            File file = Util.fileChooser(this, Finals.fileOpen, new Filter(extensions, "GTA File", false));
+			File file = Utils.fileChooser(this, Finals.fileOpen, new Filter(extensions, "GTA File", false));
             if(file != null){
                 if(file.getName().endsWith(".dff") || file.getName().endsWith(".DFF")){
                     Model mdl = new Model();
@@ -551,7 +555,7 @@ public class Browser extends javax.swing.JFrame {
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         String[] extensions = {".img"};
-        File file = Util.fileChooser(this, Finals.fileOpen, new Filter(extensions, "GTA IMG File", false));
+		File file = Utils.fileChooser(this, Finals.fileOpen, new Filter(extensions, "GTA IMG File", false));
         if(file != null && !file.exists()){
             fm.addIMG(file.getAbsolutePath());
             initImgList();
