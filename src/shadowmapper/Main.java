@@ -25,9 +25,12 @@ import javax.swing.tree.DefaultTreeModel;
 import CheckList.CheckListManager;
 import IDE.IDE;
 import IPL.IPL;
+import Utils.Filter;
+import Utils.HashUtils;
+import Utils.Utils;
+import ch.ubique.inieditor.IniEditor;
 
 import com.jogamp.opengl.util.Animator;
-import com.nikhaldimann.inieditor.IniEditor;
 
 /**
  * 
@@ -1292,7 +1295,7 @@ public class Main extends javax.swing.JFrame {
 
 	private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton3ActionPerformed
 		String[] extensions = { ".ide" };
-		File file = Util.fileChooser(this, Finals.fileSave, new Filter(extensions, "IDE File", false));
+		File file = Utils.fileChooser(this, Finals.fileSave, new Filter(extensions, "IDE File", false));
 		fm.addNewIDE(file);
 	}// GEN-LAST:event_jButton3ActionPerformed
 
@@ -1302,7 +1305,7 @@ public class Main extends javax.swing.JFrame {
 
 	private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton9ActionPerformed
 		String[] extensions = { ".wpl" };
-		File file = Util.fileChooser(this, Finals.fileSave, new Filter(extensions, "WPL File", false));
+		File file = Utils.fileChooser(this, Finals.fileSave, new Filter(extensions, "WPL File", false));
 		fm.addNewIPL(file);
 	}// GEN-LAST:event_jButton9ActionPerformed
 
@@ -1384,7 +1387,7 @@ public class Main extends javax.swing.JFrame {
 	}// GEN-LAST:event_jButton8ActionPerformed
 
 	public void addHashToIni(String name) {
-		long hash = Util.genHash(name);
+		long hash = HashUtils.genHash(name);
 		try {
 			IniEditor ini = new IniEditor();
 			ini.load("hashes.ini");

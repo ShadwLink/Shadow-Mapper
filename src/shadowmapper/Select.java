@@ -26,9 +26,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import Utils.Filter;
 import Utils.Utils;
-
-import com.nikhaldimann.inieditor.IniEditor;
-
+import ch.ubique.inieditor.IniEditor;
 import file_io.ReadFunctions;
 
 /**
