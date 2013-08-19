@@ -1,8 +1,8 @@
 -------------------------------------
-          Shadow-Mapper Beta 0.1a
+          Shadow-Mapper Beta 0.1.0
 
            by Shadow-Link
-<Prince_link_warppipe at hotmail.com>
+<kilian_steenman at hotmail.com>
 
          www.Shadow-Link.nl
 -------------------------------------
