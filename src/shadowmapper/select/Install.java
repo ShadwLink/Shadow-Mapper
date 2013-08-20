@@ -58,7 +58,8 @@ public class Install {
 	 * @return
 	 */
 	public String getVersionString() {
-		return "";
+		// TODO Return version string
+		return "1.0.3.0";
 	}
 
 	/**

@@ -100,7 +100,6 @@ public class FormSelect {
 		frame.getContentPane().add(scrollPane);
 
 		table = new JTable(new InstallsTableModel());
-		table.setAutoCreateColumnsFromModel(true);
 		table.setBounds(10, 85, 414, 131);
 		table.getColumnModel().getColumn(0).setPreferredWidth(10);
 		table.getColumnModel().getColumn(1).setPreferredWidth(100);
@@ -175,7 +174,6 @@ public class FormSelect {
 	 *            An array of installs
 	 */
 	private void populateInstallsTable(Install[] installs) {
-		table.setAutoCreateColumnsFromModel(true);
 		((InstallsTableModel) table.getModel()).setInstalls(installs);
 	}
 
