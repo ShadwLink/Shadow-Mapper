@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import utils.GuiFunctions;
@@ -46,6 +47,7 @@ public class FormSelect {
 		initialize();
 		initializeIni();
 		mInstalls = loadInstalls();
+		populateInstallsTable(mInstalls);
 		for (Install install : mInstalls) {
 			System.out.println("Install: " + install.toString());
 		}
@@ -89,13 +91,24 @@ public class FormSelect {
 		btnRemoveInstall.setEnabled(false);
 		frame.getContentPane().add(btnRemoveInstall);
 
-		table = new JTable();
-		table.setBounds(10, 85, 414, 131);
-		frame.getContentPane().add(table);
-
 		JPanel panel = new JPanel();
 		panel.setBounds(10, 11, 414, 63);
 		frame.getContentPane().add(panel);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 85, 414, 131);
+		frame.getContentPane().add(scrollPane);
+
+		table = new JTable(new InstallsTableModel());
+		table.setAutoCreateColumnsFromModel(true);
+		table.setBounds(10, 85, 414, 131);
+		table.getColumnModel().getColumn(0).setPreferredWidth(10);
+		table.getColumnModel().getColumn(1).setPreferredWidth(100);
+		table.getColumnModel().getColumn(2).setPreferredWidth(200);
+		table.getColumnModel().getColumn(3).setPreferredWidth(50);
+		table.getColumnModel().getColumn(4).setMinWidth(44);
+		frame.getContentPane().add(table);
+		scrollPane.setViewportView(table);
 	}
 
 	/**
@@ -111,7 +124,9 @@ public class FormSelect {
 	}
 
 	/**
-	 * Load install from ini
+	 * Load installs from ini
+	 * 
+	 * @return Array of installs
 	 */
 	private Install[] loadInstalls() {
 		Install[] installs = new Install[0];
@@ -151,6 +166,17 @@ public class FormSelect {
 		}
 
 		return installs;
+	}
+
+	/**
+	 * Populate the installs table with the installs data
+	 * 
+	 * @param installs
+	 *            An array of installs
+	 */
+	private void populateInstallsTable(Install[] installs) {
+		table.setAutoCreateColumnsFromModel(true);
+		((InstallsTableModel) table.getModel()).setInstalls(installs);
 	}
 
 	/**
