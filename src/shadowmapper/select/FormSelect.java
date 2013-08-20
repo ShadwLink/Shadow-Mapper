@@ -13,15 +13,9 @@ import javax.swing.JTable;
 
 import utils.GuiFunctions;
 import ch.ubique.inieditor.IniEditor;
+import constants.ConstantsSettings;
 
-public class Select2 {
-	private static final String INI_SETTINGS = "settings.ini";
-	private static final String INI_SECTION_INSTALLS = "installs";
-	private static final String INI_SECTION_VERSIONS = "versions";
-	private static final String INI_OPTION_INSTALL_LOCATION = "loc";
-	private static final String INI_OPTION_INSTALL_NAME = "name";
-	private static final String INI_OPTION_INSTALL_TYPE = "type";
-
+public class FormSelect {
 	private JFrame frame;
 	private JTable table;
 
@@ -35,7 +29,7 @@ public class Select2 {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Select2 window = new Select2();
+					FormSelect window = new FormSelect();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,11 +41,14 @@ public class Select2 {
 	/**
 	 * Create the application.
 	 */
-	public Select2() {
+	public FormSelect() {
 		GuiFunctions.setLookAndFeel();
 		initialize();
 		initializeIni();
 		mInstalls = loadInstalls();
+		for (Install install : mInstalls) {
+			System.out.println("Install: " + install.toString());
+		}
 	}
 
 	/**
@@ -107,7 +104,7 @@ public class Select2 {
 	private void initializeIni() {
 		mIniEditorSettings = new IniEditor();
 		try {
-			mIniEditorSettings.load(INI_SETTINGS);
+			mIniEditorSettings.load(ConstantsSettings.INI_SETTINGS);
 		} catch (IOException ex) {
 			JOptionPane.showMessageDialog(null, "settings.ini missing or corrupted, please redownload shadow mapper");
 		}
@@ -117,27 +114,43 @@ public class Select2 {
 	 * Load install from ini
 	 */
 	private Install[] loadInstalls() {
+		Install[] installs = new Install[0];
+
 		// Check if the install section even exists
-		if (mIniEditorSettings.hasSection(INI_SECTION_INSTALLS)) {
-			int installIndex = 1;
+		if (mIniEditorSettings.hasSection(ConstantsSettings.INI_SECTION_INSTALLS)) {
+			if (mIniEditorSettings.hasOption(ConstantsSettings.INI_SECTION_INSTALLS,
+					ConstantsSettings.INI_OPTION_INSTALL_COUNT)) {
+				int installCount = Integer.valueOf(mIniEditorSettings.get(ConstantsSettings.INI_SECTION_INSTALLS,
+						ConstantsSettings.INI_OPTION_INSTALL_COUNT));
 
-			// Check if the install exists
-			String optionInstallLocation = INI_OPTION_INSTALL_LOCATION + installIndex;
-			String optionInstallName = INI_OPTION_INSTALL_NAME + installIndex;
-			String optionInstallType = INI_OPTION_INSTALL_TYPE + installIndex;
-			while (mIniEditorSettings.hasOption(INI_SECTION_INSTALLS, optionInstallLocation)) {
-				Install install = new Install();
-				install.setPath(mIniEditorSettings.get(INI_SECTION_INSTALLS, optionInstallLocation));
-				install.setName(mIniEditorSettings.get(INI_SECTION_INSTALLS, optionInstallName));
-				install.setType(Integer.valueOf(mIniEditorSettings.get(INI_SECTION_INSTALLS, optionInstallType)));
+				installs = new Install[installCount];
 
-				installIndex++;
-				optionInstallLocation = INI_OPTION_INSTALL_LOCATION + installIndex;
+				String optionInstallLocation = "";
+				String optionInstallName = "";
+				String optionInstallType = "";
+				for (int i = 0; i < installCount; i++) {
+					optionInstallLocation = ConstantsSettings.INI_OPTION_INSTALL_LOCATION + i;
+					optionInstallName = ConstantsSettings.INI_OPTION_INSTALL_NAME + i;
+					optionInstallType = ConstantsSettings.INI_OPTION_INSTALL_TYPE + i;
+
+					if (mIniEditorSettings.hasOption(ConstantsSettings.INI_SECTION_INSTALLS, optionInstallLocation)) {
+						Install install = new Install();
+						install.setPath(mIniEditorSettings.get(ConstantsSettings.INI_SECTION_INSTALLS,
+								optionInstallLocation));
+						install.setName(mIniEditorSettings.get(ConstantsSettings.INI_SECTION_INSTALLS,
+								optionInstallName));
+						install.setType(Integer.valueOf(mIniEditorSettings.get(ConstantsSettings.INI_SECTION_INSTALLS,
+								optionInstallType)));
+
+						install.checkVersion(mIniEditorSettings);
+
+						installs[i] = install;
+					}
+				}
 			}
 		}
 
-		// TODO Return array of installs
-		return null;
+		return installs;
 	}
 
 	/**

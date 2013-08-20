@@ -132,4 +132,11 @@ public class Install {
 			return false;
 		}
 	}
+
+	/**
+	 * To String
+	 */
+	public String toString() {
+		return "[" + mName + "] " + mPath + " (" + mVersion + ")";
+	}
 }
