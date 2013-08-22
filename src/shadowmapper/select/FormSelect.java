@@ -3,12 +3,15 @@ package shadowmapper.select;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -90,13 +93,9 @@ public class FormSelect {
 		btnRemoveInstall.setBounds(125, 227, 101, 23);
 		btnRemoveInstall.setEnabled(false);
 		frame.getContentPane().add(btnRemoveInstall);
-
-		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 414, 63);
-		frame.getContentPane().add(panel);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 85, 414, 131);
+		scrollPane.setBounds(10, 106, 414, 110);
 		frame.getContentPane().add(scrollPane);
 
 		table = new JTable(new InstallsTableModel());
@@ -106,8 +105,19 @@ public class FormSelect {
 		table.getColumnModel().getColumn(2).setPreferredWidth(200);
 		table.getColumnModel().getColumn(3).setPreferredWidth(50);
 		table.getColumnModel().getColumn(4).setMinWidth(44);
-		frame.getContentPane().add(table);
 		scrollPane.setViewportView(table);
+
+		BufferedImage shadowmapperImage = null;
+		try {
+			shadowmapperImage = ImageIO.read(this.getClass().getResource("/images/shadowmapper.png"));
+		} catch (IOException e) {
+			System.out.println("Exception while loading image");
+			e.printStackTrace();
+		}
+
+		JLabel label = new JLabel(new ImageIcon(shadowmapperImage));
+		label.setBounds(10, 11, 414, 84);
+		frame.getContentPane().add(label);
 	}
 
 	/**
