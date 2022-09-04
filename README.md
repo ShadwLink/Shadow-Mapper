@@ -2,7 +2,6 @@
           Shadow-Mapper Beta 0.1.0
 
            by Shadow-Link
-<kilian_steenman at hotmail.com>
 
          www.Shadow-Link.nl
 -------------------------------------

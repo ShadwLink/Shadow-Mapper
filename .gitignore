@@ -9,3 +9,7 @@
 *.idea
 *.iml
 out/
+build/
+
+# MacOS
+.DS_Store
