@@ -158,7 +158,8 @@ public class glListener implements GLEventListener {
             renderWater.display(gl);
         }
         if (displayCars) {
-            renderCars.display(gl);
+            // TODO: Fix this at some point
+//            renderCars.display(gl);
         }
 
         if (pick) {
@@ -362,8 +363,8 @@ public class glListener implements GLEventListener {
         renderWater = new RenderWater();
         renderWater.init(gl, fm);
 
-        renderCars = new RenderVehicles();
-        renderCars.init(gl, fm);
+//        renderCars = new RenderVehicles();
+//        renderCars.init(gl, fm);
 
         // setup the selection buffer
         selectBuf = new int[512];

@@ -29,6 +29,8 @@ import java.util.logging.Logger;
  * @author Shadow-Link
  */
 public class Select extends javax.swing.JFrame {
+    private static final String HASHED_KEY = "DEA375EF1E6EF2223A1221C2C575C47BF17EFA5E".toLowerCase();
+
     private IniEditor versionsIni;
     private IniEditor settingsIni;
 
@@ -63,7 +65,7 @@ public class Select extends javax.swing.JFrame {
         try {
             settingsIni.load("settings.ini");
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Unable to stored settings");
+            JOptionPane.showMessageDialog(this, "Unable to load stored settings");
         } finally {
             fillGameList();
         }
@@ -95,7 +97,7 @@ public class Select extends javax.swing.JFrame {
                 String keyHash = calulateSHA1sum(key);
                 System.out.println("KEY: " + keyHash + " version " + versionsIni.get("versions", "name" + cOffset));
 
-                if (keyHash.equals("DEA375EF1E6EF2223A1221C2C575C47BF17EFA5E")) {
+                if (keyHash.equals(HASHED_KEY)) {
                     foundKey = true;
                     System.out.println("Your version is: " + versionsIni.get("versions", "name" + cOffset));
                 } else {
