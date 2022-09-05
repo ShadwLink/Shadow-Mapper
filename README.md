@@ -1,9 +1,13 @@
+> :warning: **This code is from ~2009 and one was one of my first Java projects.** The quality of the code is bad and I
+> do not recommend using this to learn how to code!
 -------------------------------------
+
           Shadow-Mapper Beta 0.1.0
 
            by Shadow-Link
 
          www.Shadow-Link.nl
+
 -------------------------------------
 
 With Shadow-Mapper you can edit the map of GTA: IV.
@@ -16,8 +20,9 @@ Requirements
 ------------
 
 - You need to have Java installed
-- You need Java(TM) Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files 6, you can download this from:
-https://cds.sun.com/is-bin/INTERSHOP.enfinity/WFS/CDS-CDS_Developer-Site/en_US/-/USD/ViewProductDetail-Start?ProductRef=jce_policy-6-oth-JPR@CDS-CDS_Developer
+- You need Java(TM) Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files 6, you can download this
+  from:
+  https://cds.sun.com/is-bin/INTERSHOP.enfinity/WFS/CDS-CDS_Developer-Site/en_US/-/USD/ViewProductDetail-Start?ProductRef=jce_policy-6-oth-JPR@CDS-CDS_Developer
 - Version 1.0, 1.0.1, 1.0.2, 1.0.3, 1.0.4, 1.0.0.4 of GTAIV.exe
 
 -----
@@ -62,9 +67,10 @@ Credits
 
 A very special thanks to (in alphabetical order):
 
-  Aru, Cool Fire, DeXx, Gforce, JostVice, listener, Paroxum, REspawn, smokey8808, supermortalhuman, Tim (and everyone I forgot)
+Aru, Cool Fire, DeXx, Gforce, JostVice, listener, Paroxum, REspawn, smokey8808, supermortalhuman, Tim (and everyone I
+forgot)
 
-who have been invaluable in the research of game code/file formats 
+who have been invaluable in the research of game code/file formats
 which made this program possible.
 
 -----

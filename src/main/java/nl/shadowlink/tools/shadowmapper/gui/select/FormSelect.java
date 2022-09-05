@@ -116,7 +116,7 @@ public class FormSelect implements ListSelectionListener {
 
         BufferedImage shadowmapperImage = null;
         try {
-            shadowmapperImage = ImageIO.read(this.getClass().getResource("/images/shadowmapper.png"));
+            shadowmapperImage = ImageIO.read(this.getClass().getResource("/Images/shadowmapper.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
