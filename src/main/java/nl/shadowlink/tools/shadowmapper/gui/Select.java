@@ -63,7 +63,12 @@ public class Select extends javax.swing.JFrame {
         // Load stored settings
         settingsIni = new IniEditor();
         try {
-            settingsIni.load("settings.ini");
+            File settingsFile = new File("settings.ini");
+            if (settingsFile.exists()) {
+                settingsIni.load("settings.ini");
+            } else {
+                settingsIni.addSection("installs");
+            }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Unable to load stored settings");
         } finally {
