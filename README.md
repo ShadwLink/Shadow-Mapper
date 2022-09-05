@@ -1,13 +1,7 @@
-> :warning: **This code is from ~2009 and one was one of my first Java projects.**
-> The quality of the code is very very low and I do not recommend using this to learn how to code!
+> :warning: **This code is from ~2009 and one was one of my first programming projects.**
+> The quality of the code is very _very_ low and I do not recommend using this to learn how to code!
 -------------------------------------
-
-          Shadow-Mapper Beta 0.1.0
-
-           by Shadow-Link
-
-         www.Shadow-Link.nl
-
+Shadow-Mapper
 -------------------------------------
 
 With Shadow-Mapper you can edit the map of GTA: IV.
@@ -23,14 +17,12 @@ Requirements
 - You need Java(TM) Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files 6, you can download this
   from:
   https://cds.sun.com/is-bin/INTERSHOP.enfinity/WFS/CDS-CDS_Developer-Site/en_US/-/USD/ViewProductDetail-Start?ProductRef=jce_policy-6-oth-JPR@CDS-CDS_Developer
-- Version 1.0, 1.0.1, 1.0.2, 1.0.3, 1.0.4, 1.0.0.4 of GTAIV.exe
+- Version 1.0, 1.0.1, 1.0.2, 1.0.3, 1.0.4, 1.0.0.4, 1.0.6.0, 1.0.7.0, 1.1.1, 1.1.2, 1.2.0.43 of GTAIV.exe
 
 -----
 Usage
 -----
 
-- Download Java(TM) Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files 6
-- Copy the local_policy.jar and US_export_policy.jar to the "Program Files\Java\jre6\lib\security" folder (default)
 - Go to your GTA IV folder and make sure "read only" is ticked off
 - You can now start Shadow-Mapper.exe
 - The select install screen will show up
