@@ -18,8 +18,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Formatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,7 +29,8 @@ import java.util.logging.Logger;
  * @author Shadow-Link
  */
 public class Select extends javax.swing.JFrame {
-    private IniEditor ini;
+    private IniEditor versionsIni;
+    private IniEditor settingsIni;
 
     /**
      * Creates new form Select
@@ -44,12 +47,23 @@ public class Select extends javax.swing.JFrame {
         int y = (screenSize.height - this.getHeight()) / 2;
         this.setLocation(x, y);
 
-        ini = new IniEditor();
+        versionsIni = new IniEditor();
         try {
-            ini.load("settings.ini");
+            File versionsIni = new File(Select.class.getResource("/versions.ini").toURI().getPath());
+            this.versionsIni.load(versionsIni);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "Unable to load ini");
             this.dispose();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Load stored settings
+        settingsIni = new IniEditor();
+        try {
+            settingsIni.load("settings.ini");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Unable to stored settings");
         } finally {
             fillGameList();
         }
@@ -58,8 +72,8 @@ public class Select extends javax.swing.JFrame {
     private void fillGameList() {
         int id = 1;
         listGames.removeAll();
-        while (ini.hasOption("installs", "loc" + id)) {
-            listGames.add(ini.get("installs", "name" + id));
+        while (settingsIni.hasOption("installs", "loc" + id)) {
+            listGames.add(settingsIni.get("installs", "name" + id));
             id++;
         }
     }
@@ -71,22 +85,42 @@ public class Select extends javax.swing.JFrame {
         boolean foundKey = false;
         int cOffset = 1;
         while (!foundKey) {
-            String sOffset = ini.get("versions", "offset" + cOffset);
+            String sOffset = versionsIni.get("versions", "offset" + cOffset);
             String[] offsetSplit = sOffset.split("x");
             int offset = Integer.parseInt(offsetSplit[1], 16);
             rf.seek(offset);
-            for (int i = 0; i < 32; i++) {
-                key[i] = rf.readByte();
+            rf.readBytes(key);
+
+            try {
+                String keyHash = calulateSHA1sum(key);
+                System.out.println("KEY: " + keyHash + " version " + versionsIni.get("versions", "name" + cOffset));
+
+                if (keyHash.equals("DEA375EF1E6EF2223A1221C2C575C47BF17EFA5E")) {
+                    foundKey = true;
+                    System.out.println("Your version is: " + versionsIni.get("versions", "name" + cOffset));
+                } else {
+                    cOffset++;
+                }
+            } catch (NoSuchAlgorithmException e) {
+                System.out.println("Unable to generate SHA-1 sum");
+                throw new RuntimeException(e);
             }
-            System.out.println("KEY: " + asHex(key) + " version " + ini.get("versions", "name" + cOffset));
-            if (asHex(key).equals("1ab56fed7ec3ff01227b691533975dce47d769653ff775426a96cd6d5307565d")) {
-                foundKey = true;
-                System.out.println("Your version is: " + ini.get("versions", "name" + cOffset));
-            } else
-                cOffset++;
         }
         rf.closeFile();
         return key;
+    }
+
+    public static String calulateSHA1sum(byte[] convertme) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-1");
+        return byteArray2Hex(md.digest(convertme));
+    }
+
+    private static String byteArray2Hex(final byte[] hash) {
+        Formatter formatter = new Formatter();
+        for (byte b : hash) {
+            formatter.format("%02x", b);
+        }
+        return formatter.toString();
     }
 
     public byte[] createHash(String text, String method) {
@@ -227,8 +261,8 @@ public class Select extends javax.swing.JFrame {
     }// GEN-LAST:event_formWindowLostFocus
 
     private void buttonOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonOKActionPerformed
-        int gameType = Integer.valueOf(ini.get("installs", "type" + (listGames.getSelectedIndex() + 1)));
-        String gameDir = ini.get("installs", "loc" + (listGames.getSelectedIndex() + 1));
+        int gameType = Integer.valueOf(settingsIni.get("installs", "type" + (listGames.getSelectedIndex() + 1)));
+        String gameDir = settingsIni.get("installs", "loc" + (listGames.getSelectedIndex() + 1));
         // check if dir exists and contains the exe
         if (gameType == Finals.gIV) {
             // new Main(gameDir, gameType,
@@ -252,17 +286,17 @@ public class Select extends javax.swing.JFrame {
                 true));
         if (file != null && file.exists()) {
             int installID = 1;
-            while (ini.hasOption("installs", "loc" + installID)) {
+            while (settingsIni.hasOption("installs", "loc" + installID)) {
                 installID++;
             }
             String install = file.getPath().substring(0, file.getPath().length() - 9);
-            ini.set("installs", "loc" + installID, install);
+            settingsIni.set("installs", "loc" + installID, install);
             String installName = JOptionPane.showInputDialog("Set the name of the install");
             if (installName != null) {
-                ini.set("installs", "name" + installID, installName);
-                ini.set("installs", "type" + installID, "3");
+                settingsIni.set("installs", "name" + installID, installName);
+                settingsIni.set("installs", "type" + installID, "3");
                 try {
-                    ini.save("settings.ini");
+                    settingsIni.save("settings.ini");
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(this,
                             "Unable to write to ini, it might be in use by another program.");

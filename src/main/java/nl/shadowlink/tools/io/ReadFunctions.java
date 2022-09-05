@@ -151,6 +151,14 @@ public class ReadFunctions {
         return waarde;
     }
 
+    public void readBytes(byte[] bytes) {
+        try {
+            data_in.read(bytes);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * Returns an int from the DataInputStream
      *

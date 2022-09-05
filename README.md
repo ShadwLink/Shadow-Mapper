@@ -1,5 +1,5 @@
-> :warning: **This code is from ~2009 and one was one of my first Java projects.** The quality of the code is bad and I
-> do not recommend using this to learn how to code!
+> :warning: **This code is from ~2009 and one was one of my first Java projects.**
+> The quality of the code is bad and I do not recommend using this to learn how to code!
 -------------------------------------
 
           Shadow-Mapper Beta 0.1.0
