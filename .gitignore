@@ -13,3 +13,8 @@ build/
 
 # MacOS
 .DS_Store
+
+# Gradle
+.gradle
+**/build/
+!src/**/build/
