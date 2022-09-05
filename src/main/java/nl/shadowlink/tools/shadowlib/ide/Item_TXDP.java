@@ -28,7 +28,6 @@ public class Item_TXDP extends IDE_Item{
         String split[] = line.split(",");
         texDic = split[0];
         texDicParent = split[1];
-        System.out.println("<TXDP>" + line);
     }
 
     public void save(BufferedWriter output){
@@ -36,7 +35,6 @@ public class Item_TXDP extends IDE_Item{
             String line = texDic;
             line += ", " + texDicParent;
             output.write(line + "\n");
-            System.out.println("Line: " + line);
         } catch (IOException ex) {
             Logger.getLogger(Item_OBJS.class.getName()).log(Level.SEVERE, null, ex);
         }

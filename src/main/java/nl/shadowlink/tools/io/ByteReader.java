@@ -169,7 +169,6 @@ public class ByteReader {
 
     public byte[] toArray(int start, int end) {
         int retSize = end - start;
-        Message.displayMsgLow("Size: " + retSize);
         byte[] retStream = new byte[retSize];
         this.setCurrentOffset(start);
         for (int i = 0; i < retSize; i++) {
@@ -238,11 +237,7 @@ public class ByteReader {
      * @return if a flag has been set
      */
     public boolean hasFlag(int flags, int flag) {
-        int test = flags & flag;
-        if (test == flag)
-            return true;
-        else
-            return false;
+        return (flags & flag) == flag;
     }
 
     public int moreToRead() {

@@ -137,10 +137,9 @@ class IMG_IV {
         val items = ArrayList<IMG_Item>()
         // Message.displayMsgHigh("Version 3: " + rf.readInt());
         val itemCount = rf.readInt()
-        println("Item Count: $itemCount")
-        println("Table Size: " + rf.readInt())
-        println("Size of table items: " + Utils.getHexString(rf.readShort()))
-        println("Unknown: " + rf.readShort())
+        val tableSize = rf.readInt();
+        val sizeOfTableItems = rf.readShort();
+        val unknown = rf.readShort();
 
         // read table
         for (curItem in 0 until itemCount) {
@@ -154,12 +153,6 @@ class IMG_IV {
                 item.flags = itemSize
                 itemSize = Utils.getTotalMemSize(itemSize)
             }
-            println("-------------------------------")
-            println("Offset: " + Utils.getHexString(itemOffset))
-            println("Size: $itemSize bytes")
-            println("Type: " + Utils.getHexString(itemType) + " " + itemType)
-            println("UsedBlocks: $usedBlocks")
-            println("Padding: $padding")
             item.offset = itemOffset
             item.size = usedBlocks * 0x800 - padding
             item.type = itemType
@@ -190,19 +183,10 @@ class IMG_IV {
         val itemCount = br.readUInt32()
         val tableSize = br.readUInt32()
 
-        println("ID: $id")
-        println("Version: $version")
-        println("Number of items: $itemCount")
-        println("Size of table: $tableSize")
-
         var itemSize = test.readShort()
         val unknown = test.readShort()
 
         val namesSize = tableSize - itemCount * itemSize
-
-        println("Item size: $itemSize")
-        println("Unknown: $unknown")
-        println("Names: $namesSize")
 
         for (i in 0 until itemCount) {
             data = decrypt16byteBlock(test, key) // decrypt all table items
@@ -217,12 +201,6 @@ class IMG_IV {
                 item.flags = itemSize
                 itemSize = Utils.getTotalMemSize(itemSize)
             }
-            println("-------------------------------")
-            println("Offset: " + Utils.getHexString(itemOffset))
-            println("Size: $itemSize bytes")
-            println("Type: " + Utils.getHexString(itemType))
-            println("UsedBlocks: $usedBlocks")
-            println("Padding: $Padding")
             item.offset = itemOffset
             item.size = usedBlocks * 0x800 - Padding
             item.type = itemType
@@ -253,7 +231,6 @@ class IMG_IV {
         while (i < itemCount) {
             val name = br.readNullTerminatedString()
             items[i].name = name
-            println("Name$i: $name")
             br.readByte()
             i++
         }

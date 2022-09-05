@@ -19,7 +19,7 @@ public class Item_TREE extends IDE_Item {
 
 	@Override
 	public void read(String line) {
-		Logger.getLogger("IDE").log(Level.INFO, getClass().getSimpleName() + " not supported yet.");
+		// TODO: Implement
 	}
 
 	public void save(BufferedWriter output) {

@@ -14,49 +14,6 @@ import java.util.logging.Logger;
 public class WriteFunctions {
     private RandomAccessFile data_out;
 
-    /**
-     * returns if a certain flag is on
-     *
-     * @param flags
-     * @param flag
-     * @return if a flag has been set
-     */
-    public boolean hasFlag(int flags, int flag) {
-        boolean hasFlag = false;
-        boolean finished = false;
-        int waarde = 1024;
-        int newFlag = flags;
-        while (!finished) {
-            newFlag -= waarde;
-            if (waarde < flag) {
-                finished = true;
-            } else {
-                if (newFlag <= 0) {
-                    if (waarde == 1) {
-                        finished = true;
-                    }
-                    newFlag = flags;
-                    waarde /= 2;
-                } else {
-                    flags = newFlag;
-                    if (waarde == flag) {
-                        hasFlag = true;
-                        finished = true;
-                    } else {
-                        waarde /= 2;
-                    }
-                }
-            }
-        }
-        return hasFlag;
-    }
-
-    /**
-     * Opens a file
-     *
-     * @param name
-     * @return inputStream of the file
-     */
     public boolean openFile(String name) {
         try {
             data_out = new RandomAccessFile(name, "rw");
@@ -66,13 +23,7 @@ public class WriteFunctions {
         }
     }
 
-    /**
-     * Closes the FileInputStream and DataInputStream
-     *
-     * @param file_in
-     * @param data_in
-     */
-    public boolean closeFile() {
+       public boolean closeFile() {
         try {
             data_out.close();
         } catch (IOException ex) {
@@ -82,12 +33,7 @@ public class WriteFunctions {
         return true;
     }
 
-    /**
-     * Returns a byte from the DataInputStream
-     *
-     * @param data_in
-     * @return a byte from the DataInputStream
-     */
+
     public void writeByte(int value) {
         try {
             data_out.writeByte(value);
@@ -96,12 +42,7 @@ public class WriteFunctions {
         }
     }
 
-    /**
-     * Returns an int from the DataInputStream
-     *
-     * @param data_in
-     * @return an int from the DataInputStream
-     */
+
     public void write(int value) {
         ByteBuffer bbuf = ByteBuffer.allocate(4);
         bbuf.order(ByteOrder.BIG_ENDIAN);
@@ -115,12 +56,7 @@ public class WriteFunctions {
         }
     }
 
-    /**
-     * Returns a short as an int from the DataInputStream
-     *
-     * @param data_in
-     * @return a short as an int from the DataInputStream
-     */
+
     public void writeShort(int value) {
         ByteBuffer bbuf = ByteBuffer.allocate(4);
         bbuf.order(ByteOrder.BIG_ENDIAN);
@@ -134,12 +70,7 @@ public class WriteFunctions {
         }
     }
 
-    /**
-     * Returns a float from the DataInputStream
-     *
-     * @param data_in
-     * @return a float from the DataInputStream
-     */
+
     public void write(float value) {
         ByteBuffer bbuf = ByteBuffer.allocate(4);
         bbuf.order(ByteOrder.BIG_ENDIAN);
@@ -153,12 +84,7 @@ public class WriteFunctions {
         }
     }
 
-    /**
-     * Returns a Char from the DataInputStream
-     *
-     * @param data_in
-     * @return a char from the DatainputStream
-     */
+
     public char writeChar(char value) {
         char letter = '\0';
         try {
@@ -169,24 +95,14 @@ public class WriteFunctions {
         return letter;
     }
 
-    /**
-     * writes a String to the dataoutputstream
-     *
-     * @param data_in
-     * @return a String
-     */
+
     public void writeString(String value) {
         for (int i = 0; i < value.length(); i++) {
             writeChar(value.charAt(i));
         }
     }
 
-    /**
-     * writes a String from the DataInputStream till a \0 char
-     *
-     * @param data_in
-     * @return a String
-     */
+
     public void writeNullTerminatedString(String value) {
         for (int i = 0; i < value.length(); i++) {
             writeChar(value.charAt(i));

@@ -1,5 +1,3 @@
-
-
 package nl.shadowlink.tools.shadowlib.ide;
 
 import nl.shadowlink.tools.shadowlib.utils.Constants;
@@ -14,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author Shadow-Link
  */
 public class IDE {
@@ -40,100 +37,100 @@ public class IDE {
     public ArrayList<Item_TXDP> items_txdp = new ArrayList();
     public ArrayList<Item_CARS> items_cars = new ArrayList();
 
-    public IDE(String fileName, int gameType, boolean autoLoad){
+    public IDE(String fileName, int gameType, boolean autoLoad) {
         this.fileName = fileName;
         this.gameType = gameType;
-        if(autoLoad) loadIDE(); //Load the wanted IDE
+        if (autoLoad) loadIDE();
     }
 
-    private boolean loadIDE(){
-        if(openIDE()){
+    private boolean loadIDE() {
+        if (openIDE()) {
             try {
-                String line = null; //not declared within while loop
+                String line = null;
                 while ((line = input.readLine()) != null) {
                     if (readItem == -1) {
                         if (line.startsWith("#")) {
                             System.out.println("Commentaar: " + line);
                         } else if (line.startsWith("2dfx")) {
-							readItem = Constants.i2DFX;
+                            readItem = Constants.i2DFX;
                         } else if (line.startsWith("anim")) {
-							readItem = Constants.iANIM;
+                            readItem = Constants.iANIM;
                         } else if (line.startsWith("cars")) {
-							readItem = Constants.iCARS;
+                            readItem = Constants.iCARS;
                         } else if (line.startsWith("hier")) {
-							readItem = Constants.iHIER;
+                            readItem = Constants.iHIER;
                         } else if (line.startsWith("mlo")) {
-							readItem = Constants.iMLO;
+                            readItem = Constants.iMLO;
                         } else if (line.startsWith("objs")) {
-							readItem = Constants.iOBJS;
+                            readItem = Constants.iOBJS;
                         } else if (line.startsWith("path")) {
-							readItem = Constants.iPATH;
+                            readItem = Constants.iPATH;
                         } else if (line.startsWith("peds")) {
-							readItem = Constants.iPEDS;
+                            readItem = Constants.iPEDS;
                         } else if (line.startsWith("tanm")) {
-							readItem = Constants.iTANM;
+                            readItem = Constants.iTANM;
                         } else if (line.startsWith("tobj")) {
-							readItem = Constants.iTOBJ;
+                            readItem = Constants.iTOBJ;
                         } else if (line.startsWith("tree")) {
-							readItem = Constants.iTREE;
+                            readItem = Constants.iTREE;
                         } else if (line.startsWith("txdp")) {
-							readItem = Constants.iTXDP;
+                            readItem = Constants.iTXDP;
                         } else if (line.startsWith("weap")) {
-							readItem = Constants.iWEAP;
+                            readItem = Constants.iWEAP;
                         }
                         //Message.displayMsgHigh("Started reading item " + readItem);
                     } else {
                         if (line.startsWith("end")) {
                             //Message.displayMsgHigh("Item " + readItem + " ended");
                             readItem = -1;
-                        } else if(line.startsWith("#")){
-                            System.out.println("Commentaar: " + line);
-                        }else if(line.isEmpty()){
-                            System.out.println("Lege regel");
-                        }else {
+                        } else if (line.startsWith("#")) {
+                            System.out.println("Comment: " + line);
+                        } else if (line.isEmpty()) {
+                            System.out.println("Empty line");
+                        } else {
                             IDE_Item item = null;
-                            switch(readItem){
-							case Constants.i2DFX:
+                            switch (readItem) {
+                                case Constants.i2DFX:
                                     item = new Item_2DFX(gameType);
                                     break;
-							case Constants.iANIM:
+                                case Constants.iANIM:
                                     item = new Item_ANIM(gameType);
                                     break;
-							case Constants.iCARS:
+                                case Constants.iCARS:
                                     item = new Item_CARS(gameType);
-                                    items_cars.add((Item_CARS)item);
+                                    items_cars.add((Item_CARS) item);
                                     break;
-							case Constants.iHIER:
+                                case Constants.iHIER:
                                     item = new Item_HIER(gameType);
                                     break;
-							case Constants.iMLO:
+                                case Constants.iMLO:
                                     item = new Item_MLO(gameType);
                                     break;
-							case Constants.iOBJS:
+                                case Constants.iOBJS:
                                     item = new Item_OBJS(gameType);
-                                    items_objs.add((Item_OBJS)item);
+                                    items_objs.add((Item_OBJS) item);
                                     break;
-							case Constants.iPATH:
+                                case Constants.iPATH:
                                     item = new Item_PATH(gameType);
                                     break;
-							case Constants.iPEDS:
+                                case Constants.iPEDS:
                                     item = new Item_PEDS(gameType);
                                     break;
-							case Constants.iTANM:
+                                case Constants.iTANM:
                                     item = new Item_TANM(gameType);
                                     break;
-							case Constants.iTOBJ:
+                                case Constants.iTOBJ:
                                     item = new Item_TOBJ(gameType);
-                                    items_tobj.add((Item_TOBJ)item);
+                                    items_tobj.add((Item_TOBJ) item);
                                     break;
-							case Constants.iTREE:
+                                case Constants.iTREE:
                                     item = new Item_TREE(gameType);
                                     break;
-							case Constants.iTXDP:
+                                case Constants.iTXDP:
                                     item = new Item_TXDP(gameType);
-                                    items_txdp.add((Item_TXDP)item);
+                                    items_txdp.add((Item_TXDP) item);
                                     break;
-							case Constants.iWEAP:
+                                case Constants.iWEAP:
                                     item = new Item_WEAP(gameType);
                                     break;
                                 default:
@@ -147,46 +144,46 @@ public class IDE {
             } catch (IOException ex) {
                 Logger.getLogger(IDE.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else{
+        } else {
             //Message.displayMsgHigh("Unable to open file: " + fileName);
         }
         return true;
     }
 
-    public IDE_Item findItem(String name){
+    public IDE_Item findItem(String name) {
         IDE_Item ret = null;
-        if(items_objs.size() != 0){
+        if (items_objs.size() != 0) {
             int i = 0;
             Item_OBJS item = items_objs.get(i);
-            while(!item.modelName.equals(name)){
-                if(i < items_objs.size()-1){
+            while (!item.modelName.equals(name)) {
+                if (i < items_objs.size() - 1) {
                     i++;
                     item = items_objs.get(i);
-                }else{
+                } else {
                     break;
                 }
             }
-            if(item.modelName.equals(name)){
+            if (item.modelName.equals(name)) {
                 //Message.displayMsgSuper("<IDE " + fileName + ">Found file " + name + " at " + i);
                 ret = items_objs.get(i);
-            }else{
+            } else {
                 //Message.displayMsgSuper("<IDE " + fileName + ">Unable to find file " + name);
             }
         }
         return ret;
     }
 
-    public boolean openIDE(){
+    public boolean openIDE() {
         try {
             fileReader = new FileReader(fileName);
-            input =  new BufferedReader(fileReader);
+            input = new BufferedReader(fileReader);
         } catch (IOException ex) {
             return false;
         }
         return true;
     }
 
-    public boolean closeIDE(){
+    public boolean closeIDE() {
         try {
             input.close();
             fileReader.close();
@@ -212,7 +209,7 @@ public class IDE {
         this.gameType = gameType;
     }
 
-    public void save(){
+    public void save() {
         try {
             FileWriter fileWriter = null;
             BufferedWriter output = null;

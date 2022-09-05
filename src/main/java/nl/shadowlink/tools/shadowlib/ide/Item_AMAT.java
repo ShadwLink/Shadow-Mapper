@@ -18,7 +18,7 @@ public class Item_AMAT {
 	}
 
 	public void read(String line) {
-		Logger.getLogger("IDE").log(Level.INFO, getClass().getSimpleName() + " not supported yet.");
+		// TODO: Implement
 	}
 
 	public void save(BufferedWriter output) {

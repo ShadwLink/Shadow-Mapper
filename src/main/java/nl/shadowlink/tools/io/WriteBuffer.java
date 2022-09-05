@@ -16,30 +16,13 @@ import java.util.logging.Logger;
 public class WriteBuffer {
 	private ArrayList<Byte> byteBuffer = new ArrayList();
 
-	/**
-	 * Returns a byte from the DataInputStream
-	 *
-	 * @param data_in
-	 * @return a byte from the DataInputStream
-	 */
-	public int writeByte(int waarde) {
+		public int writeByte(int waarde) {
 		byteBuffer.add((byte) waarde);
 		return 1;
 	}
 
-	/**
-	 * Returns an int from the DataInputStream
-	 *
-	 * @param data_in
-	 * @return an int from the DataInputStream
-	 */
-	public int writeInt(int waarde) {
-		// ByteBuffer bbuf = ByteBuffer.allocate(4);
-		// bbuf.order(ByteOrder.BIG_ENDIAN);
-		// bbuf.putInt(waarde);
-		// bbuf.order(ByteOrder.LITTLE_ENDIAN);
-		// waarde = bbuf.getInt(0);
 
+	public int writeInt(int waarde) {
 		byte[] bytes = int2arr(waarde);
 		for (int i = 0; i < bytes.length; i++) {
 			writeByte(bytes[i]);
@@ -94,12 +77,7 @@ public class WriteBuffer {
 		return 4;
 	}
 
-	/**
-	 * Returns a short as an int from the DataInputStream
-	 *
-	 * @param data_in
-	 * @return a short as an int from the DataInputStream
-	 */
+
 	public int writeShort(int waarde) {
 		Short sWaarde = (short) waarde;
 		ByteBuffer bbuf = ByteBuffer.allocate(2);
@@ -116,43 +94,20 @@ public class WriteBuffer {
 		return 2;
 	}
 
-	/**
-	 * Returns a float from the DataInputStream
-	 *
-	 * @param data_in
-	 * @return a float from the DataInputStream
-	 */
-	public int writeFloat(float waarde) {
-		// ByteBuffer bbuf = ByteBuffer.allocate(4);
-		// bbuf.order(ByteOrder.BIG_ENDIAN);
-		// bbuf.putFloat(waarde);
-		// bbuf.order(ByteOrder.LITTLE_ENDIAN);
-		// waarde = bbuf.getFloat(0);
 
-		byte[] bytes = float2arr(waarde);
+	public int writeFloat(float waarde) {
+			byte[] bytes = float2arr(waarde);
 		for (int i = 0; i < bytes.length; i++) {
 			writeByte(bytes[i]);
 		}
 		return 4;
 	}
 
-	/**
-	 * Returns a Char from the DataInputStream
-	 *
-	 * @param data_in
-	 * @return a char from the DatainputStream
-	 */
 	public int writeChar(char waarde) {
 		writeByte(waarde);
 		return 1;
 	}
 
-	/**
-	 * writes a String from the DataInputStream till a \0 char
-	 *
-	 * @param data_in
-	 * @return a String
-	 */
 	public int writeString(String waarde) {
 		int length = 0;
 		for (int i = 0; i < waarde.length(); i++) {
@@ -196,25 +151,6 @@ public class WriteBuffer {
 		}
 
 		return bytes;
-	}
-
-	public void writeBufferToFile(DataOutputStream data_out) {
-		for (int i = 0; i < byteBuffer.size(); i++) {
-			try {
-				data_out.writeByte(byteBuffer.get(i));
-			} catch (IOException ex) {
-				Logger.getLogger(WriteBuffer.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		}
-	}
-
-	public void displayByteBuffer() {
-		for (int i = 0; i < byteBuffer.size(); i++) {
-			if ((i % 16) == 0) {
-				System.out.println("");
-			}
-			System.out.print(Integer.toString(byteBuffer.get(i), 16) + " ");
-		}
 	}
 
 	public void replaceOffset(int offsetOffset, int newOffset) {
