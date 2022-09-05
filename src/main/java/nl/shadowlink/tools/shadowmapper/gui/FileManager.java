@@ -1,5 +1,6 @@
 package nl.shadowlink.tools.shadowmapper.gui;
 
+import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.Vector3D;
 import nl.shadowlink.tools.shadowlib.dat.GTA_DAT;
@@ -10,15 +11,21 @@ import nl.shadowlink.tools.shadowlib.ipl.IPL;
 import nl.shadowlink.tools.shadowlib.ipl.Item_INST;
 import nl.shadowlink.tools.shadowlib.utils.Constants;
 import nl.shadowlink.tools.shadowlib.water.Water;
+import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
+import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.function.BiConsumer;
 
 /**
  * @author Shadow-Link
  */
 public class FileManager extends Thread {
+    private HashTable hashTable = new HashTable(new OneAtATimeHasher());
+
     private LoadingBar lb;
 
     public GTA_DAT gta_dat; //object of the gta.dat file
@@ -84,6 +91,8 @@ public class FileManager extends Thread {
     }
 
     public void init() {
+        loadHashesFromIni();
+
         gta_dat = new GTA_DAT(gameDir, gameType);
         vehicles = new IDE(gameDir + "common/data/vehicles.ide", 3, true);
 
@@ -118,7 +127,7 @@ public class FileManager extends Thread {
         //load WPL files from GTA.dat
         for (int i = 0; i < gta_dat.ipl.size(); i++) {
             lb.setLabelText("<IPL> " + gta_dat.ipl.get(i));
-            IPL tempIPL = new IPL(gameDir + gta_dat.ipl.get(i), Finals.gIV, true);
+            IPL tempIPL = new IPL(gameDir + gta_dat.ipl.get(i), hashTable, Finals.gIV, true);
             iplList.add(tempIPL);
             modelIPL.addElement(gta_dat.ipl.get(i));
             lb.addOneToLoadingBar();
@@ -148,7 +157,7 @@ public class FileManager extends Thread {
                     for (int j = 0; j < imgs[i].getItems().size(); j++) {
                         if (imgs[i].getItems().get(j).getName().toLowerCase().endsWith(".wpl")) {
                             rf.seek(imgs[i].getItems().get(j).getOffset());
-                            IPL tempIPL = new IPL(rf, Finals.gIV, true, imgs[i], imgs[i].getItems().get(j));
+                            IPL tempIPL = new IPL(rf, hashTable, Finals.gIV, true, imgs[i], imgs[i].getItems().get(j));
                             tempIPL.setFileName(imgs[i].getItems().get(j).getName());
                             lb.setLabelText("<WPL> " + imgs[i].getItems().get(j).getName());
                             iplList.add(tempIPL);
@@ -175,6 +184,20 @@ public class FileManager extends Thread {
         lb.setFinished();
     }
 
+    private void loadHashesFromIni() {
+        IniEditor hashesIni = new IniEditor();
+        try {
+            hashesIni.load(new File(FileManager.class.getResource("/hashes.ini").getPath()));
+
+            BiConsumer<String, String> hashConsumer = (hash, value) -> hashTable.add(Long.valueOf(hash), value);
+            hashesIni.getSectionMap("cars").forEach(hashConsumer);
+            hashesIni.getSectionMap("hashes").forEach(hashConsumer);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void save() {
         if (gta_dat.changed) {
             System.out.println("Saving gta.dat");
@@ -189,7 +212,7 @@ public class FileManager extends Thread {
         }
         for (int i = 0; i < ipls.length; i++) {
             if (ipls[i].changed) {
-                ipls[i].save();
+                ipls[i].save(hashTable);
                 ipls[i].changed = false;
                 System.out.println("Saving ipl " + i);
             }
@@ -338,7 +361,7 @@ public class FileManager extends Thread {
             if (file.exists()) {
                 JOptionPane.showMessageDialog(null, "File already exists");
             } else {
-                IPL tempIPL = new IPL(file.getAbsolutePath(), Finals.gIV, false);
+                IPL tempIPL = new IPL(file.getAbsolutePath(), hashTable, Finals.gIV, false);
                 tempIPL.changed = true;
                 IPL[] tempIPLS = new IPL[ipls.length + 1];
                 for (int i = 0; i < ipls.length; i++) {

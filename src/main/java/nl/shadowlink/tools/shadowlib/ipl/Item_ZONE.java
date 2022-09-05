@@ -3,6 +3,7 @@ package nl.shadowlink.tools.shadowlib.ipl;
 import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.Vector3D;
+import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,7 +39,7 @@ public class Item_ZONE extends IPL_Item {
     }
 
     @Override
-    public void read(ReadFunctions rf, IniEditor ini) {
+    public void read(ReadFunctions rf, HashTable hashTable) {
         Logger.getLogger("IPL").log(Level.INFO, getClass().getSimpleName() + " not supported yet.");
     }
 

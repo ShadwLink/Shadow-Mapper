@@ -4,6 +4,7 @@ import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.Vector3D;
 import nl.shadowlink.tools.io.WriteFunctions;
+import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 
 /**
  * @author Shadow-Link
@@ -34,17 +35,18 @@ public class Item_CARS extends IPL_Item {
     }
 
     @Override
-    public void read(ReadFunctions rf, IniEditor ini) {
+    public void read(ReadFunctions rf, HashTable hashTable) {
         position = rf.readVector3D();
         rotation = rf.readVector3D();
         long tempHash = rf.readUnsignedInt();
         name = "" + tempHash;
         hash = (int) tempHash;
-        if (ini.hasOption("Cars", name)) {
-            name = ini.get("Cars", name); // temp
-        } else {
-            name = "";
-        }
+        // TODO: Fix this?
+//        if (ini.hasOption("Cars", name)) {
+//            name = ini.get("Cars", name); // temp
+//        } else {
+//            name = "";
+//        }
         unknown1 = rf.readInt();
         unknown2 = rf.readInt();
         unknown3 = rf.readInt();

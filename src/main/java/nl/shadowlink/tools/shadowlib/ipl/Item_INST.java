@@ -7,6 +7,7 @@ import nl.shadowlink.tools.io.Vector4D;
 import nl.shadowlink.tools.io.WriteFunctions;
 import nl.shadowlink.tools.shadowlib.utils.Constants;
 import nl.shadowlink.tools.shadowlib.utils.HashUtils;
+import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -77,14 +78,14 @@ public class Item_INST extends IPL_Item {
     }
 
     @Override
-    public void read(ReadFunctions rf, IniEditor ini) {
-        position = new Vector3D(rf.readFloat(), rf.readFloat(), rf.readFloat());
-        rotation = new Vector4D(rf.readFloat(), rf.readFloat(), rf.readFloat(), rf.readFloat());
+    public void read(ReadFunctions rf, HashTable hashTable) {
+        position = rf.readVector3D();
+        rotation = rf.readVector4D();
 
         long tempHash = rf.readUnsignedInt();
         name = "" + tempHash;
         hash = (int) tempHash;
-        name = ini.get("Hashes", name); // temp
+        name = hashTable.get(tempHash);
         if (name == null) {
             name = "";
             System.out.println("ERROR Hash bestaat niet");

@@ -3,6 +3,7 @@ package nl.shadowlink.tools.shadowlib.ipl;
 import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.Vector3D;
+import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 
 /**
  * @author Shadow-Link
@@ -48,7 +49,7 @@ public class Item_CULL extends IPL_Item {
     }
 
     @Override
-    public void read(ReadFunctions rf, IniEditor ini) {
+    public void read(ReadFunctions rf, HashTable hashTable) {
         posLowerLeft = rf.readVector3D();
         posUpperRight = rf.readVector3D();
         unk1 = rf.readInt();
@@ -59,7 +60,7 @@ public class Item_CULL extends IPL_Item {
         long tempHash = rf.readUnsignedInt();
         name = "" + tempHash;
         hash = (int) tempHash;
-        name = ini.get("Hashes", name); // temp
+        name = hashTable.get(tempHash);
 
         display();
     }

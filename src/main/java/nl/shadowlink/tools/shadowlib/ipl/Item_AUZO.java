@@ -2,6 +2,7 @@ package nl.shadowlink.tools.shadowlib.ipl;
 
 import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.tools.io.ReadFunctions;
+import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 
 /**
  * @author Shadow-Link
@@ -24,7 +25,7 @@ public class Item_AUZO extends IPL_Item {
     }
 
     @Override
-    public void read(ReadFunctions rf, IniEditor ini) {
+    public void read(ReadFunctions rf, HashTable hashTable) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

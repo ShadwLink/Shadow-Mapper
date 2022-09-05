@@ -1306,15 +1306,15 @@ public class MainForm extends javax.swing.JFrame {
     }// GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton6ActionPerformed
-        IPL place = new IPL("E:/zuid.ipl", Finals.gSA, true); // load IPL
-        place.setGameType(Finals.gIV);
-        for (int i = 0; i < place.items_inst.size(); i++) {
-            place.items_inst.get(i).position.y -= 870;
-            place.items_inst.get(i).position.x -= 600;
-            place.items_inst.get(i).position.z += 1.9;
-            System.out.println("Adjusting placement " + i);
-        }
-        place.save();
+//        IPL place = new IPL("E:/zuid.ipl", Finals.gSA, true); // load IPL
+//        place.setGameType(Finals.gIV);
+//        for (int i = 0; i < place.items_inst.size(); i++) {
+//            place.items_inst.get(i).position.y -= 870;
+//            place.items_inst.get(i).position.x -= 600;
+//            place.items_inst.get(i).position.z += 1.9;
+//            System.out.println("Adjusting placement " + i);
+//        }
+//        place.save();
     }// GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton7ActionPerformed

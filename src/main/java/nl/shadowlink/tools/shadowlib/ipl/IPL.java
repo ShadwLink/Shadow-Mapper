@@ -4,10 +4,9 @@ import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.shadowlib.img.IMG;
 import nl.shadowlink.tools.shadowlib.img.IMG_Item;
 import nl.shadowlink.tools.shadowlib.utils.Constants;
+import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 
 import java.util.ArrayList;
-
-;
 
 /**
  * @author Shadow-Link
@@ -45,30 +44,30 @@ public class IPL {
     public ArrayList<Item_ZONE> items_zone = new ArrayList();
     public ArrayList<Item_BLOK> items_blok = new ArrayList();
 
-    public IPL(String fileName, int gameType, boolean autoLoad) {
+    public IPL(String fileName, HashTable hashTable, int gameType, boolean autoLoad) {
         this.fileName = fileName;
         this.gameType = gameType;
         System.out.println("Started loading: " + this.fileName);
         if (autoLoad)
-            loadPlacement();
+            loadPlacement(hashTable);
     }
 
-    public IPL(ReadFunctions rf, int gameType, boolean autoLoad, IMG img, IMG_Item imgItem) {
+    public IPL(ReadFunctions rf, HashTable hashTable, int gameType, boolean autoLoad, IMG img, IMG_Item imgItem) {
         this.gameType = gameType;
         this.rf = rf;
         this.img = img;
         this.imgItem = imgItem;
         if (autoLoad)
-            loadPlacement();
+            loadPlacement(hashTable);
     }
 
-    private boolean loadPlacement() {
+    private boolean loadPlacement(HashTable hashTable) {
         switch (gameType) {
             case Constants.gIV:
                 if (fileName.contains("common"))
                     new IPL_III_ERA().loadPlacement(this);
                 else
-                    new IPL_IV().loadPlacement(this);
+                    new IPL_IV(hashTable).loadPlacement(this);
                 break;
             default:
                 new IPL_III_ERA().loadPlacement(this);
@@ -92,13 +91,13 @@ public class IPL {
         this.gameType = gameType;
     }
 
-    public void save() {
+    public void save(HashTable hashTable) {
         switch (gameType) {
             case Constants.gIV:
                 if (fileName.contains("common"))
                     new IPL_III_ERA().save(this);
                 else
-                    new IPL_IV().save(this);
+                    new IPL_IV(hashTable).save(this);
                 break;
             default:
                 new IPL_III_ERA().save(this);
