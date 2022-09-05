@@ -43,10 +43,10 @@ public class ByteReader {
         int offset = readUInt32();
 
         if (offset == 0) {
-            value = -1;
+            value = 0;
         } else {
             if (offset >> 28 != 5) {
-                value = -1;
+                throw new IllegalStateException("Expected an offset");
             } else {
                 value = offset & 0x0fffffff;
             }

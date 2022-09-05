@@ -48,6 +48,11 @@ public class Element {
      * @param texID    the GL texture ids
      */
     public void attachTXD(String[] texNames, int[] texID) {
+        // TODO: Why can this be null?
+        if(texNames == null) {
+            return;
+        }
+
         for (int i = 0; i < shaders.size(); i++) {
             // //Message.displayMsgLow("Started Shader " + i + " name is " + shaders.get(i).getTextureName());
             for (int j = 0; j < texNames.length; j++) {

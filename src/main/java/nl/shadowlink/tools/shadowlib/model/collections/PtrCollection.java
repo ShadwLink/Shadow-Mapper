@@ -42,13 +42,13 @@ public class PtrCollection<T> {
     public PtrCollection(ByteReader br, int type) {
         this.type = type;
         this.br = br;
-        Read();
+        read();
     }
 
     /**
      * Read the pointer collection and read the objects
      */
-    private void Read() {
+    private void read() {
         startOffset = br.getCurrentOffset();
         ptrListOffset = br.readOffset();
 

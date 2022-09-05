@@ -50,8 +50,8 @@ public class DrawableModel {
 
         startOffset = br.getCurrentOffset();
 
-        // Message.displayMsgHigh("VTable: " + br.readUInt32());
-        // Message.displayMsgHigh("BlockMapAdress: " + br.readOffset());
+        int vtable = br.readUInt32();
+        int offset = br.readOffset();
 
         shaderGroupOffset = br.readOffset();
         skeletonOffset = br.readOffset();
@@ -70,7 +70,7 @@ public class DrawableModel {
         modelOffsets = new int[4];
         for (int i = 0; i < 4; i++) {
             modelOffsets[i] = br.readOffset();
-            if (modelOffsets[i] != -1) {
+            if (modelOffsets[i] != 0) {
                 // Message.displayMsgHigh("Level " + i + " at offset " + modelOffsets[i]);
                 levelOfDetailCount++;
             }

@@ -197,7 +197,7 @@ public class Model {
         }
 
         if (sys.shaderGroup != null) {
-            if (sys.shaderGroup.TextureDictionaryOffset != -1) {
+            if (sys.shaderGroup.TextureDictionaryOffset != 0) {
                 br.setCurrentOffset(sys.shaderGroup.TextureDictionaryOffset);
                 TextureDic wtd = new TextureDic("embed", br, 3, false, sysSize);
                 element.attachTXD(wtd.texName, wtd.textureId);
