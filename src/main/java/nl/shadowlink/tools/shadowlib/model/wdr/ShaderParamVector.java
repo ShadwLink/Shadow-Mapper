@@ -35,7 +35,7 @@ public class ShaderParamVector {
     public String[] getDataValues() {
         ArrayList<String> valueList = new ArrayList();
 
-        valueList.add(Data.getX() + ", " + Data.getY() + ", " + Data.getZ() + ", " + Data.getW());
+        valueList.add(Data.x + ", " + Data.y + ", " + Data.z + ", " + Data.w);
 
         String[] values = new String[valueList.size()];
         for (int i = 0; i < valueList.size(); i++) {

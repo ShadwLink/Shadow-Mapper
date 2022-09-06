@@ -503,20 +503,14 @@ public class Browser extends javax.swing.JFrame {
             ReadFunctions rf = new ReadFunctions();
             if (rf.openFile(fm.imgs[listIMG.getSelectedIndex()].getFileName())) {
                 rf.seek(item.getOffset());
-                WriteFunctions wf = new WriteFunctions();
-                if (wf.openFile(file.getPath())) {
+                WriteFunctions wf = new WriteFunctions(file.getPath());
                     byte[] newFile = rf.readArray(item.getSize());
                     wf.write(newFile);
                     wf.closeFile();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Unable to write to file " + file.getPath());
-                }
-                wf = null;
             } else {
                 JOptionPane.showMessageDialog(this, "Unable to read IMG archive");
             }
             rf.closeFile();
-            rf = null;
         } else {
             JOptionPane.showMessageDialog(this, "Select file to export");
         }

@@ -106,13 +106,13 @@ public class DrawableModel {
 
         // Message.displayMsgHigh("Unknown: " + Unk6 + ", " + Unk7);
 
-        if (shaderGroupOffset != -1) {
+        if (shaderGroupOffset != 0) {
             // Message.displayMsgHigh("Setting shader offset " + Utils.getHexString(shaderGroupOffset));
             br.setCurrentOffset(shaderGroupOffset);
             shaderGroup = new ShaderGroup(br);
         }
 
-        if (skeletonOffset != -1) {
+        if (skeletonOffset != 0) {
             br.setCurrentOffset(skeletonOffset);
             skeleton = new Skeleton(/* br */);
         }

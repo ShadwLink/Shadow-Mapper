@@ -15,7 +15,7 @@ import java.nio.IntBuffer;
 /**
  * @author Shadow-Link
  */
-public class glListener implements GLEventListener {
+public class GlListener implements GLEventListener {
     public RenderMap renderMap;
     public RenderWater renderWater;
     public RenderVehicles renderCars;
@@ -39,8 +39,6 @@ public class glListener implements GLEventListener {
     private Point mousePos = new Point(0, 0);
     private Point canvasPos = new Point(0, 0);
 
-    private boolean takeScreen = false;
-
     // Picking stuff
     private int selectBuf[];
     private IntBuffer selectBuffer;
@@ -49,7 +47,7 @@ public class glListener implements GLEventListener {
     private float fps = 0.0f;
     private long previousTime;
 
-    public glListener(MainForm main) {
+    public GlListener(MainForm main) {
         this.main = main;
     }
 
@@ -69,29 +67,6 @@ public class glListener implements GLEventListener {
         if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
             System.exit(0);
         }
-        if (evt.getKeyCode() == KeyEvent.VK_F12) {
-            takeScreen = true;
-        }
-    }
-
-    private void takeScreenshot(GL gl) {
-        // TODO: Fix this if needed
-//        try {
-//            int[] viewport = {0, 0, 0, 0};
-//            gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
-//            int screenNumber = 1;
-//            File file = new File("Shadow" + screenNumber + ".png");
-//            while (file.exists()) {
-//                screenNumber++;
-//                file = new File("Shadow" + screenNumber + ".png");
-//            }
-//            Screenshot.writeToFile(file, viewport[2], viewport[3]);
-//            file = null;
-//        } catch (IOException ex) {
-//            Logger.getLogger(glListener.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (GLException ex) {
-//            Logger.getLogger(glListener.class.getName()).log(Level.SEVERE, null, ex);
-//        }
     }
 
     public void mouseMoved(java.awt.event.MouseEvent evt) {
@@ -126,14 +101,12 @@ public class glListener implements GLEventListener {
         }
     }
 
+    @Override
     public void display(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
         GLU glu = new GLU();
 
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT); // Clear
-        // the
-        // drawing
-        // area
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
         if (pick)
             startPicking(gl, mousePos.x, mousePos.y);
@@ -165,11 +138,6 @@ public class glListener implements GLEventListener {
         if (pick) {
             stopPicking(gl);
             pick = false;
-        }
-
-        if (takeScreen) {
-            takeScreenshot(gl);
-            takeScreen = false;
         }
 
         updateFPS();

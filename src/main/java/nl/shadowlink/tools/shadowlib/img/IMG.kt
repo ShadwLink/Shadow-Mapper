@@ -90,60 +90,48 @@ class IMG(var fileName: String?, var gameType: GameType?, key: ByteArray, autoLo
 
     fun addItem(mdl: Model, name: String) {
         var name = name
-        var wf: WriteFunctions? = WriteFunctions()
-        if (wf!!.openFile(fileName)) {
-            name = name.toLowerCase()
-            name = name.replace(".dff".toRegex(), ".wdr")
-            val tempItem = IMG_Item()
-            tempItem.name = name
-            tempItem.type = Constants.rtWDR
-            tempItem.offset = wf.fileSize
-            wf.gotoEnd()
-            mdl.convertToWDR(wf)
-            tempItem.size = mdl.size
-            tempItem.flags = mdl.flags
+        val wf = WriteFunctions(fileName!!)
+        name = name.toLowerCase()
+        name = name.replace(".dff".toRegex(), ".wdr")
+        val tempItem = IMG_Item()
+        tempItem.name = name
+        tempItem.type = Constants.rtWDR
+        tempItem.offset = wf.fileSize
+        wf.gotoEnd()
+        mdl.convertToWDR(wf)
+        tempItem.size = mdl.size
+        tempItem.flags = mdl.flags
 
-            items.add(tempItem)
-            if (wf.closeFile()) {
-                println("Closed file")
-            } else {
-                println("Unable to close the file")
-            }
-            wf = null
-            isChanged = true
+        items.add(tempItem)
+        if (wf.closeFile()) {
+            println("Closed file")
         } else {
-            // JOptionPane.show//MessageDialog(this, "Unable to open " + fileName
-            // + " for writing!");
+            println("Unable to close the file")
         }
+        isChanged = true
     }
 
     fun addItem(txd: TextureDic, name: String) {
         var name = name
-        var wf: WriteFunctions? = WriteFunctions()
-        if (wf!!.openFile(fileName)) {
-            name = name.toLowerCase()
-            name = name.replace(".txd".toRegex(), ".wtd")
-            val tempItem = IMG_Item()
-            tempItem.name = name
-            tempItem.type = Constants.rtWTD
-            tempItem.offset = wf.fileSize
-            wf.gotoEnd()
-            txd.convertToWTD(wf)
-            tempItem.size = txd.size
-            tempItem.flags = txd.flags
+        val wf = WriteFunctions(fileName!!)
+        name = name.toLowerCase()
+        name = name.replace(".txd".toRegex(), ".wtd")
+        val tempItem = IMG_Item()
+        tempItem.name = name
+        tempItem.type = Constants.rtWTD
+        tempItem.offset = wf.fileSize
+        wf.gotoEnd()
+        txd.convertToWTD(wf)
+        tempItem.size = txd.size
+        tempItem.flags = txd.flags
 
-            items.add(tempItem)
-            if (wf.closeFile()) {
-                println("Closed file")
-            } else {
-                println("Unable to close the file")
-            }
-            wf = null
-            isChanged = true
+        items.add(tempItem)
+        if (wf.closeFile()) {
+            println("Closed file")
         } else {
-            // JOptionPane.show//MessageDialog(this, "Unable to open " + fileName
-            // + " for writing!");
+            println("Unable to close the file")
         }
+        isChanged = true
     }
 
     /**
@@ -154,34 +142,27 @@ class IMG(var fileName: String?, var gameType: GameType?, key: ByteArray, autoLo
             var rf: ReadFunctions? = ReadFunctions()
             println("File: " + file.absolutePath)
             if (rf!!.openFile(file.absolutePath)) {
-                var wf: WriteFunctions? = WriteFunctions()
-                if (wf!!.openFile(fileName)) {
-                    println("File size: " + file.length())
-                    var newFile: ByteArray? = rf.readArray(file.length().toInt())
-                    val tempItem = IMG_Item()
-                    tempItem.name = file.name
-                    tempItem.type = Utils.getResourceType(file.name)
-                    tempItem.offset = wf.fileSize
-                    tempItem.size = file.length().toInt()
-                    if (tempItem.isResource) {
-                        rf.seek(0x8)
-                        tempItem.flags = rf.readInt()
-                    }
-                    items.add(tempItem)
-                    wf.gotoEnd()
-                    wf.write(newFile)
-                    if (wf.closeFile()) {
-                        println("Closed file")
-                    } else {
-                        println("Unable to close the file")
-                    }
-                    newFile = null
-                    wf = null
-                    isChanged = true
-                } else {
-                    // JOptionPane.show//MessageDialog(this, "Unable to open " +
-                    // fileName + " for writing!");
+                var wf = WriteFunctions(fileName!!)
+                println("File size: " + file.length())
+                var newFile: ByteArray = rf.readArray(file.length().toInt())
+                val tempItem = IMG_Item()
+                tempItem.name = file.name
+                tempItem.type = Utils.getResourceType(file.name)
+                tempItem.offset = wf.fileSize
+                tempItem.size = file.length().toInt()
+                if (tempItem.isResource) {
+                    rf.seek(0x8)
+                    tempItem.flags = rf.readInt()
                 }
+                items.add(tempItem)
+                wf.gotoEnd()
+                wf.write(newFile)
+                if (wf.closeFile()) {
+                    println("Closed file")
+                } else {
+                    println("Unable to close the file")
+                }
+                isChanged = true
                 rf.closeFile()
                 rf = null
             } else {

@@ -10,13 +10,14 @@ package nl.shadowlink.tools.shadowmapper.gui;
 
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.Animator;
+import com.jogamp.opengl.util.FPSAnimator;
 import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.tools.shadowlib.ide.IDE;
-import nl.shadowlink.tools.shadowlib.ipl.IPL;
 import nl.shadowlink.tools.shadowlib.utils.Filter;
 import nl.shadowlink.tools.shadowlib.utils.HashUtils;
 import nl.shadowlink.tools.shadowlib.utils.Utils;
 import nl.shadowlink.tools.shadowmapper.checklist.CheckListManager;
+import nl.shadowlink.tools.shadowmapper.render.GlListener;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -27,13 +28,15 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.awt.Toolkit.getDefaultToolkit;
+
 /**
  * @author Shadow-Link
  */
 public class MainForm extends javax.swing.JFrame {
     // opengl stuff
-    private Animator animator;
-    public nl.shadowlink.tools.shadowmapper.render.glListener glListener = new nl.shadowlink.tools.shadowmapper.render.glListener(this);
+    private final FPSAnimator animator;
+    public GlListener glListener = new GlListener(this);
 
     DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode("IPL List");
     DefaultTreeModel treeModelIPL = new DefaultTreeModel(treeNode);
@@ -48,17 +51,14 @@ public class MainForm extends javax.swing.JFrame {
         this.fm = fm;
         glListener.fm = fm;
 
-        this.setIconImage(java.awt.Toolkit.getDefaultToolkit().createImage("icon.png"));
+        this.setIconImage(getDefaultToolkit().createImage("icon.png"));
 
         initComponents();
 
         this.setExtendedState(Frame.MAXIMIZED_BOTH);
 
-        animator = new Animator();
-
+        animator = new FPSAnimator(gLCanvas1, 60, true);
         animator.start();
-
-        System.out.println("Canvas Location: " + gLCanvas1.getX() + ", " + gLCanvas1.getLocation().y);
 
         glListener.setCanvasPosition(gLCanvas1.getLocation());
         this.setVisible(true);

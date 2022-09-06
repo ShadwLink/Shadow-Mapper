@@ -154,14 +154,16 @@ class IPL_IV(
     }
 
     fun save(wpl: IPL) {
-        val wf = WriteFunctions()
+        val fileName = if(wpl.stream) {
+            wpl.img.fileName
+        } else {
+            wpl.fileName
+        }
+        val wf = WriteFunctions(fileName!!)
         if (wpl.stream) {
             println("Saving Stream WPL")
-            wf.openFile(wpl.img.fileName)
             wf.gotoEnd()
             wpl.imgItem.offset = wf.fileSize
-        } else {
-            wf.openFile(wpl.fileName)
         }
         writeHeader(wf, wpl)
         for (i in wpl.items_inst.indices) {

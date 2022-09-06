@@ -40,8 +40,7 @@ class IMG_IV {
 
     fun saveImg(img: IMG) {
         println("Saving IV IMG")
-        val wf = WriteFunctions()
-        wf.openFile("${img.fileName}.temp")
+        val wf = WriteFunctions("${img.fileName}.temp")
         val rf = ReadFunctions()
         rf.openFile(img.fileName)
         wf.writeByte(82)// write R*N start bytes
