@@ -9,6 +9,8 @@ import nl.shadowlink.tools.shadowlib.utils.Utils;
 import java.util.ArrayList;
 import java.util.zip.Deflater;
 
+import static nl.shadowlink.tools.shadowmapper.gui.Finals.gIV;
+
 /**
  * @author Shadow-Link
  */
@@ -53,7 +55,7 @@ public class TextureDic {
 
     private boolean loadTextureDic() {
         switch (gameType) {
-            case 3:
+            case gIV:
                 if (compressed)
                     textureId = new TextureDic_IV().loadTextureDic(this, compressed, 0);
                 else
