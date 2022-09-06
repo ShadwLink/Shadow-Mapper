@@ -13,13 +13,20 @@ import java.util.logging.Logger;
 public class Item_TANM extends IDE_Item {
     private int gameType;
 
+    public String modelName;
+    public String textureName;
+
     public Item_TANM(int gameType) {
         this.gameType = gameType;
     }
 
     @Override
     public void read(String line) {
-        // TODO: Implement
+        line = line.replace(" ", "");
+        String split[] = line.split(",");
+
+        modelName = split[0];
+        textureName = split[1];
     }
 
     public void save(BufferedWriter output) {

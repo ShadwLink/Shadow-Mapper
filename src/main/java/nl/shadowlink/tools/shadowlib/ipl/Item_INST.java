@@ -87,8 +87,8 @@ public class Item_INST extends IPL_Item {
         hash = (int) tempHash;
         name = hashTable.get(tempHash);
         if (name == null) {
-            name = "";
-            System.out.println("ERROR Hash bestaat niet");
+            name = "HASH(" + tempHash + ")";
+            System.out.println("ERROR Hash bestaat niet '" + tempHash + "'");
         }
 
         // Message.displayMsgLow("iName: " + name);

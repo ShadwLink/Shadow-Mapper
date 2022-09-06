@@ -1,10 +1,8 @@
 package nl.shadowlink.tools.shadowlib.ipl
 
-import com.nikhaldimann.inieditor.IniEditor
 import nl.shadowlink.tools.io.ReadFunctions
 import nl.shadowlink.tools.io.WriteFunctions
 import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable
-import java.io.IOException
 
 /**
  * @author Shadow-Link
@@ -47,8 +45,8 @@ class IPL_IV(
     private var blok // number of bloks
             = 0
 
-    fun loadPlacement(wpl: IPL) {
-        println("Loading.. bin wpl")
+    fun loadPlacement(wpl: IPL, printName: String) {
+        println("Loading.. bin wpl $printName")
         val rf: ReadFunctions
         if (wpl.rf == null) {
             rf = ReadFunctions()

@@ -14,6 +14,8 @@ import java.util.logging.Logger;
 import nl.shadowlink.tools.shadowlib.utils.Constants;
 import nl.shadowlink.tools.shadowlib.utils.Constants.GameType;
 
+import static nl.shadowlink.tools.shadowlib.utils.Constants.GameType.GTA_IV;
+
 /**
  * @author Shadow-Link 
  */
@@ -35,24 +37,10 @@ public class GTA_DAT {
 	public ArrayList<String> colFile = new ArrayList();
 	public ArrayList<String> splash = new ArrayList();
 
-	public GTA_DAT(String gameDir, final GameType pGameType) {
+	public GTA_DAT(String path, String gameDir) {
 		this.gameDir = gameDir;
-		mGameType = pGameType;
-		switch (mGameType) {
-			case GTA_III:
-				this.fileName = gameDir + "data/gta3.dat";
-				break;
-			case GTA_VC:
-				this.fileName = gameDir + "data/gta_vc.dat";
-				break;
-			case GTA_SA:
-				this.fileName = gameDir + "data/gta.dat";
-				break;
-			case GTA_IV:
-				this.fileName = gameDir + "common/data/gta.dat";
-				break;
-		}
-//		////Message.displayMsgHigh("Filename: " + fileName);
+		mGameType = GTA_IV;
+		fileName = path;
 		loadGTA_DAT();
 	}
 

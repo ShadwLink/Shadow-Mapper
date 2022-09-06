@@ -44,6 +44,8 @@ public class IPL {
     public ArrayList<Item_ZONE> items_zone = new ArrayList();
     public ArrayList<Item_BLOK> items_blok = new ArrayList();
 
+    private String printName;
+
     public IPL(String fileName, HashTable hashTable, int gameType, boolean autoLoad) {
         this.fileName = fileName;
         this.gameType = gameType;
@@ -52,11 +54,12 @@ public class IPL {
             loadPlacement(hashTable);
     }
 
-    public IPL(ReadFunctions rf, HashTable hashTable, int gameType, boolean autoLoad, IMG img, IMG_Item imgItem) {
+    public IPL(ReadFunctions rf, HashTable hashTable, int gameType, boolean autoLoad, IMG img, IMG_Item imgItem, String printName) {
         this.gameType = gameType;
         this.rf = rf;
         this.img = img;
         this.imgItem = imgItem;
+        this.printName = printName;
         if (autoLoad)
             loadPlacement(hashTable);
     }
@@ -67,7 +70,7 @@ public class IPL {
                 if (fileName.contains("common"))
                     new IPL_III_ERA().loadPlacement(this);
                 else
-                    new IPL_IV(hashTable).loadPlacement(this);
+                    new IPL_IV(hashTable).loadPlacement(this, printName);
                 break;
             default:
                 new IPL_III_ERA().loadPlacement(this);

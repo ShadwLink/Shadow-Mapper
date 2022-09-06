@@ -14,13 +14,18 @@ import java.util.logging.Logger;
 public class Item_2DFX extends IDE_Item{
     private int gameType;
 
+    public String name;
+
     public Item_2DFX(int gameType) {
         this.gameType = gameType;
     }
 
     @Override
     public void read(String line) {
-        // TODO: Implement
+        line = line.replace(" ", "");
+        String split[] = line.split(",");
+        name = split[0];
+        // TODO: Implement other params
     }
 
     public void save(BufferedWriter output){

@@ -2,6 +2,9 @@
 
 package nl.shadowlink.tools.shadowlib.ide;
 
+import nl.shadowlink.tools.io.Vector3D;
+import nl.shadowlink.tools.io.Vector4D;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -13,13 +16,22 @@ import java.util.logging.Logger;
 public class Item_ANIM extends IDE_Item {
 	private int gameType;
 
+	public String modelName;
+	public String textureName;
+
 	public Item_ANIM(int gameType) {
 		this.gameType = gameType;
 	}
 
 	@Override
 	public void read(String line) {
-		// TODO: Implement
+		line = line.replace(" ", "");
+		String split[] = line.split(",");
+
+		modelName = split[0];
+		textureName = split[1];
+
+//		ModelName, TextureName, Wad, DrawDist, Flag1, Flag2, (Bounds min)X,Y,Z, (Bounds max)X,Y,Z, (Bounds Sphere)X,Y,Z, Radius, WDD
 	}
 
 	public void save(BufferedWriter output) {

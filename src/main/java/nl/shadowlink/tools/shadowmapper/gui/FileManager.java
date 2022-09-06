@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * @author Shadow-Link
@@ -33,7 +34,6 @@ public class FileManager extends Thread {
     public IDE[] ides; //objects of the ide files
     public IMG[] imgs; //objects of the img files
     public Water[] waters; //objects of the water.dat files
-    public IDE vehicles; //object of the vehicles.ide file
 
     public DefaultListModel modelIPL = new DefaultListModel(); //contains ipls
     public DefaultListModel modelIDE = new DefaultListModel(); //contains ides
@@ -86,15 +86,11 @@ public class FileManager extends Thread {
         }
         tempIMGS[imgs.length] = tempIMG;
         imgs = tempIMGS;
-        tempIMGS = null;
-        tempIMG = null;
     }
 
     public void init() {
-        loadHashesFromIni();
-
-        gta_dat = new GTA_DAT(gameDir, gameType);
-        vehicles = new IDE(gameDir + "common/data/vehicles.ide", 3, true);
+        GTA_DAT default_dat = new GTA_DAT(gameDir + "common/data/default.dat", gameDir);
+        gta_dat = new GTA_DAT(gameDir + "common/data/gta.dat", gameDir);
 
         int itemsToLoad = gta_dat.ide.size() + gta_dat.img.size() + gta_dat.water.size() + gta_dat.ipl.size();
 
@@ -105,13 +101,35 @@ public class FileManager extends Thread {
         waters = new Water[gta_dat.water.size()];
         ArrayList<IPL> iplList = new ArrayList();
 
-        //load IDE files from GTA.dat
+        // Load default.dat
+        default_dat.ide.forEach(ideName -> {
+            IDE ide = new IDE(gameDir + ideName, Finals.gIV, true);
+            ide.items_objs.forEach(item -> hashTable.add(item.modelName));
+            ide.items_tobj.forEach(item -> hashTable.add(item.modelName));
+            ide.items_cars.forEach(item -> hashTable.add(item.modelName));
+            ide.items_anim.forEach(item -> hashTable.add(item.modelName));
+            ide.items_2dfx.forEach(item -> hashTable.add(item.name));
+            ide.items_tanm.forEach(item -> hashTable.add(item.modelName));
+
+        });
+
+        // load IDE files from GTA.dat
         for (int i = 0; i < gta_dat.ide.size(); i++) {
             lb.setLabelText("<IDE> " + gta_dat.ide.get(i));
             ides[i] = new IDE(gameDir + gta_dat.ide.get(i), Finals.gIV, true);
+            ides[i].items_objs.forEach(item -> hashTable.add(item.modelName));
+            ides[i].items_tobj.forEach(item -> hashTable.add(item.modelName));
+            ides[i].items_cars.forEach(item -> hashTable.add(item.modelName));
+            ides[i].items_anim.forEach(item -> hashTable.add(item.modelName));
+            ides[i].items_2dfx.forEach(item -> hashTable.add(item.name));
+            ides[i].items_tanm.forEach(item -> hashTable.add(item.modelName));
+
             modelIDE.addElement(gta_dat.ide.get(i));
             lb.addOneToLoadingBar();
         }
+
+        loadHashesFromIni();
+        System.out.println("Missed hash count " + hashTable.getMissedHashCount());
 
         //load IMG files from GTA.dat
         for (int i = 0; i < gta_dat.img.size(); i++) {
@@ -157,7 +175,7 @@ public class FileManager extends Thread {
                     for (int j = 0; j < imgs[i].getItems().size(); j++) {
                         if (imgs[i].getItems().get(j).getName().toLowerCase().endsWith(".wpl")) {
                             rf.seek(imgs[i].getItems().get(j).getOffset());
-                            IPL tempIPL = new IPL(rf, hashTable, Finals.gIV, true, imgs[i], imgs[i].getItems().get(j));
+                            IPL tempIPL = new IPL(rf, hashTable, Finals.gIV, true, imgs[i], imgs[i].getItems().get(j), imgs[i].getItems().get(j).getName());
                             tempIPL.setFileName(imgs[i].getItems().get(j).getName());
                             lb.setLabelText("<WPL> " + imgs[i].getItems().get(j).getName());
                             iplList.add(tempIPL);
@@ -177,10 +195,6 @@ public class FileManager extends Thread {
             ipls[i] = iplList.get(i);
         }
 
-        //Put the vehicle names into a combobox model for later use
-        for (int i = 0; i < vehicles.items_cars.size(); i++) {
-            this.modelVehicles.addElement(vehicles.items_cars.get(i).modelName);
-        }
         lb.setFinished();
     }
 

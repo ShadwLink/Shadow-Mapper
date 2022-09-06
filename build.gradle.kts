@@ -21,6 +21,7 @@ dependencies {
     implementation("org.netbeans.external:AbsoluteLayout:RELEASE150")
 
     testImplementation(kotlin("test"))
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
 }
 
 tasks.test {

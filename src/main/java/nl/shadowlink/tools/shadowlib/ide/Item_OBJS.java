@@ -42,13 +42,15 @@ public class Item_OBJS extends IDE_Item {
                 modelName = split[0];
                 textureName = split[1];
                 drawDistance = new float[1];
-                drawDistance[0] = Float.valueOf(split[2]);
-                flag1 = Integer.valueOf(split[3]);
-                flag2 = Integer.valueOf(split[4]);
-                boundsMin = new Vector3D(Float.valueOf(split[5]), Float.valueOf(split[6]), Float.valueOf(split[7]));
-                boundsMax = new Vector3D(Float.valueOf(split[8]), Float.valueOf(split[9]), Float.valueOf(split[10]));
-                boundsSphere = new Vector4D(Float.valueOf(split[11]), Float.valueOf(split[12]), Float.valueOf(split[13]), Float.valueOf(split[14]));
-                WDD = split[15];
+                if(split.length > 4) {
+                    drawDistance[0] = Float.valueOf(split[2]);
+                    flag1 = Integer.valueOf(split[3]);
+                    flag2 = Integer.valueOf(split[4]);
+                    boundsMin = new Vector3D(Float.valueOf(split[5]), Float.valueOf(split[6]), Float.valueOf(split[7]));
+                    boundsMax = new Vector3D(Float.valueOf(split[8]), Float.valueOf(split[9]), Float.valueOf(split[10]));
+                    boundsSphere = new Vector4D(Float.valueOf(split[11]), Float.valueOf(split[12]), Float.valueOf(split[13]), Float.valueOf(split[14]));
+                    WDD = split[15];
+                }
                 break;
             case Constants.gSA:
                 id = Integer.valueOf(split[0]);
