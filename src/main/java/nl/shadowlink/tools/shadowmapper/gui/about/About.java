@@ -6,7 +6,7 @@
  * Created on 14-jul-2009, 10:47:20
  */
 
-package nl.shadowlink.tools.shadowmapper.gui;
+package nl.shadowlink.tools.shadowmapper.gui.about;
 
 import java.awt.Dimension;
 import java.awt.Graphics;

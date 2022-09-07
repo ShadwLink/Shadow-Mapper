@@ -9,7 +9,6 @@
 package nl.shadowlink.tools.shadowmapper.gui;
 
 import com.jogamp.opengl.awt.GLCanvas;
-import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.tools.shadowlib.ide.IDE;
@@ -17,6 +16,7 @@ import nl.shadowlink.tools.shadowlib.utils.Filter;
 import nl.shadowlink.tools.shadowlib.utils.HashUtils;
 import nl.shadowlink.tools.shadowlib.utils.Utils;
 import nl.shadowlink.tools.shadowmapper.checklist.CheckListManager;
+import nl.shadowlink.tools.shadowmapper.gui.about.About;
 import nl.shadowlink.tools.shadowmapper.render.GlListener;
 
 import javax.swing.tree.DefaultMutableTreeNode;

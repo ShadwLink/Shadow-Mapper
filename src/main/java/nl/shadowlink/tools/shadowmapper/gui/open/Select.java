@@ -6,13 +6,15 @@
  * Created on 14-aug-2009, 18:17:11
  */
 
-package nl.shadowlink.tools.shadowmapper.gui;
+package nl.shadowlink.tools.shadowmapper.gui.open;
 
 import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.shadowlib.utils.Constants;
 import nl.shadowlink.tools.shadowlib.utils.Filter;
 import nl.shadowlink.tools.shadowlib.utils.Utils;
+import nl.shadowlink.tools.shadowmapper.gui.Finals;
+import nl.shadowlink.tools.shadowmapper.gui.LoadingBar;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,8 +24,8 @@ import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import static nl.shadowlink.tools.shadowmapper.utils.GuiFunctions.setLookAndFeel;
 
 /**
  * @author Shadow-Link
@@ -334,25 +336,6 @@ public class Select extends javax.swing.JFrame {
                 new Select().setVisible(true);
             }
         });
-    }
-
-    private static void setLookAndFeel() {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
-            System.out.println("Can't find system LookAndFeel\nSetting LookAndFeel to crossplatform");
-            try {
-                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-            } catch (Exception ex1) {
-                System.out.println("Unable to set the LookAndFeel");
-            }
-        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
