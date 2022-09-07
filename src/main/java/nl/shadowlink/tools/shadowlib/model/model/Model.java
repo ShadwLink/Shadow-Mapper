@@ -11,6 +11,7 @@ import nl.shadowlink.tools.shadowlib.model.dff.NewConvert;
 import nl.shadowlink.tools.shadowlib.model.wdr.*;
 import nl.shadowlink.tools.shadowlib.model.wft.FragTypeModel;
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
+import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -79,37 +80,30 @@ public class Model {
 
         ByteReader br = new ByteReader(stream, 0);
 
-        // Message.displayMsgLow("VTable: " + br.readUInt32());
-        // Message.displayMsgLow("BlockMapAdress: " + br.readOffset());
+        long vtable = br.readUInt32();
+        long blockMapAddress = br.readOffset();
 
-        // Message.displayMsgLow("0: " + br.readUInt32());
-        // Message.displayMsgLow("1: " + br.readUInt32());
+        long unknown0 = br.readUInt32();
+        long unknown1 = br.readUInt32();
+        //Message.displayMsgLow("0: " + unknown0);
+        // Message.displayMsgLow("1: " + unknown1);
 
         int hashOffset = br.readOffset();
         int hashCount = br.readUInt16();
         // Message.displayMsgLow("Hashes Offset: "
         // + Utils.getHexString(hashOffset));
         // Message.displayMsgLow("Count: " + hashCount);
-        // Message.displayMsgLow("Size: " + br.readUInt16());
+        int size = br.readUInt16();
 
         int save = br.getCurrentOffset();
 
         br.setCurrentOffset(hashOffset);
 
-        IniEditor ini = new IniEditor();
-        try {
-            ini.load("hashes.ini");
-        } catch (IOException ex) {
-            // Message.displayMsgLow("Error in ini " + ex);
-        }
-
-        String[] wdrNames = new String[hashCount];
+        long wddHash = OneAtATimeHasher.getHashKey(WDD);
+        long[] wdrHashes = new long[hashCount];
 
         for (int i = 0; i < hashCount; i++) {
-            String name = "" + br.unsignedInt();
-            if (ini.hasOption("Hashes", name)) {
-                wdrNames[i] = ini.get("Hashes", name); // temp
-            }
+            wdrHashes[i] = br.unsignedInt();
         }
 
         br.setCurrentOffset(save);
@@ -117,8 +111,8 @@ public class Model {
         int drawPOffset = br.readOffset();
         // //Message.displayMsgLow("Drawable Offset: " +
         // Utils.getHexString(drawPOffset));
-        // //Message.displayMsgLow("Count: " + br.readUInt16());
-        // //Message.displayMsgLow("Size: " + br.readUInt16());
+        int drawPCount = br.readUInt16();
+        int drawPSize = br.readUInt16();
 
         br.setCurrentOffset(drawPOffset);
 
@@ -129,7 +123,7 @@ public class Model {
         }
 
         int j = 0;
-        while (!wdrNames[j].equalsIgnoreCase(WDD)) {
+        while (wdrHashes[j] != wddHash) {
             j++;
         }
         // Message.displayMsgLow("WDD: " + wdrNames[j] + " "
@@ -142,7 +136,6 @@ public class Model {
         Element element = new Element();
         createModelFromDrawable(element, sys, sysSize, stream, br);
         elements.add(element);
-        element = null;
 
         loaded = true;
 

@@ -45,8 +45,14 @@ class OneAtATimeHasher : Hasher {
             return hash
         }
 
+        @JvmStatic
         fun getHashKey(str: String, initialHash: UInt = 0u): Long {
             return getHashKeyFinalize(str, initialHash).toLong()
+        }
+
+        @JvmStatic
+        fun getHashKey(str: String): Long {
+            return getHashKeyFinalize(str, 0u).toLong()
         }
     }
 }

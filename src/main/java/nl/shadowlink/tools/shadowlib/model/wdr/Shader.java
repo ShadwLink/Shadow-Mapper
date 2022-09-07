@@ -99,12 +99,12 @@ public class Shader {
                 switch (ShaderParamTypes.Values.get(i)) {
                     case 0:
                         ShaderParamTexture test = new ShaderParamTexture();
-                        test.read(br);
+                        //test.read(br);
                         ShaderParams.add(test);
                         break;
                     case 1:
                         ShaderParamVector test1 = new ShaderParamVector();
-                        test1.read(br);
+                        //test1.read(br);
                         ShaderParams.add(test1);
                         break;
                     case 4:
