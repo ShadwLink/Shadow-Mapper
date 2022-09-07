@@ -14,7 +14,6 @@ repositories {
 
 dependencies {
     implementation("com.nikhaldimann:inieditor:r6")
-    implementation("com.google.code.gson:gson:2.9.1")
 
     implementation("org.jogamp.jogl:jogl-all-main:2.3.2")
     implementation("org.jogamp.gluegen:gluegen-rt-main:2.3.2")

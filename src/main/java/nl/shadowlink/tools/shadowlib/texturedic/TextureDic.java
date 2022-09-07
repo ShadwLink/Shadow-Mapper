@@ -3,8 +3,8 @@ package nl.shadowlink.tools.shadowlib.texturedic;
 import nl.shadowlink.tools.io.ByteReader;
 import nl.shadowlink.tools.io.WriteBuffer;
 import nl.shadowlink.tools.io.WriteFunctions;
-import nl.shadowlink.tools.shadowlib.utils.HashUtils;
 import nl.shadowlink.tools.shadowlib.utils.Utils;
+import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher;
 
 import java.util.ArrayList;
 import java.util.zip.Deflater;
@@ -105,7 +105,7 @@ public class TextureDic {
 
         // writeHashTable
         for (int i = 0; i < textures.size(); i++) {
-            offset += wf.writeInt((int) HashUtils.genHash(textures.get(i).difTexName));
+            offset += wf.writeInt((int) OneAtATimeHasher.getHashKey(textures.get(i).difTexName));
         }
         offset = addPaddingToRow(wf, offset);
 

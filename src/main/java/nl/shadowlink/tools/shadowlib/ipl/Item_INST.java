@@ -1,17 +1,12 @@
 package nl.shadowlink.tools.shadowlib.ipl;
 
-import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.Vector3D;
 import nl.shadowlink.tools.io.Vector4D;
 import nl.shadowlink.tools.io.WriteFunctions;
 import nl.shadowlink.tools.shadowlib.utils.Constants;
-import nl.shadowlink.tools.shadowlib.utils.HashUtils;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
-
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher;
 
 /**
  * @author Shadow-Link
@@ -125,24 +120,7 @@ public class Item_INST extends IPL_Item {
         wf.write(position);
         wf.write(rotation);
         if (hash == 0) {
-            System.out.println("We are generating a new hash");
-            System.out.println(HashUtils.genHash(name.toLowerCase()) + " from " + name);
-            long tempHash = HashUtils.genHash(name.toLowerCase());
-            hash = (int) tempHash;
-            IniEditor ini = new IniEditor();
-            try {
-                ini.load("hashes.ini");
-            } catch (IOException ex) {
-                Logger.getLogger(Item_INST.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if (!ini.hasOption("Hashes", "" + tempHash)) {
-                ini.set("Hashes", "" + tempHash, name);
-                try {
-                    ini.save("hashes.ini");
-                } catch (IOException ex) {
-                    Logger.getLogger(Item_INST.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            hash = (int) OneAtATimeHasher.getHashKey(name);
         }
         wf.write(hash);
 

@@ -13,11 +13,11 @@ import com.jogamp.opengl.util.FPSAnimator;
 import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.tools.shadowlib.ide.IDE;
 import nl.shadowlink.tools.shadowlib.utils.Filter;
-import nl.shadowlink.tools.shadowlib.utils.HashUtils;
 import nl.shadowlink.tools.shadowlib.utils.Utils;
 import nl.shadowlink.tools.shadowmapper.checklist.CheckListManager;
 import nl.shadowlink.tools.shadowmapper.gui.about.About;
 import nl.shadowlink.tools.shadowmapper.render.GlListener;
+import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -1381,24 +1381,6 @@ public class MainForm extends javax.swing.JFrame {
             System.out.println(fm.gta_dat.ipl.get(i));
         }
     }// GEN-LAST:event_jButton8ActionPerformed
-
-    public void addHashToIni(String name) {
-        long hash = HashUtils.genHash(name);
-        try {
-            IniEditor ini = new IniEditor();
-            ini.load("hashes.ini");
-            if (!ini.hasOption("Hashes", "" + name)) {
-                System.out.println("Adding to ini");
-                ini.set("Hashes", "" + hash, name);
-                ini.save("hashes.ini");
-            } else {
-                System.out.println("Already exists");
-            }
-            ini = null;
-        } catch (IOException ex) {
-            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     public void selectionChanged() {
         switch (fm.selType) {

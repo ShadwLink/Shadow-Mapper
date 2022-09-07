@@ -108,27 +108,6 @@ public class Utils {
 	}
 
 	/**
-	 * Returns the shader name from the shaders.ini
-	 *
-	 * @param type
-	 *        The id of the shader
-	 * @return The name of the shader read from an ini file
-	 */
-	public static String getShaderNameFromIni(int type) {
-		String ret = "Unknown";
-		try {
-			IniEditor shaders = new IniEditor();
-			shaders.load("shaders.ini");
-			if (shaders.hasOption("names", "" + type)) {
-				ret = shaders.get("names", "" + type);
-			}
-		} catch (IOException ex) {
-			System.out.println("Something went wrong reading the ini " + ex.toString());
-		}
-		return ret;
-	}
-
-	/**
 	 * Returns the shadertype for a certain id<br/>
 	 *
 	 * @param type
