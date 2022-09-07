@@ -4,3 +4,20 @@
 *.jar
 *.war
 *.ear
+
+# Intellij
+*.idea
+*.iml
+out/
+build/
+
+# MacOS
+.DS_Store
+
+# Gradle
+.gradle
+**/build/
+!src/**/build/
+
+# Shadow-Mapper settings
+settings.ini
