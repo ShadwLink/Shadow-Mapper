@@ -1,4 +1,4 @@
-> :warning: **This code is from ~2009 and one was one of my first programming projects.**
+> :warning: **This code is from ~2009 was one of my first programming projects.**
 > The quality of the code is very _very_ low and I do not recommend using this to learn how to code!
 -------------------------------------
 Shadow-Mapper
@@ -14,9 +14,6 @@ Requirements
 ------------
 
 - You need to have Java installed
-- You need Java(TM) Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files 6, you can download this
-  from:
-  https://cds.sun.com/is-bin/INTERSHOP.enfinity/WFS/CDS-CDS_Developer-Site/en_US/-/USD/ViewProductDetail-Start?ProductRef=jce_policy-6-oth-JPR@CDS-CDS_Developer
 - Version 1.0, 1.0.1, 1.0.2, 1.0.3, 1.0.4, 1.0.0.4, 1.0.6.0, 1.0.7.0, 1.1.1, 1.1.2, 1.2.0.43 of GTAIV.exe
 
 -----
