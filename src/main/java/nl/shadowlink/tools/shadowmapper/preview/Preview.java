@@ -64,8 +64,7 @@ public class Preview extends javax.swing.JFrame {
     private void init() {
         System.out.println("IMGID: " + imgID + " itemID: " + itemID);
         IMG_Item item = fm.imgs[imgID].getItems().get(itemID);
-        ReadFunctions rf = new ReadFunctions();
-        rf.openFile(fm.imgs[imgID].getFileName());
+        ReadFunctions rf = new ReadFunctions(fm.imgs[imgID].getFileName());
         rf.seek(item.getOffset());
         if (item.getName().toLowerCase().endsWith(".wdr")) {
             list.addElement(item.getName());

@@ -1,7 +1,6 @@
 package nl.shadowlink.tools.shadowlib.model.model;
 
 import com.jogamp.opengl.GL2;
-import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.tools.io.ByteReader;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.Vector4D;
@@ -13,7 +12,6 @@ import nl.shadowlink.tools.shadowlib.model.wft.FragTypeModel;
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -324,8 +322,7 @@ public class Model {
      */
     public Model loadWDR(String file) {
         this.reset();
-        ReadFunctions rf = new ReadFunctions();
-        rf.openFile(file);
+        ReadFunctions rf = new ReadFunctions(file);
         ByteReader br = rf.getByteReader(rf.moreToRead());
         loadWDR(br, -1);
         loaded = true;
@@ -351,8 +348,7 @@ public class Model {
      * @return this
      */
     public Model loadDFF(String file) {
-        ReadFunctions rf = new ReadFunctions();
-        rf.openFile(file);
+        ReadFunctions rf = new ReadFunctions(file);
         ByteReader br = rf.getByteReader();
         loadDFF(br);
         loaded = true;

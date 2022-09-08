@@ -12,7 +12,7 @@ class IMG_VC {
         val items = ArrayList<IMG_Item>()
 
         val rf = ReadFunctions()
-        rf.openFile(image.fileName?.replace(".img", ".dir"))
+        rf.openFile(image.fileName.replace(".img", ".dir"))
 
         var itemCount = 0
 

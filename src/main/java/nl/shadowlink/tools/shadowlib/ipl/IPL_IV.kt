@@ -49,8 +49,7 @@ class IPL_IV(
         println("Loading.. bin wpl $printName")
         val rf: ReadFunctions
         if (wpl.rf == null) {
-            rf = ReadFunctions()
-            rf.openFile(wpl.fileName)
+            rf = ReadFunctions(wpl.fileName)
         } else {
             wpl.stream = true
             rf = wpl.rf
@@ -152,7 +151,7 @@ class IPL_IV(
     }
 
     fun save(wpl: IPL) {
-        val fileName = if(wpl.stream) {
+        val fileName = if (wpl.stream) {
             wpl.img.fileName
         } else {
             wpl.fileName

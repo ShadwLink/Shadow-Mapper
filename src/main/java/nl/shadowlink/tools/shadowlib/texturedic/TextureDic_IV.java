@@ -20,10 +20,8 @@ public class TextureDic_IV {
         if (compressed) {
             ByteReader br;
             if (wtd.br == null) {
-                ReadFunctions rf = new ReadFunctions();
-                if (rf.openFile(wtd.getFileName())) {
-                    System.out.println("WTD Opened");
-                }
+                ReadFunctions rf = new ReadFunctions(wtd.getFileName());
+                System.out.println("WTD Opened");
                 br = rf.getByteReader();
             } else {
                 br = wtd.br;
