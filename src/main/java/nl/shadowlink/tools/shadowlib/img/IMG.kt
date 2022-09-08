@@ -5,14 +5,14 @@ import nl.shadowlink.tools.io.WriteFunctions
 import nl.shadowlink.tools.shadowlib.model.model.Model
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic
 import nl.shadowlink.tools.shadowlib.utils.Constants
-import nl.shadowlink.tools.shadowlib.utils.Constants.GameType
+import nl.shadowlink.tools.shadowlib.utils.GameType
 import nl.shadowlink.tools.shadowlib.utils.Utils
 import java.io.File
 
 /**
  * @author Shadow-Link
  */
-class IMG(var fileName: String?, var gameType: GameType?, key: ByteArray, autoLoad: Boolean, containsProps: Boolean) {
+class IMG(var fileName: String, var gameType: GameType?, key: ByteArray, autoLoad: Boolean, containsProps: Boolean) {
 
     var items: ArrayList<IMG_Item> = ArrayList()
 
@@ -60,10 +60,10 @@ class IMG(var fileName: String?, var gameType: GameType?, key: ByteArray, autoLo
 
     private fun loadImg(): Boolean {
         when (gameType) {
-            Constants.GameType.GTA_III -> IMG_III().loadImg(this)
-            Constants.GameType.GTA_VC -> IMG_VC().loadImg(this)
-            Constants.GameType.GTA_SA -> IMG_SA().loadImg(this)
-            Constants.GameType.GTA_IV -> IMG_IV().loadImg(this)
+            GameType.GTA_III -> IMG_III().loadImg(this)
+            GameType.GTA_VC -> IMG_VC().loadImg(this)
+            GameType.GTA_SA -> IMG_SA().loadImg(this)
+            GameType.GTA_IV -> IMG_IV().loadImg(this)
             else -> throw IllegalStateException("Gametype $gameType not supported")
         }
         // TODO: Change this to something more meaningful

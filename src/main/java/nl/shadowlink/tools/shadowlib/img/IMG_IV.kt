@@ -20,8 +20,7 @@ class IMG_IV {
     fun loadImg(image: IMG) {
         // Message.displayMsgHigh("Started IV");
 
-        val rf = ReadFunctions()
-        rf.openFile(image.fileName)
+        val rf = ReadFunctions(image.fileName)
 
         ident[0] = rf.readByte()
         ident[1] = rf.readByte()
@@ -41,8 +40,7 @@ class IMG_IV {
     fun saveImg(img: IMG) {
         println("Saving IV IMG")
         val wf = WriteFunctions("${img.fileName}.temp")
-        val rf = ReadFunctions()
-        rf.openFile(img.fileName)
+        val rf = ReadFunctions(img.fileName)
         wf.writeByte(82)// write R*N start bytes
         wf.writeByte(42)
         wf.writeByte(78)

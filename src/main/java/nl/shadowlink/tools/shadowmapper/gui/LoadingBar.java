@@ -8,9 +8,9 @@
 
 package nl.shadowlink.tools.shadowmapper.gui;
 
-import nl.shadowlink.tools.shadowlib.utils.Constants;
-
-import java.awt.*;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
+import nl.shadowlink.tools.shadowmapper.utils.EncryptionKeyExtractor;
+import nl.shadowlink.tools.shadowmapper.utils.GuiFunctions;
 
 /**
  * @author Shadow-Link
@@ -18,25 +18,24 @@ import java.awt.*;
 public class LoadingBar extends javax.swing.JFrame {
     private FileManager fm;
 
+    private final EncryptionKeyExtractor keyExtractor = new EncryptionKeyExtractor();
+
     /**
      * Creates new form LoadingBar
      */
-    public LoadingBar(String gameDir, Constants.GameType gameType, byte[] key) {
+    public LoadingBar(String gameDir, GameType gameType) {
         this.setIconImage(java.awt.Toolkit.getDefaultToolkit().createImage("icon.png"));
         initComponents();
         this.setVisible(true);
+        GuiFunctions.centerWindow$Shadow_Mapper(this);
 
-        //center the window
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension screenSize = toolkit.getScreenSize();
-        int x = (screenSize.width - this.getWidth()) / 2;
-        int y = (screenSize.height - this.getHeight()) / 2;
-        this.setLocation(x, y);
-
-        fm = new FileManager(this);
+        byte[] key = keyExtractor.getKey(gameDir);
+        if (key == null) {
+            throw new IllegalStateException("Unable to detect encryption key");
+        }
+        fm = new FileManager(this, key);
         fm.setGameDir(gameDir);
         fm.setGameType(gameType);
-        fm.setKey(key);
         fm.start();
     }
 

@@ -9,7 +9,7 @@ import nl.shadowlink.tools.shadowlib.ide.Item_OBJS;
 import nl.shadowlink.tools.shadowlib.img.IMG;
 import nl.shadowlink.tools.shadowlib.ipl.IPL;
 import nl.shadowlink.tools.shadowlib.ipl.Item_INST;
-import nl.shadowlink.tools.shadowlib.utils.Constants;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowlib.water.Water;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher;
@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
  * @author Shadow-Link
@@ -45,12 +44,13 @@ public class FileManager extends Thread {
     public int selParam1 = -1;
     public int selParam2 = -1;
 
-    private byte[] key; //The encryption key
+    private final byte[] key;
     private String gameDir;
-    private Constants.GameType gameType;
+    private GameType gameType;
 
-    public FileManager(LoadingBar lb) {
+    public FileManager(LoadingBar lb, byte[] key) {
         this.lb = lb;
+        this.key = key;
     }
 
     public String getGameDir() {
@@ -61,24 +61,16 @@ public class FileManager extends Thread {
         this.gameDir = gameDir;
     }
 
-    public Constants.GameType getGameType() {
+    public GameType getGameType() {
         return gameType;
     }
 
-    public void setGameType(Constants.GameType gameType) {
+    public void setGameType(GameType gameType) {
         this.gameType = gameType;
     }
 
-    public byte[] getKey() {
-        return key;
-    }
-
-    public void setKey(byte[] key) {
-        this.key = key;
-    }
-
     public void addIMG(String file) {
-        IMG tempIMG = new IMG(file, Constants.GameType.GTA_IV, null, false, true);
+        IMG tempIMG = new IMG(file, GameType.GTA_IV, key, false, true);
         tempIMG.setChanged(true);
         IMG[] tempIMGS = new IMG[imgs.length + 1];
         for (int i = 0; i < imgs.length; i++) {
@@ -138,7 +130,7 @@ public class FileManager extends Thread {
             boolean containsProps = line.endsWith("1");
             line = line.substring(0, line.length() - 1);
             line = line + ".img";
-            imgs[i] = new IMG(line, Constants.GameType.GTA_IV, key, true, containsProps);
+            imgs[i] = new IMG(line, GameType.GTA_IV, key, true, containsProps);
             lb.addOneToLoadingBar();
         }
 
@@ -170,18 +162,16 @@ public class FileManager extends Thread {
         //load WPL files from IMG files
         for (int i = 0; i < imgs.length; i++) {
             if (imgs[i].getWplCount() > 0) {
-                ReadFunctions rf = new ReadFunctions(); //open the img file
-                if (rf.openFile(imgs[i].getFileName())) {
-                    for (int j = 0; j < imgs[i].getItems().size(); j++) {
-                        if (imgs[i].getItems().get(j).getName().toLowerCase().endsWith(".wpl")) {
-                            rf.seek(imgs[i].getItems().get(j).getOffset());
-                            IPL tempIPL = new IPL(rf, hashTable, Finals.gIV, true, imgs[i], imgs[i].getItems().get(j), imgs[i].getItems().get(j).getName());
-                            tempIPL.setFileName(imgs[i].getItems().get(j).getName());
-                            lb.setLabelText("<WPL> " + imgs[i].getItems().get(j).getName());
-                            iplList.add(tempIPL);
-                            modelIPL.addElement(imgs[i].getItems().get(j).getName());
-                            lb.addOneToLoadingBar();
-                        }
+                ReadFunctions rf = new ReadFunctions(imgs[i].getFileName());
+                for (int j = 0; j < imgs[i].getItems().size(); j++) {
+                    if (imgs[i].getItems().get(j).getName().toLowerCase().endsWith(".wpl")) {
+                        rf.seek(imgs[i].getItems().get(j).getOffset());
+                        IPL tempIPL = new IPL(rf, hashTable, Finals.gIV, true, imgs[i], imgs[i].getItems().get(j), imgs[i].getItems().get(j).getName());
+                        tempIPL.setFileName(imgs[i].getItems().get(j).getName());
+                        lb.setLabelText("<WPL> " + imgs[i].getItems().get(j).getName());
+                        iplList.add(tempIPL);
+                        modelIPL.addElement(imgs[i].getItems().get(j).getName());
+                        lb.addOneToLoadingBar();
                     }
                 }
                 rf.closeFile();

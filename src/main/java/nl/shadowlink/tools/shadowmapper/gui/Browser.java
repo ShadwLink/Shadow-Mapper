@@ -457,8 +457,7 @@ public class Browser extends javax.swing.JFrame {
                 if (listItems.getSelectedRow() != -1 && listIMG.getSelectedIndex() != -1) {
                     if (ideItem != null) {
                         IMG_Item imgitem = fm.imgs[listIMG.getSelectedIndex()].findItem(ideItem.modelName);
-                        ReadFunctions rf = new ReadFunctions();
-                        rf.openFile(fm.imgs[listIMG.getSelectedIndex()].getFileName());
+                        ReadFunctions rf = new ReadFunctions(fm.imgs[listIMG.getSelectedIndex()].getFileName());
                         rf.seek(imgitem.getOffset());
                         ByteReader br = rf.getByteReader(imgitem.getSize());
                         if (imgitem.getName().endsWith(".wdr")) {
@@ -500,17 +499,17 @@ public class Browser extends javax.swing.JFrame {
             System.out.println("You selected " + name + " from img " + fm.imgs[listIMG.getSelectedIndex()].getFileName());
             String[] extensions = {".wdr", ".wtd", ".wbd", ".wbn", ".wdd", ".wft", ".wpl"};
             File file = Utils.fileChooser(this, Finals.fileSave, new Filter(extensions, "GTA File", false));
-            ReadFunctions rf = new ReadFunctions();
-            if (rf.openFile(fm.imgs[listIMG.getSelectedIndex()].getFileName())) {
+            try {
+                ReadFunctions rf = new ReadFunctions(fm.imgs[listIMG.getSelectedIndex()].getFileName());
                 rf.seek(item.getOffset());
                 WriteFunctions wf = new WriteFunctions(file.getPath());
-                    byte[] newFile = rf.readArray(item.getSize());
-                    wf.write(newFile);
-                    wf.closeFile();
-            } else {
+                byte[] newFile = rf.readArray(item.getSize());
+                wf.write(newFile);
+                wf.closeFile();
+                rf.closeFile();
+            } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Unable to read IMG archive");
             }
-            rf.closeFile();
         } else {
             JOptionPane.showMessageDialog(this, "Select file to export");
         }

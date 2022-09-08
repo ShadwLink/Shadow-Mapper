@@ -252,8 +252,7 @@ public class IDEForm extends javax.swing.JFrame {
         textModel.setText(model);
 
         IMG_Item imgItem = fm.imgs[imgID].getItems().get(itemID);
-        ReadFunctions rf = new ReadFunctions();
-        rf.openFile(fm.imgs[imgID].getFileName());
+        ReadFunctions rf = new ReadFunctions(fm.imgs[imgID].getFileName());
         rf.seek(imgItem.getOffset());
         Model tmpMdl = new Model();
         tmpMdl.loadWDRSystem(rf.getByteReader(imgItem.getSize()), imgItem.getSize());

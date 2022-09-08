@@ -12,8 +12,7 @@ public class Nodes {
     private int linkCount;
 
     public Nodes() {
-        ReadFunctions rf = new ReadFunctions();
-        rf.openFile("E:/Nodes/nodes29.nod");
+        ReadFunctions rf = new ReadFunctions("E:/Nodes/nodes29.nod");
 
         readHeader(rf);
         for (int i = 0; i < nodeCount; i++) {

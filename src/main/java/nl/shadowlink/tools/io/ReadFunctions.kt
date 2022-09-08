@@ -7,9 +7,14 @@ import java.nio.ByteBuffer
 import java.util.logging.Level
 import java.util.logging.Logger
 
-class ReadFunctions {
+class ReadFunctions(name: String) {
     private var dataIn: RandomAccessFile? = null
-    fun openFile(name: String?): Boolean {
+
+    init {
+        openFile(name)
+    }
+    
+    private fun openFile(name: String): Boolean {
         var ret = true
         try {
             dataIn = RandomAccessFile(name, "r")

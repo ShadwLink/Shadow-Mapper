@@ -102,62 +102,60 @@ public class RenderMap {
         System.out.println("ideList Size: " + ideList.size());
 
         for (int imgNumber = 0; imgNumber < fm.imgs.length; imgNumber++) {
-            ReadFunctions rf = new ReadFunctions(); // open the img file
-            if (rf.openFile(fm.imgs[imgNumber].getFileName())) {
-                System.out.println("Opened: " + fm.imgs[imgNumber].getFileName());
-                for (int i = 0; i < ideList.size(); i++) {
-                    if (!boolList.get(i)) {
-                        String modelName = "";
-                        IMG_Item item = null;
-                        if (!ideList.get(i).WDD.equals("null")) {
-                            modelName = ideList.get(i).WDD + ".wdd";
-                            item = fm.imgs[imgNumber].findItem(modelName);
-                        } else {
-                            modelName = ideList.get(i).modelName + ".wdr";
-                            item = fm.imgs[imgNumber].findItem(modelName);
-                            if (item == null)
-                                item = fm.imgs[imgNumber].findItem(ideList.get(i).modelName + ".wft");
+            ReadFunctions rf = new ReadFunctions(fm.imgs[imgNumber].getFileName()); // open the img file
+            System.out.println("Opened: " + fm.imgs[imgNumber].getFileName());
+            for (int i = 0; i < ideList.size(); i++) {
+                if (!boolList.get(i)) {
+                    String modelName = "";
+                    IMG_Item item = null;
+                    if (!ideList.get(i).WDD.equals("null")) {
+                        modelName = ideList.get(i).WDD + ".wdd";
+                        item = fm.imgs[imgNumber].findItem(modelName);
+                    } else {
+                        modelName = ideList.get(i).modelName + ".wdr";
+                        item = fm.imgs[imgNumber].findItem(modelName);
+                        if (item == null)
+                            item = fm.imgs[imgNumber].findItem(ideList.get(i).modelName + ".wft");
+                    }
+                    if (item != null) {
+                        rf.seek(item.getOffset());
+                        ByteReader br = rf.getByteReader(item.getSize());
+                        Model mdl = null;
+                        if (item.getName().endsWith(".wdr")) {
+                            System.out.println(item.getName());
+                            mdl = new Model().loadWDR(br, item.getSize()); // load
+                            // the
+                            // model
+                            // from
+                            // img
+                        } else if (item.getName().endsWith(".wdd")) {
+                            mdl = new Model().loadWDD(br, item.getSize(), ideList.get(i).modelName);
+                        } else if (item.getName().endsWith(".wft")) {
+                            System.out.println("Loading WFT: " + item.getName());
+                            mdl = new Model().loadWFT(br, item.getSize());
                         }
+                        br = null;
+                        String texName = ideList.get(i).textureName + ".wtd";
+                        item = fm.imgs[imgNumber].findItem(texName);
                         if (item != null) {
                             rf.seek(item.getOffset());
-                            ByteReader br = rf.getByteReader(item.getSize());
-                            Model mdl = null;
-                            if (item.getName().endsWith(".wdr")) {
-                                System.out.println(item.getName());
-                                mdl = new Model().loadWDR(br, item.getSize()); // load
-                                // the
-                                // model
-                                // from
-                                // img
-                            } else if (item.getName().endsWith(".wdd")) {
-                                mdl = new Model().loadWDD(br, item.getSize(), ideList.get(i).modelName);
-                            } else if (item.getName().endsWith(".wft")) {
-                                System.out.println("Loading WFT: " + item.getName());
-                                mdl = new Model().loadWFT(br, item.getSize());
-                            }
-                            br = null;
-                            String texName = ideList.get(i).textureName + ".wtd";
-                            item = fm.imgs[imgNumber].findItem(texName);
-                            if (item != null) {
-                                rf.seek(item.getOffset());
-                                br = rf.getByteReader(item.getSize());
-                                TextureDic txd = new TextureDic(texName, br, gameType, item.getSize());
+                            br = rf.getByteReader(item.getSize());
+                            TextureDic txd = new TextureDic(texName, br, gameType, item.getSize());
 
-                                if (mdl != null) {
-                                    mdl.attachTXD(txd.texName, txd.textureId);
-                                }
+                            if (mdl != null) {
+                                mdl.attachTXD(txd.texName, txd.textureId);
                             }
-                            glDisplayList[i + 1] = gl.glGenLists(1);
-                            gl.glNewList(glDisplayList[i + 1], GL2.GL_COMPILE);
-                            if (mdl != null)
-                                mdl.render(gl);
-                            else
-                                drawCube(gl, 10, 0.1f, 0.5f, 0.9f);
-                            gl.glEndList();
-                            mdl.reset();
-                            mdl = null;
-                            boolList.set(i, true);
                         }
+                        glDisplayList[i + 1] = gl.glGenLists(1);
+                        gl.glNewList(glDisplayList[i + 1], GL2.GL_COMPILE);
+                        if (mdl != null)
+                            mdl.render(gl);
+                        else
+                            drawCube(gl, 10, 0.1f, 0.5f, 0.9f);
+                        gl.glEndList();
+                        mdl.reset();
+                        mdl = null;
+                        boolList.set(i, true);
                     }
                 }
                 rf.closeFile();
@@ -193,8 +191,7 @@ public class RenderMap {
         }
 
         if (item != null) {
-            ReadFunctions rf = new ReadFunctions();
-            rf.openFile(fm.imgs[imgID].getFileName());
+            ReadFunctions rf = new ReadFunctions(fm.imgs[imgID].getFileName());
             rf.seek(item.getOffset());
             ByteReader br = rf.getByteReader(item.getSize());
             Model mdl = null;

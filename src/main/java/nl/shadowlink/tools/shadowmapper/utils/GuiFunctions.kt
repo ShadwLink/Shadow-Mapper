@@ -1,8 +1,10 @@
 package nl.shadowlink.tools.shadowmapper.utils
 
 import nl.shadowlink.tools.shadowmapper.gui.MainForm
+import java.awt.Toolkit
 import java.util.logging.Level
 import java.util.logging.Logger
+import javax.swing.JFrame
 import javax.swing.UIManager
 import javax.swing.UnsupportedLookAndFeelException
 
@@ -25,5 +27,14 @@ object GuiFunctions {
                 println("Unable to set the LookAndFeel")
             }
         }
+    }
+
+    @JvmStatic
+    internal fun JFrame.centerWindow() {
+        val toolkit = Toolkit.getDefaultToolkit()
+        val screenSize = toolkit.screenSize
+        val x = (screenSize.width - width) / 2
+        val y = (screenSize.height - height) / 2
+        this.setLocation(x, y)
     }
 }
