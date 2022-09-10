@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 /**
  * @author Shadow-Link
  */
-public class Item_PEDS extends IDE_Item {
+public class Item_PEDS extends IdeItem {
     private GameType gameType;
 
     public Item_PEDS(GameType gameType) {

@@ -12,7 +12,7 @@ import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.Animator;
 import nl.shadowlink.tools.io.ByteReader;
 import nl.shadowlink.tools.io.ReadFunctions;
-import nl.shadowlink.tools.shadowlib.img.IMG_Item;
+import nl.shadowlink.tools.shadowlib.img.ImgItem;
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
 import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.gui.FileManager;
@@ -63,7 +63,7 @@ public class Preview extends javax.swing.JFrame {
 
     private void init() {
         System.out.println("IMGID: " + imgID + " itemID: " + itemID);
-        IMG_Item item = fm.imgs[imgID].getItems().get(itemID);
+        ImgItem item = fm.imgs[imgID].getItems().get(itemID);
         ReadFunctions rf = new ReadFunctions(fm.imgs[imgID].getFileName());
         rf.seek(item.getOffset());
         if (item.getName().toLowerCase().endsWith(".wdr")) {

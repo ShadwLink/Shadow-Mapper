@@ -1,8 +1,8 @@
 package nl.shadowlink.tools.shadowlib.ipl;
 
 import nl.shadowlink.tools.io.ReadFunctions;
-import nl.shadowlink.tools.shadowlib.img.IMG;
-import nl.shadowlink.tools.shadowlib.img.IMG_Item;
+import nl.shadowlink.tools.shadowlib.img.Img;
+import nl.shadowlink.tools.shadowlib.img.ImgItem;
 import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 
@@ -22,8 +22,8 @@ public class IPL {
     public boolean itemsLoaded = false;
 
     public boolean stream = false; // if it's a stream wpl
-    public IMG img = null; // the img it's in
-    public IMG_Item imgItem = null; // img item
+    public Img img = null; // the img it's in
+    public ImgItem imgItem = null; // img item
 
     public int lodWPL = -1;
 
@@ -54,7 +54,7 @@ public class IPL {
             loadPlacement(hashTable);
     }
 
-    public IPL(ReadFunctions rf, HashTable hashTable, GameType gameType, boolean autoLoad, IMG img, IMG_Item imgItem, String printName) {
+    public IPL(ReadFunctions rf, HashTable hashTable, GameType gameType, boolean autoLoad, Img img, ImgItem imgItem, String printName) {
         this.gameType = gameType;
         this.rf = rf;
         this.img = img;

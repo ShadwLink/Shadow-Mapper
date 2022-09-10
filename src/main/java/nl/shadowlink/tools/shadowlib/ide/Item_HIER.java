@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 /**
  * @author Shadow-Link
  */
-public class Item_HIER extends IDE_Item {
+public class Item_HIER extends IdeItem {
     private GameType gameType;
 
     public Item_HIER(GameType gameType) {

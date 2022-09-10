@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 /**
  * @author Shadow-Link
  */
-public class Item_2DFX extends IDE_Item {
+public class Item_2DFX extends IdeItem {
     private GameType gameType;
 
     public String name;

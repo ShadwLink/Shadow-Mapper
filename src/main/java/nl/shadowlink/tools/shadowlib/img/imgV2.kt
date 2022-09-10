@@ -6,10 +6,10 @@ import nl.shadowlink.tools.shadowlib.utils.Utils
 /**
  * @author Shadow-Link
  */
-class IMG_SA {
+class imgV2 {
 
-    fun loadImg(image: IMG) {
-        val items = ArrayList<IMG_Item>()
+    fun loadImg(image: Img) {
+        val items = ArrayList<ImgItem>()
 
         val rf = ReadFunctions(image.fileName)
 
@@ -20,7 +20,7 @@ class IMG_SA {
         // Message.displayMsgHigh("Item Count: " + itemCount);
 
         for (curItem in 0 until itemCount) {
-            val item = IMG_Item()
+            val item = ImgItem()
             val itemOffset = rf.readInt() * 2048
             val itemSize = rf.readInt() * 2048
             val itemName = rf.readNullTerminatedString(24)

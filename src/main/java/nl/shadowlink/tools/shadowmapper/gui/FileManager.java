@@ -3,10 +3,10 @@ package nl.shadowlink.tools.shadowmapper.gui;
 import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.Vector3D;
-import nl.shadowlink.tools.shadowlib.dat.GTA_DAT;
+import nl.shadowlink.tools.shadowlib.dat.GtaDat;
 import nl.shadowlink.tools.shadowlib.ide.IDE;
 import nl.shadowlink.tools.shadowlib.ide.Item_OBJS;
-import nl.shadowlink.tools.shadowlib.img.IMG;
+import nl.shadowlink.tools.shadowlib.img.Img;
 import nl.shadowlink.tools.shadowlib.ipl.IPL;
 import nl.shadowlink.tools.shadowlib.ipl.Item_INST;
 import nl.shadowlink.tools.shadowlib.utils.GameType;
@@ -28,10 +28,10 @@ public class FileManager extends Thread {
 
     private LoadingBar lb;
 
-    public GTA_DAT gta_dat; //object of the gta.dat file
+    public GtaDat gtaDat; //object of the gta.dat file
     public IPL[] ipls; //objects of the ipl files
     public IDE[] ides; //objects of the ide files
-    public IMG[] imgs; //objects of the img files
+    public Img[] imgs; //objects of the img files
     public Water[] waters; //objects of the water.dat files
 
     public DefaultListModel modelIPL = new DefaultListModel(); //contains ipls
@@ -70,27 +70,27 @@ public class FileManager extends Thread {
     }
 
     public void addIMG(String file) {
-        IMG tempIMG = new IMG(file, GameType.GTA_IV, key, false, true);
-        tempIMG.setChanged(true);
-        IMG[] tempIMGS = new IMG[imgs.length + 1];
+        Img tempImg = new Img(file, GameType.GTA_IV, key, false, true);
+        tempImg.setChanged(true);
+        Img[] tempImgs = new Img[imgs.length + 1];
         for (int i = 0; i < imgs.length; i++) {
-            tempIMGS[i] = imgs[i];
+            tempImgs[i] = imgs[i];
         }
-        tempIMGS[imgs.length] = tempIMG;
-        imgs = tempIMGS;
+        tempImgs[imgs.length] = tempImg;
+        imgs = tempImgs;
     }
 
     public void init() {
-        GTA_DAT default_dat = new GTA_DAT(gameDir + "common/data/default.dat", gameDir);
-        gta_dat = new GTA_DAT(gameDir + "common/data/gta.dat", gameDir);
+        GtaDat default_dat = new GtaDat(gameDir + "common/data/default.dat", gameDir);
+        gtaDat = new GtaDat(gameDir + "common/data/gta.dat", gameDir);
 
-        int itemsToLoad = gta_dat.ide.size() + gta_dat.img.size() + gta_dat.water.size() + gta_dat.ipl.size();
+        int itemsToLoad = gtaDat.ide.size() + gtaDat.img.size() + gtaDat.water.size() + gtaDat.ipl.size();
 
         lb.setLoadingBarMax(itemsToLoad);
 
-        ides = new IDE[gta_dat.ide.size()];
-        imgs = new IMG[gta_dat.img.size()];
-        waters = new Water[gta_dat.water.size()];
+        ides = new IDE[gtaDat.ide.size()];
+        imgs = new Img[gtaDat.img.size()];
+        waters = new Water[gtaDat.water.size()];
         ArrayList<IPL> iplList = new ArrayList();
 
         // Load default.dat
@@ -106,9 +106,9 @@ public class FileManager extends Thread {
         });
 
         // load IDE files from GTA.dat
-        for (int i = 0; i < gta_dat.ide.size(); i++) {
-            lb.setLabelText("<IDE> " + gta_dat.ide.get(i));
-            ides[i] = new IDE(gameDir + gta_dat.ide.get(i), gameType, true);
+        for (int i = 0; i < gtaDat.ide.size(); i++) {
+            lb.setLabelText("<IDE> " + gtaDat.ide.get(i));
+            ides[i] = new IDE(gameDir + gtaDat.ide.get(i), gameType, true);
             ides[i].items_objs.forEach(item -> hashTable.add(item.modelName));
             ides[i].items_tobj.forEach(item -> hashTable.add(item.modelName));
             ides[i].items_cars.forEach(item -> hashTable.add(item.modelName));
@@ -116,7 +116,7 @@ public class FileManager extends Thread {
             ides[i].items_2dfx.forEach(item -> hashTable.add(item.name));
             ides[i].items_tanm.forEach(item -> hashTable.add(item.modelName));
 
-            modelIDE.addElement(gta_dat.ide.get(i));
+            modelIDE.addElement(gtaDat.ide.get(i));
             lb.addOneToLoadingBar();
         }
 
@@ -124,29 +124,29 @@ public class FileManager extends Thread {
         System.out.println("Missed hash count " + hashTable.getMissedHashCount());
 
         //load IMG files from GTA.dat
-        for (int i = 0; i < gta_dat.img.size(); i++) {
-            lb.setLabelText("<IMG> " + gta_dat.img.get(i));
-            String line = gameDir + gta_dat.img.get(i);
+        for (int i = 0; i < gtaDat.img.size(); i++) {
+            lb.setLabelText("<IMG> " + gtaDat.img.get(i));
+            String line = gameDir + gtaDat.img.get(i);
             boolean containsProps = line.endsWith("1");
             line = line.substring(0, line.length() - 1);
             line = line + ".img";
-            imgs[i] = new IMG(line, GameType.GTA_IV, key, true, containsProps);
+            imgs[i] = new Img(line, GameType.GTA_IV, key, true, containsProps);
             lb.addOneToLoadingBar();
         }
 
         //load WPL files from GTA.dat
-        for (int i = 0; i < gta_dat.ipl.size(); i++) {
-            lb.setLabelText("<IPL> " + gta_dat.ipl.get(i));
-            IPL tempIPL = new IPL(gameDir + gta_dat.ipl.get(i), hashTable, gameType, true);
+        for (int i = 0; i < gtaDat.ipl.size(); i++) {
+            lb.setLabelText("<IPL> " + gtaDat.ipl.get(i));
+            IPL tempIPL = new IPL(gameDir + gtaDat.ipl.get(i), hashTable, gameType, true);
             iplList.add(tempIPL);
-            modelIPL.addElement(gta_dat.ipl.get(i));
+            modelIPL.addElement(gtaDat.ipl.get(i));
             lb.addOneToLoadingBar();
         }
 
         //load water.dat files from gta.dat
-        for (int i = 0; i < gta_dat.water.size(); i++) {
-            lb.setLabelText("<WATER> " + gta_dat.ipl.get(i));
-            waters[i] = new Water(gameDir + gta_dat.water.get(i), gameType);
+        for (int i = 0; i < gtaDat.water.size(); i++) {
+            lb.setLabelText("<WATER> " + gtaDat.ipl.get(i));
+            waters[i] = new Water(gameDir + gtaDat.water.get(i), gameType);
             lb.addOneToLoadingBar();
         }
 
@@ -203,9 +203,9 @@ public class FileManager extends Thread {
     }
 
     public void save() {
-        if (gta_dat.changed) {
+        if (gtaDat.changed) {
             System.out.println("Saving gta.dat");
-            gta_dat.save();
+            gtaDat.save();
         }
         for (int i = 0; i < ides.length; i++) {
             if (ides[i].changed) {
@@ -233,7 +233,7 @@ public class FileManager extends Thread {
     public DefaultListModel getSaveModel() {
         DefaultListModel saveModel = new DefaultListModel();
 
-        if (gta_dat.changed) saveModel.addElement("gta.dat");
+        if (gtaDat.changed) saveModel.addElement("gta.dat");
 
         System.out.println(ides.length);
         System.out.println(ipls.length);
@@ -378,8 +378,8 @@ public class FileManager extends Thread {
                 tempIPLS = null;
                 tempIPL = null;
                 String fixedIplPath = file.getPath().toLowerCase().replace(gameDir.toLowerCase(), "");
-                gta_dat.ipl.add(fixedIplPath);
-                gta_dat.changed = true;
+                gtaDat.ipl.add(fixedIplPath);
+                gtaDat.changed = true;
             }
         }
     }

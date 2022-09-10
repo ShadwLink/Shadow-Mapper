@@ -14,10 +14,10 @@ import javax.swing.JOptionPane
 /**
  * @author Shadow-Link
  */
-class IMG_IV {
+class ImgV3 {
     private val ident = ByteArray(4)
 
-    fun loadImg(image: IMG) {
+    fun loadImg(image: Img) {
         // Message.displayMsgHigh("Started IV");
 
         val rf = ReadFunctions(image.fileName)
@@ -37,7 +37,7 @@ class IMG_IV {
         rf.closeFile()
     }
 
-    fun saveImg(img: IMG) {
+    fun saveImg(img: Img) {
         println("Saving IV IMG")
         val wf = WriteFunctions("${img.fileName}.temp")
         val rf = ReadFunctions(img.fileName)
@@ -130,8 +130,8 @@ class IMG_IV {
         newFile = null
     }
 
-    fun readUnEncryptedImg(rf: ReadFunctions, image: IMG) {
-        val items = ArrayList<IMG_Item>()
+    fun readUnEncryptedImg(rf: ReadFunctions, image: Img) {
+        val items = ArrayList<ImgItem>()
         // Message.displayMsgHigh("Version 3: " + rf.readInt());
         val itemCount = rf.readInt()
         val tableSize = rf.readInt();
@@ -140,7 +140,7 @@ class IMG_IV {
 
         // read table
         for (curItem in 0 until itemCount) {
-            val item = IMG_Item()
+            val item = ImgItem()
             var itemSize = rf.readInt() // or flags
             val itemType = rf.readInt()
             val itemOffset = rf.readInt() * 0x800
@@ -167,8 +167,8 @@ class IMG_IV {
         image.items = items
     }
 
-    fun readEncryptedImg(test: ReadFunctions, img: IMG) {
-        val items = ArrayList<IMG_Item>()
+    fun readEncryptedImg(test: ReadFunctions, img: Img) {
+        val items = ArrayList<ImgItem>()
 
         val key = img.key
 
@@ -188,7 +188,7 @@ class IMG_IV {
         for (i in 0 until itemCount) {
             data = decrypt16byteBlock(test, key) // decrypt all table items
             br = ByteReader(data, 0)
-            val item = IMG_Item()
+            val item = ImgItem()
             itemSize = br.readUInt32() // or flags
             val itemType = br.readUInt32()
             val itemOffset = br.readUInt32() * 2048
@@ -253,7 +253,7 @@ class IMG_IV {
             try {
                 data = decryptAES(key, data)
             } catch (ex: Exception) {
-                Logger.getLogger(IMG_IV::class.java.name).log(Level.SEVERE, null, ex)
+                Logger.getLogger(ImgV3::class.java.name).log(Level.SEVERE, null, ex)
             }
 
         }
@@ -269,7 +269,7 @@ class IMG_IV {
             try {
                 data = decryptAES(key, data)
             } catch (ex: Exception) {
-                Logger.getLogger(IMG_IV::class.java.name).log(Level.SEVERE, null, ex)
+                Logger.getLogger(ImgV3::class.java.name).log(Level.SEVERE, null, ex)
             }
 
         }

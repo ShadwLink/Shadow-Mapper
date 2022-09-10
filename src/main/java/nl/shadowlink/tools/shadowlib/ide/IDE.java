@@ -85,7 +85,7 @@ public class IDE {
                         } else if (line.isEmpty()) {
                             System.out.println("Empty line");
                         } else {
-                            IDE_Item item = null;
+                            IdeItem item = null;
                             switch (readItem) {
                                 case Constants.i2DFX:
                                     item = new Item_2DFX(gameType);
@@ -147,8 +147,8 @@ public class IDE {
         return true;
     }
 
-    public IDE_Item findItem(String name) {
-        IDE_Item ret = null;
+    public IdeItem findItem(String name) {
+        IdeItem ret = null;
         if (items_objs.size() != 0) {
             int i = 0;
             Item_OBJS item = items_objs.get(i);

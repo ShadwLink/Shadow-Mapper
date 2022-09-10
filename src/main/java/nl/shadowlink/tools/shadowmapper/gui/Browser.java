@@ -12,7 +12,7 @@ import nl.shadowlink.tools.io.ByteReader;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.WriteFunctions;
 import nl.shadowlink.tools.shadowlib.ide.Item_OBJS;
-import nl.shadowlink.tools.shadowlib.img.IMG_Item;
+import nl.shadowlink.tools.shadowlib.img.ImgItem;
 import nl.shadowlink.tools.shadowlib.model.model.Model;
 import nl.shadowlink.tools.shadowlib.model.wdr.DrawableModel;
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
@@ -139,7 +139,7 @@ public class Browser extends javax.swing.JFrame {
             modelIMGItems.removeRow(0);
         }
         for (int i = 0; i < fm.imgs[listIMG.getSelectedIndex()].getItems().size(); i++) {
-            IMG_Item imgItem = fm.imgs[listIMG.getSelectedIndex()].getItems().get(i);
+            ImgItem imgItem = fm.imgs[listIMG.getSelectedIndex()].getItems().get(i);
             if (!filterEnabled) {
                 if ((fm.imgs[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wdr") && checkWDR.isSelected()) ||
                         (fm.imgs[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wdd") && checkWDD.isSelected()) ||
@@ -457,7 +457,7 @@ public class Browser extends javax.swing.JFrame {
             if (ideForm != null) {
                 if (listItems.getSelectedRow() != -1 && listIMG.getSelectedIndex() != -1) {
                     if (ideItem != null) {
-                        IMG_Item imgitem = fm.imgs[listIMG.getSelectedIndex()].findItem(ideItem.modelName);
+                        ImgItem imgitem = fm.imgs[listIMG.getSelectedIndex()].findItem(ideItem.modelName);
                         ReadFunctions rf = new ReadFunctions(fm.imgs[listIMG.getSelectedIndex()].getFileName());
                         rf.seek(imgitem.getOffset());
                         ByteReader br = rf.getByteReader(imgitem.getSize());
@@ -495,7 +495,7 @@ public class Browser extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         if (listItems.getSelectedRow() != -1 && listIMG.getSelectedIndex() != -1) {
-            IMG_Item item = fm.imgs[listIMG.getSelectedIndex()].getItems().get(fm.imgs[listIMG.getSelectedIndex()].findItemIndex("" + listItems.getValueAt(listItems.getSelectedRow(), 0)));
+            ImgItem item = fm.imgs[listIMG.getSelectedIndex()].getItems().get(fm.imgs[listIMG.getSelectedIndex()].findItemIndex("" + listItems.getValueAt(listItems.getSelectedRow(), 0)));
             String name = item.getName();
             System.out.println("You selected " + name + " from img " + fm.imgs[listIMG.getSelectedIndex()].getFileName());
             String[] extensions = {".wdr", ".wtd", ".wbd", ".wbn", ".wdd", ".wft", ".wpl"};

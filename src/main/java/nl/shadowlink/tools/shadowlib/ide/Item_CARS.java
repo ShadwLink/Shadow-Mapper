@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 /**
  * @author Shadow-Link
  */
-public class Item_CARS extends IDE_Item {
+public class Item_CARS extends IdeItem {
     private GameType gameType;
     public String modelName;
     public String textureName;

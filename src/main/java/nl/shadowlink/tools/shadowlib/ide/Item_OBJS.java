@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 /**
  * @author Shadow-Link
  */
-public class Item_OBJS extends IDE_Item {
+public class Item_OBJS extends IdeItem {
     public int id; // III, VC, SA
     public String modelName; // III, VC, SA, IV
     public String textureName; // III, VC, SA, IV

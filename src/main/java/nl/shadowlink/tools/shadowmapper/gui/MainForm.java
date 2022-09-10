@@ -1360,8 +1360,8 @@ public class MainForm extends javax.swing.JFrame {
     }// GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton8ActionPerformed
-        for (int i = 0; i < fm.gta_dat.ipl.size(); i++) {
-            System.out.println(fm.gta_dat.ipl.get(i));
+        for (int i = 0; i < fm.gtaDat.ipl.size(); i++) {
+            System.out.println(fm.gtaDat.ipl.get(i));
         }
     }// GEN-LAST:event_jButton8ActionPerformed
 

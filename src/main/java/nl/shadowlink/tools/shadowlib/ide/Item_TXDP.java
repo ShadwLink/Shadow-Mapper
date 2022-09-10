@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 /**
  * @author Shadow-Link
  */
-public class Item_TXDP extends IDE_Item {
+public class Item_TXDP extends IdeItem {
     private GameType gameType;
     public String texDic;
     public String texDicParent;

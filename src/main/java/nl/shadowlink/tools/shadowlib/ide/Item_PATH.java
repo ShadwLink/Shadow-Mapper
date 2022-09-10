@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 /**
  * @author Shadow-Link
  */
-public class Item_PATH extends IDE_Item {
+public class Item_PATH extends IdeItem {
     private GameType gameType;
 
     public Item_PATH(GameType gameType) {

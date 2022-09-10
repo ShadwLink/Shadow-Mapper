@@ -6,7 +6,7 @@ import nl.shadowlink.tools.io.ByteReader;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.Vector3D;
 import nl.shadowlink.tools.shadowlib.ide.Item_OBJS;
-import nl.shadowlink.tools.shadowlib.img.IMG_Item;
+import nl.shadowlink.tools.shadowlib.img.ImgItem;
 import nl.shadowlink.tools.shadowlib.ipl.Item_INST;
 import nl.shadowlink.tools.shadowlib.model.model.Model;
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
@@ -109,7 +109,7 @@ public class RenderMap {
             for (int i = 0; i < ideList.size(); i++) {
                 if (!boolList.get(i)) {
                     String modelName = "";
-                    IMG_Item item = null;
+                    ImgItem item = null;
                     if (!ideList.get(i).WDD.equals("null")) {
                         modelName = ideList.get(i).WDD + ".wdd";
                         item = fm.imgs[imgNumber].findItem(modelName);
@@ -176,7 +176,7 @@ public class RenderMap {
             glDisplayList[i] = tempList[i];
         }
 
-        IMG_Item item = null;
+        ImgItem item = null;
         int imgID = -1;
         int i = 0;
         while (item == null || i < fm.imgs.length) {

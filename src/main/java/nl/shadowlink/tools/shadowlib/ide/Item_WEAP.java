@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 /**
  * @author Shadow-Link
  */
-public class Item_WEAP extends IDE_Item {
+public class Item_WEAP extends IdeItem {
     private GameType gameType;
 
     public Item_WEAP(GameType gameType) {
