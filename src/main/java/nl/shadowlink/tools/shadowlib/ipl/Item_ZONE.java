@@ -1,8 +1,8 @@
 package nl.shadowlink.tools.shadowlib.ipl;
 
-import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.Vector3D;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 
 import java.util.logging.Level;
@@ -12,12 +12,12 @@ import java.util.logging.Logger;
  * @author Shadow-Link
  */
 public class Item_ZONE extends IPL_Item {
-    private int gameType;
+    private GameType gameType;
 
     public Vector3D posLowerLeft;
     public Vector3D posUpperRight;
 
-    public Item_ZONE(int gameType) {
+    public Item_ZONE(GameType gameType) {
         this.gameType = gameType;
     }
 

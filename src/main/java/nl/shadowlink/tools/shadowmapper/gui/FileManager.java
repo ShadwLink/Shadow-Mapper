@@ -95,7 +95,7 @@ public class FileManager extends Thread {
 
         // Load default.dat
         default_dat.ide.forEach(ideName -> {
-            IDE ide = new IDE(gameDir + ideName, Finals.gIV, true);
+            IDE ide = new IDE(gameDir + ideName, gameType, true);
             ide.items_objs.forEach(item -> hashTable.add(item.modelName));
             ide.items_tobj.forEach(item -> hashTable.add(item.modelName));
             ide.items_cars.forEach(item -> hashTable.add(item.modelName));
@@ -108,7 +108,7 @@ public class FileManager extends Thread {
         // load IDE files from GTA.dat
         for (int i = 0; i < gta_dat.ide.size(); i++) {
             lb.setLabelText("<IDE> " + gta_dat.ide.get(i));
-            ides[i] = new IDE(gameDir + gta_dat.ide.get(i), Finals.gIV, true);
+            ides[i] = new IDE(gameDir + gta_dat.ide.get(i), gameType, true);
             ides[i].items_objs.forEach(item -> hashTable.add(item.modelName));
             ides[i].items_tobj.forEach(item -> hashTable.add(item.modelName));
             ides[i].items_cars.forEach(item -> hashTable.add(item.modelName));
@@ -137,7 +137,7 @@ public class FileManager extends Thread {
         //load WPL files from GTA.dat
         for (int i = 0; i < gta_dat.ipl.size(); i++) {
             lb.setLabelText("<IPL> " + gta_dat.ipl.get(i));
-            IPL tempIPL = new IPL(gameDir + gta_dat.ipl.get(i), hashTable, Finals.gIV, true);
+            IPL tempIPL = new IPL(gameDir + gta_dat.ipl.get(i), hashTable, gameType, true);
             iplList.add(tempIPL);
             modelIPL.addElement(gta_dat.ipl.get(i));
             lb.addOneToLoadingBar();
@@ -146,7 +146,7 @@ public class FileManager extends Thread {
         //load water.dat files from gta.dat
         for (int i = 0; i < gta_dat.water.size(); i++) {
             lb.setLabelText("<WATER> " + gta_dat.ipl.get(i));
-            waters[i] = new Water(gameDir + gta_dat.water.get(i), Finals.gIV);
+            waters[i] = new Water(gameDir + gta_dat.water.get(i), gameType);
             lb.addOneToLoadingBar();
         }
 
@@ -166,7 +166,7 @@ public class FileManager extends Thread {
                 for (int j = 0; j < imgs[i].getItems().size(); j++) {
                     if (imgs[i].getItems().get(j).getName().toLowerCase().endsWith(".wpl")) {
                         rf.seek(imgs[i].getItems().get(j).getOffset());
-                        IPL tempIPL = new IPL(rf, hashTable, Finals.gIV, true, imgs[i], imgs[i].getItems().get(j), imgs[i].getItems().get(j).getName());
+                        IPL tempIPL = new IPL(rf, hashTable, gameType, true, imgs[i], imgs[i].getItems().get(j), imgs[i].getItems().get(j).getName());
                         tempIPL.setFileName(imgs[i].getItems().get(j).getName());
                         lb.setLabelText("<WPL> " + imgs[i].getItems().get(j).getName());
                         iplList.add(tempIPL);
@@ -258,7 +258,7 @@ public class FileManager extends Thread {
     }
 
     public void addIPLItem(String name, int iplID, Vector3D pos) {
-        Item_INST iplItem = new Item_INST(Finals.gIV);
+        Item_INST iplItem = new Item_INST(gameType);
         iplItem.name = name;
         iplItem.interior = 0;
         iplItem.lod = -1;
@@ -345,7 +345,7 @@ public class FileManager extends Thread {
             if (file.exists()) {
                 JOptionPane.showMessageDialog(null, "File already exists");
             } else {
-                IDE tempIDE = new IDE(file.getAbsolutePath(), Finals.gIV, true);
+                IDE tempIDE = new IDE(file.getAbsolutePath(), gameType, true);
                 tempIDE.changed = true;
                 IDE[] tempIDES = new IDE[ides.length + 1];
                 for (int i = 0; i < ides.length; i++) {
@@ -365,7 +365,7 @@ public class FileManager extends Thread {
             if (file.exists()) {
                 JOptionPane.showMessageDialog(null, "File already exists");
             } else {
-                IPL tempIPL = new IPL(file.getAbsolutePath(), hashTable, Finals.gIV, false);
+                IPL tempIPL = new IPL(file.getAbsolutePath(), hashTable, gameType, false);
                 tempIPL.changed = true;
                 IPL[] tempIPLS = new IPL[ipls.length + 1];
                 for (int i = 0; i < ipls.length; i++) {

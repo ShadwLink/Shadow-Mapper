@@ -14,8 +14,8 @@ import nl.shadowlink.tools.io.ByteReader;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.shadowlib.img.IMG_Item;
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.gui.FileManager;
-import nl.shadowlink.tools.shadowmapper.gui.Finals;
 
 import javax.swing.*;
 import java.awt.*;
@@ -76,7 +76,7 @@ public class Preview extends javax.swing.JFrame {
             ByteReader br = rf.getByteReader(item.getSize());
             rf.seek(item.getOffset());
             // TODO: Something changed here, what?
-            TextureDic txd = new TextureDic("", br, Finals.gIV, false, item.getSize());
+            TextureDic txd = new TextureDic("", br, GameType.GTA_IV, false, item.getSize());
             for (int i = 0; i < txd.texName.length; i++) {
                 list.addElement(txd.texName[i]);
             }

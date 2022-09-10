@@ -12,7 +12,7 @@ import java.io.File
 /**
  * @author Shadow-Link
  */
-class IMG(var fileName: String, var gameType: GameType?, key: ByteArray, autoLoad: Boolean, containsProps: Boolean) {
+class IMG(var fileName: String, var gameType: GameType, key: ByteArray, autoLoad: Boolean, containsProps: Boolean) {
 
     var items: ArrayList<IMG_Item> = ArrayList()
 
@@ -139,36 +139,30 @@ class IMG(var fileName: String, var gameType: GameType?, key: ByteArray, autoLoa
      */
     fun addItem(file: File) {
         if (file.isFile && file.canRead()) {
-            var rf: ReadFunctions? = ReadFunctions()
+            val rf = ReadFunctions(file.absolutePath)
             println("File: " + file.absolutePath)
-            if (rf!!.openFile(file.absolutePath)) {
-                var wf = WriteFunctions(fileName!!)
-                println("File size: " + file.length())
-                var newFile: ByteArray = rf.readArray(file.length().toInt())
-                val tempItem = IMG_Item()
-                tempItem.name = file.name
-                tempItem.type = Utils.getResourceType(file.name)
-                tempItem.offset = wf.fileSize
-                tempItem.size = file.length().toInt()
-                if (tempItem.isResource) {
-                    rf.seek(0x8)
-                    tempItem.flags = rf.readInt()
-                }
-                items.add(tempItem)
-                wf.gotoEnd()
-                wf.write(newFile)
-                if (wf.closeFile()) {
-                    println("Closed file")
-                } else {
-                    println("Unable to close the file")
-                }
-                isChanged = true
-                rf.closeFile()
-                rf = null
-            } else {
-                // JOptionPane.show//MessageDialog(this, "Unable to open " +
-                // file.getName() + " for reading!");
+            val wf = WriteFunctions(fileName)
+            println("File size: " + file.length())
+            val newFile: ByteArray = rf.readArray(file.length().toInt())
+            val tempItem = IMG_Item()
+            tempItem.name = file.name
+            tempItem.type = Utils.getResourceType(file.name)
+            tempItem.offset = wf.fileSize
+            tempItem.size = file.length().toInt()
+            if (tempItem.isResource) {
+                rf.seek(0x8)
+                tempItem.flags = rf.readInt()
             }
+            items.add(tempItem)
+            wf.gotoEnd()
+            wf.write(newFile)
+            if (wf.closeFile()) {
+                println("Closed file")
+            } else {
+                println("Unable to close the file")
+            }
+            isChanged = true
+            rf.closeFile()
         }
     }
 

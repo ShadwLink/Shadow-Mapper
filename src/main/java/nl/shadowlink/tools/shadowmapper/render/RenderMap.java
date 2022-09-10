@@ -10,6 +10,7 @@ import nl.shadowlink.tools.shadowlib.img.IMG_Item;
 import nl.shadowlink.tools.shadowlib.ipl.Item_INST;
 import nl.shadowlink.tools.shadowlib.model.model.Model;
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.gui.FileManager;
 import nl.shadowlink.tools.shadowmapper.gui.Finals;
 
@@ -30,12 +31,13 @@ public class RenderMap {
     public boolean loading = false;
     public boolean added = false;
 
-    private int gameType = 3;
+    private final GameType gameType;
 
     public Item_OBJS tempIDE = null;
     public Item_INST tempIPL = null;
 
-    public RenderMap() {
+    public RenderMap(GameType gameType) {
+        this.gameType = gameType;
     }
 
     private void loadMap(GL2 gl) {

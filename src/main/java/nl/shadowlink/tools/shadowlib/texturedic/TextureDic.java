@@ -3,20 +3,19 @@ package nl.shadowlink.tools.shadowlib.texturedic;
 import nl.shadowlink.tools.io.ByteReader;
 import nl.shadowlink.tools.io.WriteBuffer;
 import nl.shadowlink.tools.io.WriteFunctions;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowlib.utils.Utils;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher;
 
 import java.util.ArrayList;
 import java.util.zip.Deflater;
 
-import static nl.shadowlink.tools.shadowmapper.gui.Finals.gIV;
-
 /**
  * @author Shadow-Link
  */
 public class TextureDic {
     private String fileName;
-    private int gameType;
+    private GameType gameType;
 
     public int[] textureId;
     public String[] texName;
@@ -30,7 +29,7 @@ public class TextureDic {
     public int fileSize = -1;
     private boolean compressed = true;
 
-    public TextureDic(String fileName, ByteReader br, int gameType, int fileSize) {
+    public TextureDic(String fileName, ByteReader br, GameType gameType, int fileSize) {
         this.fileName = fileName;
         this.gameType = gameType;
         this.br = br;
@@ -38,13 +37,13 @@ public class TextureDic {
         loadTextureDic();
     }
 
-    public TextureDic(String fileName) {
+    public TextureDic(String fileName, GameType gameType) {
         this.fileName = fileName;
-        gameType = 2;
+        this.gameType = gameType;
         loadTextureDic();
     }
 
-    public TextureDic(String fileName, ByteReader br, int gameType, boolean compressed, int sysSize) {
+    public TextureDic(String fileName, ByteReader br, GameType gameType, boolean compressed, int sysSize) {
         this.fileName = fileName;
         this.gameType = gameType;
         this.br = br;
@@ -55,7 +54,7 @@ public class TextureDic {
 
     private boolean loadTextureDic() {
         switch (gameType) {
-            case gIV:
+            case GTA_IV:
                 if (compressed)
                     textureId = new TextureDic_IV().loadTextureDic(this, compressed, 0);
                 else

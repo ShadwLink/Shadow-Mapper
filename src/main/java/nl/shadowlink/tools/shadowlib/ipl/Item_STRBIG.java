@@ -1,23 +1,23 @@
 package nl.shadowlink.tools.shadowlib.ipl;
 
-import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.Vector3D;
 import nl.shadowlink.tools.io.Vector4D;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 
 /**
  * @author Shadow-Link
  */
 public class Item_STRBIG extends IPL_Item {
-    private int gameType;
+    private GameType gameType;
 
     public String modelName;
     public int unk1, unk2, unk3;
     public Vector3D pos;
     public Vector4D rot;
 
-    Item_STRBIG(int gameType) {
+    Item_STRBIG(GameType gameType) {
         this.gameType = gameType;
     }
 

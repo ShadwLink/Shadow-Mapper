@@ -10,23 +10,17 @@ package nl.shadowlink.tools.shadowmapper.gui;
 
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
-import com.nikhaldimann.inieditor.IniEditor;
-import nl.shadowlink.tools.shadowlib.ide.IDE;
 import nl.shadowlink.tools.shadowlib.utils.Filter;
 import nl.shadowlink.tools.shadowlib.utils.Utils;
 import nl.shadowlink.tools.shadowmapper.checklist.CheckListManager;
 import nl.shadowlink.tools.shadowmapper.gui.about.About;
 import nl.shadowlink.tools.shadowmapper.render.GlListener;
-import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static java.awt.Toolkit.getDefaultToolkit;
 
@@ -785,11 +779,6 @@ public class MainForm extends javax.swing.JFrame {
 
         jButton7.setText("Convert IDE");
         jButton7.setEnabled(false);
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
 
         jButton8.setText("Print WPL");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -1316,12 +1305,6 @@ public class MainForm extends javax.swing.JFrame {
 //        }
 //        place.save();
     }// GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton7ActionPerformed
-        IDE ide = new IDE("E:/zuid.IDE", Finals.gSA, true);
-        ide.setGameType(Finals.gIV);
-        ide.save();
-    }// GEN-LAST:event_jButton7ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jMenuItem4ActionPerformed
         new SaveScreen(fm, false);

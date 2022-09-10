@@ -15,6 +15,7 @@ import nl.shadowlink.tools.io.Vector4D;
 import nl.shadowlink.tools.shadowlib.ide.Item_OBJS;
 import nl.shadowlink.tools.shadowlib.img.IMG_Item;
 import nl.shadowlink.tools.shadowlib.model.model.Model;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 
 /**
  * @author Shadow-Link
@@ -227,7 +228,7 @@ public class IDEForm extends javax.swing.JFrame {
             saveIDEItem();
             fm.ides[ideID].changed = true;
         } else if (mode == 2) {
-            Item_OBJS tmpItem = new Item_OBJS(Finals.gIV);
+            Item_OBJS tmpItem = new Item_OBJS(GameType.GTA_IV);
             itemID = fm.addIDEItem(tmpItem, ideID);
             saveIDEItem();
         }

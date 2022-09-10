@@ -2,7 +2,7 @@ package nl.shadowlink.tools.shadowlib.ide;
 
 import nl.shadowlink.tools.io.Vector3D;
 import nl.shadowlink.tools.io.Vector4D;
-import nl.shadowlink.tools.shadowlib.utils.Constants;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -27,9 +27,9 @@ public class Item_OBJS extends IDE_Item {
     ; // IV
     public String WDD; // IV
 
-    private int gameType;
+    private GameType gameType;
 
-    public Item_OBJS(int gameType) {
+    public Item_OBJS(GameType gameType) {
         this.gameType = gameType;
     }
 
@@ -38,11 +38,11 @@ public class Item_OBJS extends IDE_Item {
         line = line.replace(" ", "");
         String split[] = line.split(",");
         switch (gameType) {
-            case Constants.gIV:
+            case GTA_IV:
                 modelName = split[0];
                 textureName = split[1];
                 drawDistance = new float[1];
-                if(split.length > 4) {
+                if (split.length > 4) {
                     drawDistance[0] = Float.valueOf(split[2]);
                     flag1 = Integer.valueOf(split[3]);
                     flag2 = Integer.valueOf(split[4]);
@@ -52,7 +52,7 @@ public class Item_OBJS extends IDE_Item {
                     WDD = split[15];
                 }
                 break;
-            case Constants.gSA:
+            case GTA_SA:
                 id = Integer.valueOf(split[0]);
                 modelName = split[1];
                 textureName = split[2];

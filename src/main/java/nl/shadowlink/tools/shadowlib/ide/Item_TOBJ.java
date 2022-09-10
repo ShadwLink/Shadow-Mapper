@@ -2,6 +2,7 @@ package nl.shadowlink.tools.shadowlib.ide;
 
 import nl.shadowlink.tools.io.Vector3D;
 import nl.shadowlink.tools.io.Vector4D;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.logging.Logger;
  * @author Shadow-Link
  */
 public class Item_TOBJ extends IDE_Item {
-    private int gameType;
+    private GameType gameType;
     public String modelName; // III, VC, SA, IV
     public String textureName; // III, VC, SA, IV
     public int objectCount; // III, VC, SA
@@ -25,7 +26,7 @@ public class Item_TOBJ extends IDE_Item {
     public String WDD; // IV
     public int timedFlags; // ?
 
-    public Item_TOBJ(int gameType) {
+    public Item_TOBJ(GameType gameType) {
         this.gameType = gameType;
     }
 

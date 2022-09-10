@@ -3,7 +3,7 @@ package nl.shadowlink.tools.shadowlib.ipl;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.shadowlib.img.IMG;
 import nl.shadowlink.tools.shadowlib.img.IMG_Item;
-import nl.shadowlink.tools.shadowlib.utils.Constants;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class IPL {
     public ReadFunctions rf = null;
     private String fileName = "";
-    private int gameType;
+    private GameType gameType;
     public boolean changed = false; // True when the file needs to be saved
 
     public boolean loaded = false;
@@ -46,7 +46,7 @@ public class IPL {
 
     private String printName;
 
-    public IPL(String fileName, HashTable hashTable, int gameType, boolean autoLoad) {
+    public IPL(String fileName, HashTable hashTable, GameType gameType, boolean autoLoad) {
         this.fileName = fileName;
         this.gameType = gameType;
         System.out.println("Started loading: " + this.fileName);
@@ -54,7 +54,7 @@ public class IPL {
             loadPlacement(hashTable);
     }
 
-    public IPL(ReadFunctions rf, HashTable hashTable, int gameType, boolean autoLoad, IMG img, IMG_Item imgItem, String printName) {
+    public IPL(ReadFunctions rf, HashTable hashTable, GameType gameType, boolean autoLoad, IMG img, IMG_Item imgItem, String printName) {
         this.gameType = gameType;
         this.rf = rf;
         this.img = img;
@@ -66,7 +66,7 @@ public class IPL {
 
     private boolean loadPlacement(HashTable hashTable) {
         switch (gameType) {
-            case Constants.gIV:
+            case GTA_IV:
                 if (fileName.contains("common"))
                     new IPL_III_ERA().loadPlacement(this);
                 else
@@ -86,17 +86,17 @@ public class IPL {
         this.fileName = fileName;
     }
 
-    public int getGameType() {
+    public GameType getGameType() {
         return gameType;
     }
 
-    public void setGameType(int gameType) {
+    public void setGameType(GameType gameType) {
         this.gameType = gameType;
     }
 
     public void save(HashTable hashTable) {
         switch (gameType) {
-            case Constants.gIV:
+            case GTA_IV:
                 if (fileName.contains("common"))
                     new IPL_III_ERA().save(this);
                 else

@@ -1,16 +1,16 @@
 package nl.shadowlink.tools.shadowlib.ipl;
 
-import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.Vector3D;
 import nl.shadowlink.tools.io.WriteFunctions;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 
 /**
  * @author Shadow-Link
  */
 public class Item_GRGE extends IPL_Item {
-    private int gameType;
+    private GameType gameType;
 
     public Vector3D lowLeftPos;
     public float lineX, lineY;
@@ -21,7 +21,7 @@ public class Item_GRGE extends IPL_Item {
     public String name;
     public int unknown;
 
-    Item_GRGE(int gameType) {
+    Item_GRGE(GameType gameType) {
         this.gameType = gameType;
     }
 

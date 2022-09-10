@@ -11,8 +11,7 @@ class IMG_III {
     fun loadImg(image: IMG) {
         val items = ArrayList<IMG_Item>()
 
-        val rf = ReadFunctions()
-        rf.openFile(image.fileName.replace(".img", ".dir"))
+        val rf = ReadFunctions(image.fileName.replace(".img", ".dir"))
 
         var itemCount = 0
 

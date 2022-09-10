@@ -1,9 +1,6 @@
-
-
 package nl.shadowlink.tools.shadowmapper.gui;
 
 /**
- *
  * @author Shadow-Link
  */
 public class Finals {
@@ -34,12 +31,6 @@ public class Finals {
     public static final int rtWPL = 1919251285;
     public static final int rtWAD = 1;
     public static final int rtCUT = 1162696003;
-
-    //Game versions
-    public static final int gIII = 0;
-    public static final int gVC = 1;
-    public static final int gSA = 2;
-    public static final int gIV = 3;
 
     //Placement
     public static final int pINST = 0;

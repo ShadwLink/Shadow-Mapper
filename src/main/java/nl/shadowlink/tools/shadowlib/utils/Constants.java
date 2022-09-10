@@ -32,16 +32,6 @@ public class Constants {
     public static final int rtWAD = 1;
     public static final int rtCUT = 1162696003;
 
-    // Game versions
-    @Deprecated
-    public static final int gIII = 0;
-    @Deprecated
-    public static final int gVC = 1;
-    @Deprecated
-    public static final int gSA = 2;
-    @Deprecated
-    public static final int gIV = 3;
-
     // Placement
     public static final int pINST = 0;
     public static final int pCULL = 1;

@@ -1,8 +1,7 @@
-
-
 package nl.shadowlink.tools.shadowlib.ide;
 
 
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -10,15 +9,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author Shadow-Link
  */
-public class Item_TXDP extends IDE_Item{
-    private int gameType;
+public class Item_TXDP extends IDE_Item {
+    private GameType gameType;
     public String texDic;
     public String texDicParent;
 
-    public Item_TXDP(int gameType) {
+    public Item_TXDP(GameType gameType) {
         this.gameType = gameType;
     }
 
@@ -30,7 +28,7 @@ public class Item_TXDP extends IDE_Item{
         texDicParent = split[1];
     }
 
-    public void save(BufferedWriter output){
+    public void save(BufferedWriter output) {
         try {
             String line = texDic;
             line += ", " + texDicParent;

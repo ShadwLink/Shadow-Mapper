@@ -1,5 +1,7 @@
 package nl.shadowlink.tools.shadowlib.water;
 
+import nl.shadowlink.tools.shadowlib.utils.GameType;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,14 +14,14 @@ import java.util.logging.Logger;
  */
 public class Water {
     public String fileName;
-    public int gameType;
+    public GameType gameType;
 
     public ArrayList<WaterPlane> planes = new ArrayList();
 
     private FileReader fileReader;
     private BufferedReader input;
 
-    public Water(String fileName, int gameType) {
+    public Water(String fileName, GameType gameType) {
         this.fileName = fileName;
         this.gameType = gameType;
         read();

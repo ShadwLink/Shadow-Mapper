@@ -17,6 +17,7 @@ import nl.shadowlink.tools.shadowlib.model.model.Model;
 import nl.shadowlink.tools.shadowlib.model.wdr.DrawableModel;
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
 import nl.shadowlink.tools.shadowlib.utils.Filter;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowlib.utils.Utils;
 import nl.shadowlink.tools.shadowmapper.preview.Preview;
 
@@ -527,7 +528,7 @@ public class Browser extends javax.swing.JFrame {
                     fm.imgs[listIMG.getSelectedIndex()].addItem(mdl, file.getName());
                     mdl = null;
                 } else if (file.getName().endsWith(".txd") || file.getName().endsWith(".TXD")) {
-                    TextureDic txd = new TextureDic(file.getAbsolutePath());
+                    TextureDic txd = new TextureDic(file.getAbsolutePath(), GameType.GTA_IV);
                     System.out.println("Started txd conversion");
                     fm.imgs[listIMG.getSelectedIndex()].addItem(txd, file.getName());
                     txd = null;

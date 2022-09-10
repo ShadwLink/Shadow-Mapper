@@ -5,8 +5,8 @@ import com.jogamp.opengl.glu.GLU;
 import nl.shadowlink.tools.io.ByteReader;
 import nl.shadowlink.tools.shadowlib.model.model.Model;
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.gui.FileManager;
-import nl.shadowlink.tools.shadowmapper.gui.Finals;
 
 import javax.swing.*;
 import java.awt.*;
@@ -128,7 +128,7 @@ public class glListener implements GLEventListener {
                 mdl.loadWDD(br, size, null);
                 break;
             case 3:
-                txd = new TextureDic("", br, Finals.gIV, size);
+                txd = new TextureDic("", br, GameType.GTA_IV, size);
                 break;
             case 4:
                 // wbd = new WBDFile(br);
