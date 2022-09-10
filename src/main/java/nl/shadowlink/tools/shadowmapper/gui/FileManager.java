@@ -374,13 +374,13 @@ public class FileManager extends Thread {
     public void setSelection(int selType, int selParam1, int selParam2) {
         if (this.selType != -1) {
             switch (this.selType) {
-                case Finals.pickMap:
+                case PickingType.map:
                     ipls[this.selParam1].items_inst.get(this.selParam2).selected = false;
                     break;
-                case Finals.pickWater:
+                case PickingType.water:
                     waters[0].planes.get(this.selParam1).selected = false;
                     break;
-                case Finals.pickCar:
+                case PickingType.car:
                     ipls[this.selParam1].items_cars.get(this.selParam2).selected = false;
                     break;
                 default:
@@ -395,13 +395,13 @@ public class FileManager extends Thread {
         this.selParam2 = selParam2;
         if (this.selType != -1) {
             switch (selType) {
-                case Finals.pickMap:
+                case PickingType.map:
                     ipls[selParam1].items_inst.get(selParam2).selected = true;
                     break;
-                case Finals.pickWater:
+                case PickingType.water:
                     waters[0].planes.get(selParam1).selected = true;
                     break;
-                case Finals.pickCar:
+                case PickingType.car:
                     ipls[selParam1].items_cars.get(selParam2).selected = true;
                     break;
                 default:

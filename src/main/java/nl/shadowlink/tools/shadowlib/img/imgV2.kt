@@ -20,17 +20,12 @@ class imgV2 {
         // Message.displayMsgHigh("Item Count: " + itemCount);
 
         for (curItem in 0 until itemCount) {
-            val item = ImgItem()
             val itemOffset = rf.readInt() * 2048
             val itemSize = rf.readInt() * 2048
             val itemName = rf.readNullTerminatedString(24)
             val itemType = Utils.getFileType(itemName)
-            // Message.displayMsgHigh("Offset: " + Utils.getHexString(itemOffset));
-            // Message.displayMsgHigh("Size: " + itemSize + " bytes");
-            // Message.displayMsgHigh("Name: " + itemName);
-            // Message.displayMsgHigh("Type: " + itemType);
+            val item = ImgItem(itemName)
             item.offset = itemOffset
-            item.name = itemName
             item.size = itemSize
             item.type = itemType
             items.add(item)
@@ -38,7 +33,4 @@ class imgV2 {
 
         image.items = items
     }
-
-    /* private void updateCounter(int itemType){ switch(itemType){ case 0: //modelCount++; break; } } */
-
 }

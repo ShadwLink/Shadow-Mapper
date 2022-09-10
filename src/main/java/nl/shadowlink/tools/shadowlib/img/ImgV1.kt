@@ -15,13 +15,12 @@ class ImgV1 {
 
 
         while (rf.moreToRead() != 0) {
-            val item = ImgItem()
             val itemOffset = rf.readInt() * 2048
             val itemSize = rf.readInt() * 2048
             val itemName = rf.readNullTerminatedString(24)
             val itemType = Utils.getFileType(itemName)
+            val item = ImgItem(itemName)
             item.offset = itemOffset
-            item.name = itemName
             item.size = itemSize
             item.type = itemType
             items.add(item)

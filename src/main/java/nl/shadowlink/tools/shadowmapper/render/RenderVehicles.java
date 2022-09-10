@@ -6,7 +6,7 @@ import nl.shadowlink.tools.shadowlib.model.model.Model;
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
 import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.gui.FileManager;
-import nl.shadowlink.tools.shadowmapper.gui.Finals;
+import nl.shadowlink.tools.shadowmapper.gui.PickingType;
 
 /**
  * @author Shadow-Link
@@ -51,7 +51,7 @@ public class RenderVehicles {
 
     public void display(GL2 gl) {
         if (fm != null) {
-            gl.glPushName(Finals.pickCar);
+            gl.glPushName(PickingType.car);
             for (int i = 0; i < fm.ipls.length; i++) {
                 gl.glPushName(i);
                 if (fm.ipls[i].selected) {

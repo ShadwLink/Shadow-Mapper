@@ -9,10 +9,12 @@
 package nl.shadowlink.tools.shadowmapper.gui;
 
 import com.jogamp.opengl.awt.GLCanvas;
+import kotlin.Unit;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.Vector3D;
 import nl.shadowlink.tools.io.Vector4D;
 import nl.shadowlink.tools.shadowlib.ide.Item_OBJS;
+import nl.shadowlink.tools.shadowlib.img.Img;
 import nl.shadowlink.tools.shadowlib.img.ImgItem;
 import nl.shadowlink.tools.shadowlib.model.model.Model;
 import nl.shadowlink.tools.shadowlib.utils.GameType;
@@ -249,11 +251,10 @@ public class IDEForm extends javax.swing.JFrame {
         fm.ides[ideID].items_objs.get(itemID).boundsSphere = boundsSphere;
     }
 
-    public void setModel(String model, int imgID, int itemID) {
-        textModel.setText(model);
+    private void setModel(ImgItem imgItem, Img img) {//}, String model, int imgID, int itemID) {
+        textModel.setText(imgItem.getNameWithoutExtension());
 
-        ImgItem imgItem = fm.imgs[imgID].getItems().get(itemID);
-        ReadFunctions rf = new ReadFunctions(fm.imgs[imgID].getFileName());
+        ReadFunctions rf = new ReadFunctions(img.getFileName());
         rf.seek(imgItem.getOffset());
         Model tmpMdl = new Model();
         tmpMdl.loadWDRSystem(rf.getByteReader(imgItem.getSize()), imgItem.getSize());
@@ -266,10 +267,9 @@ public class IDEForm extends javax.swing.JFrame {
         labelBoundsMax.setText("Bounds Max: " + boundsMax);
         labelSphere.setText("Bounds Sphere: " + boundsSphere);
         tmpMdl.reset();
-        tmpMdl = null;
     }
 
-    public void setTexture(String texture) {
+    private void setTexture(String texture) {
         textText.setText(texture);
     }
 
@@ -278,11 +278,17 @@ public class IDEForm extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCancelActionPerformed
 
     private void buttonModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonModelActionPerformed
-        new Browser(fm, this, true, true);
+        new Browser(fm, (imgItem, img) -> {
+            setModel(imgItem, img);
+            return Unit.INSTANCE;
+        }, true);
     }//GEN-LAST:event_buttonModelActionPerformed
 
     private void buttonTextureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTextureActionPerformed
-        new Browser(fm, this, false, false);
+        new Browser(fm, (imgItem, img) -> {
+            setTexture(imgItem.getNameWithoutExtension());
+            return Unit.INSTANCE;
+        }, false);
     }//GEN-LAST:event_buttonTextureActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

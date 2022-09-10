@@ -178,11 +178,11 @@ public class Utils {
     }
 
     public static int getSystemMemSize(int Flags) {
-        return (int) (Flags & 0x7FF) << (int) (((Flags >> 11) & 0xF) + 8);
+        return (Flags & 0x7FF) << (((Flags >> 11) & 0xF) + 8);
     }
 
     public static int getGraphicsMemSize(int Flags) {
-        return (int) ((Flags >> 15) & 0x7FF) << (int) (((Flags >> 26) & 0xF) + 8);
+        return ((Flags >> 15) & 0x7FF) << (((Flags >> 26) & 0xF) + 8);
     }
 
 }

@@ -5,8 +5,8 @@ import com.jogamp.opengl.*;
 import com.jogamp.opengl.glu.GLU;
 import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.gui.FileManager;
-import nl.shadowlink.tools.shadowmapper.gui.Finals;
 import nl.shadowlink.tools.shadowmapper.gui.MainForm;
+import nl.shadowlink.tools.shadowmapper.gui.PickingType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -205,7 +205,7 @@ public class GlListener implements GLEventListener {
                 ptr++;
                 System.out.println("PickType: " + pickType);
                 switch (pickType) {
-                    case Finals.pickMap:
+                    case PickingType.map:
                         param2 = buffer[ptr];
                         ptr++;
                         param3 = buffer[ptr];
@@ -213,12 +213,12 @@ public class GlListener implements GLEventListener {
                         System.out.println("IPL: " + param2);
                         System.out.println("Item: " + param3);
                         break;
-                    case Finals.pickWater:
+                    case PickingType.water:
                         param2 = buffer[ptr];
                         ptr++;
                         System.out.println("Plane: " + param2);
                         break;
-                    case Finals.pickCar:
+                    case PickingType.car:
                         param2 = buffer[ptr];
                         ptr++;
                         param3 = buffer[ptr];

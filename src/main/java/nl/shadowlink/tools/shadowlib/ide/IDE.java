@@ -128,7 +128,7 @@ public class IDE {
                                     items_txdp.add((Item_TXDP) item);
                                     break;
                                 case Constants.iWEAP:
-                                    item = new Item_WEAP(gameType);
+                                    item = new WeapIdeItem(gameType);
                                     break;
                                 default:
                                     //Message.displayMsgHigh("Unknown item " + line);

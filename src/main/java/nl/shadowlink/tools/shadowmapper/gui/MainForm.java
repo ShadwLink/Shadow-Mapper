@@ -1102,7 +1102,7 @@ public class MainForm extends javax.swing.JFrame {
     private void gLCanvas1KeyPressed(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_gLCanvas1KeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
             switch (fm.selType) {
-                case Finals.pickMap:
+                case PickingType.map:
                     if (fm.selParam1 != -1 && fm.selParam2 != -1) {
                         fm.ipls[fm.selParam1].items_inst.remove(fm.selParam2);
                         fm.ipls[fm.selParam1].changed = true;
@@ -1141,7 +1141,7 @@ public class MainForm extends javax.swing.JFrame {
 
     private void spinnerPosXStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerPosXStateChanged
         switch (fm.selType) {
-            case Finals.pickMap:
+            case PickingType.map:
                 fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).position.x = (Float) spinnerPosX.getValue();
                 fm.ipls[fm.selParam1].changed = true;
                 break;
@@ -1150,7 +1150,7 @@ public class MainForm extends javax.swing.JFrame {
 
     private void spinnerPosYStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerPosYStateChanged
         switch (fm.selType) {
-            case Finals.pickMap:
+            case PickingType.map:
                 fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).position.y = (Float) spinnerPosY.getValue();
                 fm.ipls[fm.selParam1].changed = true;
                 break;
@@ -1159,7 +1159,7 @@ public class MainForm extends javax.swing.JFrame {
 
     private void spinnerPosZStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerPosZStateChanged
         switch (fm.selType) {
-            case Finals.pickMap:
+            case PickingType.map:
                 fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).position.z = (Float) spinnerPosZ.getValue();
                 fm.ipls[fm.selParam1].changed = true;
                 break;
@@ -1228,10 +1228,10 @@ public class MainForm extends javax.swing.JFrame {
         if (evt.getClickCount() == 2) {
             switch (comboIPLType.getSelectedIndex()) {
                 case 0:
-                    fm.setSelection(Finals.pickMap, listIPL.getSelectedIndex(), listIPLItems.getSelectedIndex());
+                    fm.setSelection(PickingType.map, listIPL.getSelectedIndex(), listIPLItems.getSelectedIndex());
                     break;
                 case 2:
-                    fm.setSelection(Finals.pickCar, listIPL.getSelectedIndex(), listIPLItems.getSelectedIndex());
+                    fm.setSelection(PickingType.car, listIPL.getSelectedIndex(), listIPLItems.getSelectedIndex());
                     break;
             }
             selectionChanged();
@@ -1327,7 +1327,7 @@ public class MainForm extends javax.swing.JFrame {
 
     private void spinnerRotXStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerRotXStateChanged
         switch (fm.selType) {
-            case Finals.pickMap:
+            case PickingType.map:
                 fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.x = (Float) spinnerRotX.getValue();
                 fm.ipls[fm.selParam1].changed = true;
                 break;
@@ -1336,7 +1336,7 @@ public class MainForm extends javax.swing.JFrame {
 
     private void spinnerRotYStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerRotYStateChanged
         switch (fm.selType) {
-            case Finals.pickMap:
+            case PickingType.map:
                 fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.y = (Float) spinnerRotY.getValue();
                 fm.ipls[fm.selParam1].changed = true;
                 break;
@@ -1345,7 +1345,7 @@ public class MainForm extends javax.swing.JFrame {
 
     private void spinnerRotZStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerRotZStateChanged
         switch (fm.selType) {
-            case Finals.pickMap:
+            case PickingType.map:
                 fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.z = (Float) spinnerRotZ.getValue();
                 fm.ipls[fm.selParam1].changed = true;
                 break;
@@ -1368,7 +1368,7 @@ public class MainForm extends javax.swing.JFrame {
 
     public void selectionChanged() {
         switch (fm.selType) {
-            case Finals.pickMap:
+            case PickingType.map:
                 textModelName.setText(fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).name);
                 spinnerPosX.setValue(fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).position.x);
                 spinnerPosY.setValue(fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).position.y);
@@ -1379,10 +1379,10 @@ public class MainForm extends javax.swing.JFrame {
                 listIPL.setSelectedIndex(fm.selParam1);
                 listIPLItems.setSelectedIndex(fm.selParam2);
                 break;
-            case Finals.pickWater:
+            case PickingType.water:
                 textModelName.setText("Water");
                 break;
-            case Finals.pickCar:
+            case PickingType.car:
                 textModelName.setText(fm.ipls[fm.selParam1].items_cars.get(fm.selParam2).name);
                 spinnerPosX.setValue(fm.ipls[fm.selParam1].items_cars.get(fm.selParam2).position.x);
                 spinnerPosY.setValue(fm.ipls[fm.selParam1].items_cars.get(fm.selParam2).position.y);

@@ -4,7 +4,7 @@ import com.jogamp.opengl.GL2;
 import nl.shadowlink.tools.io.Vector3D;
 import nl.shadowlink.tools.shadowlib.water.WaterPlane;
 import nl.shadowlink.tools.shadowmapper.gui.FileManager;
-import nl.shadowlink.tools.shadowmapper.gui.Finals;
+import nl.shadowlink.tools.shadowmapper.gui.PickingType;
 
 /**
  * @author Shadow-Link
@@ -22,13 +22,13 @@ public class RenderWater {
 
     public void display(GL2 gl) {
         if (fm != null && waterTex != null) {
-            gl.glBindTexture(GL2.GL_TEXTURE_2D, waterTex[0]);
+            //gl.glBindTexture(GL2.GL_TEXTURE_2D, waterTex[0]);
             drawWater(gl);
         }
     }
 
     public void drawWater(GL2 gl) {
-        gl.glPushName(Finals.pickWater);
+        gl.glPushName(PickingType.water);
         gl.glBegin(GL2.GL_QUADS);
 
         for (int i = 0; i < fm.waters[0].planes.size(); i++) {

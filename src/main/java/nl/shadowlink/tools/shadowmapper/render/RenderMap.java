@@ -12,7 +12,7 @@ import nl.shadowlink.tools.shadowlib.model.model.Model;
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
 import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.gui.FileManager;
-import nl.shadowlink.tools.shadowmapper.gui.Finals;
+import nl.shadowlink.tools.shadowmapper.gui.PickingType;
 
 import java.util.ArrayList;
 
@@ -265,7 +265,7 @@ public class RenderMap {
             // TODO: Make this a bit nicer
             if (fm.ipls == null) return;
 
-            gl.glPushName(Finals.pickMap);
+            gl.glPushName(PickingType.map);
             for (int j = 0; j < fm.ipls.length; j++) {
                 if (fm.ipls[j].selected && fm.ipls[j].itemsLoaded) {
                     gl.glPushName(j);

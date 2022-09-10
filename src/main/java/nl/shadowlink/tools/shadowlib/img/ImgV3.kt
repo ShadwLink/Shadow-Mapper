@@ -140,12 +140,12 @@ class ImgV3 {
 
         // read table
         for (curItem in 0 until itemCount) {
-            val item = ImgItem()
             var itemSize = rf.readInt() // or flags
             val itemType = rf.readInt()
             val itemOffset = rf.readInt() * 0x800
             val usedBlocks = rf.readShort()
             val padding = rf.readShort() and 0x7FF
+            val item = ImgItem("")
             if (itemType <= 0x6E) {
                 item.flags = itemSize
                 itemSize = Utils.getTotalMemSize(itemSize)
@@ -188,7 +188,7 @@ class ImgV3 {
         for (i in 0 until itemCount) {
             data = decrypt16byteBlock(test, key) // decrypt all table items
             br = ByteReader(data, 0)
-            val item = ImgItem()
+            val item = ImgItem("")
             itemSize = br.readUInt32() // or flags
             val itemType = br.readUInt32()
             val itemOffset = br.readUInt32() * 2048

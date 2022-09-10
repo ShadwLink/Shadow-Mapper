@@ -3,7 +3,12 @@ package nl.shadowlink.tools.shadowlib.img
 /**
  * @author Shadow-Link
  */
-class ImgItem {
+class ImgItem(
+    var name: String
+) {
+
+    val nameWithoutExtension: String
+        get() = name.substringBefore(".")
 
     var type: Int = 0
         set(type) {
@@ -15,7 +20,6 @@ class ImgItem {
 
     var offset: Int = 0
     var size: Int = 0
-    var name: String? = null
 
     var isResource = false
     var flags = 0

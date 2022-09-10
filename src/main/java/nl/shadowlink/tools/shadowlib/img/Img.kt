@@ -46,6 +46,9 @@ class Img(var fileName: String, var gameType: GameType, key: ByteArray, autoLoad
     val wftCount: Int
         get() = getItemOfTypeCount("wft")
 
+    val totalItemCount: Int
+        get() = items.count()
+
     init {
         this.key = key
         this.containsProps = containsProps
@@ -93,8 +96,7 @@ class Img(var fileName: String, var gameType: GameType, key: ByteArray, autoLoad
         val wf = WriteFunctions(fileName!!)
         name = name.toLowerCase()
         name = name.replace(".dff".toRegex(), ".wdr")
-        val tempItem = ImgItem()
-        tempItem.name = name
+        val tempItem = ImgItem(name)
         tempItem.type = Constants.rtWDR
         tempItem.offset = wf.fileSize
         wf.gotoEnd()
@@ -116,8 +118,7 @@ class Img(var fileName: String, var gameType: GameType, key: ByteArray, autoLoad
         val wf = WriteFunctions(fileName!!)
         name = name.toLowerCase()
         name = name.replace(".txd".toRegex(), ".wtd")
-        val tempItem = ImgItem()
-        tempItem.name = name
+        val tempItem = ImgItem(name)
         tempItem.type = Constants.rtWTD
         tempItem.offset = wf.fileSize
         wf.gotoEnd()
@@ -144,8 +145,7 @@ class Img(var fileName: String, var gameType: GameType, key: ByteArray, autoLoad
             val wf = WriteFunctions(fileName)
             println("File size: " + file.length())
             val newFile: ByteArray = rf.readArray(file.length().toInt())
-            val tempItem = ImgItem()
-            tempItem.name = file.name
+            val tempItem = ImgItem(file.name)
             tempItem.type = Utils.getResourceType(file.name)
             tempItem.offset = wf.fileSize
             tempItem.size = file.length().toInt()
