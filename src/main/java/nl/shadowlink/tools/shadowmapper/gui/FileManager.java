@@ -217,8 +217,8 @@ public class FileManager extends Thread {
         }
     }
 
-    public DefaultListModel getSaveModel() {
-        DefaultListModel saveModel = new DefaultListModel();
+    public DefaultListModel<String> getSaveModel() {
+        DefaultListModel<String> saveModel = new DefaultListModel<>();
 
         if (gtaDat.changed) saveModel.addElement("gta.dat");
 
