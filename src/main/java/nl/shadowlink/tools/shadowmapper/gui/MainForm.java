@@ -16,9 +16,11 @@ import nl.shadowlink.tools.shadowmapper.checklist.CheckListManager;
 import nl.shadowlink.tools.shadowmapper.gui.about.About;
 import nl.shadowlink.tools.shadowmapper.render.GlListener;
 
+import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.Set;
@@ -69,83 +71,84 @@ public class MainForm extends javax.swing.JFrame {
     // desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup1 = new ButtonGroup();
         gLCanvas1 = new GLCanvas();
-        listIDE = new javax.swing.JTabbedPane();
-        panelRender = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listScene = new javax.swing.JList();
-        jPanel3 = new javax.swing.JPanel();
-        checkCars = new javax.swing.JCheckBox();
-        checkZones = new javax.swing.JCheckBox();
-        checkWater = new javax.swing.JCheckBox();
-        checkMap = new javax.swing.JCheckBox();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        panelIPL = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        listIPL = new javax.swing.JList();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        buttonNewIPLItem = new javax.swing.JButton();
-        buttonEditIPLItem = new javax.swing.JButton();
-        buttonDeleteIPLItem = new javax.swing.JButton();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        listIPLItems = new javax.swing.JList();
-        comboIPLType = new javax.swing.JComboBox();
-        panelIDE = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        buttonNewIDEItem = new javax.swing.JButton();
-        buttonDelIDEItem = new javax.swing.JButton();
-        buttonEditIDEItem = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        listIDEItems = new javax.swing.JList();
-        panelMapper = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        labelModelName = new javax.swing.JLabel();
-        labelTextureName = new javax.swing.JLabel();
-        labelLodName = new javax.swing.JLabel();
-        textTextureName = new javax.swing.JTextField();
-        textLODName = new javax.swing.JTextField();
-        textModelName = new javax.swing.JTextField();
-        buttonSelectModel = new javax.swing.JButton();
-        buttonSelectModel1 = new javax.swing.JButton();
-        buttonSelectModel2 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        labelPosition = new javax.swing.JLabel();
-        labelRotation = new javax.swing.JLabel();
-        spinnerRotX = new javax.swing.JSpinner();
-        spinnerPosX = new javax.swing.JSpinner();
-        spinnerPosY = new javax.swing.JSpinner();
-        spinnerRotY = new javax.swing.JSpinner();
-        spinnerPosZ = new javax.swing.JSpinner();
-        spinnerRotZ = new javax.swing.JSpinner();
-        jPanel4 = new javax.swing.JPanel();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        labelFPS = new javax.swing.JLabel();
-        labelCameraPosition = new javax.swing.JLabel();
-        textX = new javax.swing.JTextField();
-        textY = new javax.swing.JTextField();
-        textZ = new javax.swing.JTextField();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        jToggleButton3 = new javax.swing.JToggleButton();
-        jButton2 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        listIDE = new JTabbedPane();
+        panelRender = new JPanel();
+        jButton1 = new JButton();
+        jScrollPane1 = new JScrollPane();
+        listScene = new JList();
+        jPanel3 = new JPanel();
+        checkCars = new JCheckBox();
+        checkZones = new JCheckBox();
+        checkWater = new JCheckBox();
+        checkMap = new JCheckBox();
+        jCheckBox1 = new JCheckBox();
+        panelIPL = new JPanel();
+        jScrollPane4 = new JScrollPane();
+        listIPL = new JList();
+        jButton9 = new JButton();
+        jButton10 = new JButton();
+        buttonNewIPLItem = new JButton();
+        buttonEditIPLItem = new JButton();
+        buttonDeleteIPLItem = new JButton();
+        jScrollPane5 = new JScrollPane();
+        listIPLItems = new JList();
+        comboIPLType = new JComboBox();
+        panelIDE = new JPanel();
+        jScrollPane2 = new JScrollPane();
+        jList2 = new JList();
+        jButton3 = new JButton();
+        jButton4 = new JButton();
+        buttonNewIDEItem = new JButton();
+        buttonDelIDEItem = new JButton();
+        buttonEditIDEItem = new JButton();
+        jScrollPane3 = new JScrollPane();
+        listIDEItems = new JList();
+        panelMapper = new JPanel();
+        jPanel1 = new JPanel();
+        labelModelName = new JLabel();
+        labelTextureName = new JLabel();
+        labelLodName = new JLabel();
+        textTextureName = new JTextField();
+        textLODName = new JTextField();
+        textModelName = new JTextField();
+        buttonSelectModel = new JButton();
+        buttonSelectModel1 = new JButton();
+        buttonSelectModel2 = new JButton();
+        jPanel2 = new JPanel();
+        labelPosition = new JLabel();
+        labelRotation = new JLabel();
+        spinnerRotX = new JSpinner();
+        spinnerPosX = new JSpinner();
+        spinnerPosY = new JSpinner();
+        spinnerRotY = new JSpinner();
+        spinnerPosZ = new JSpinner();
+        spinnerRotZ = new JSpinner();
+        jPanel4 = new JPanel();
+        jButton6 = new JButton();
+        jButton7 = new JButton();
+        jButton8 = new JButton();
+        labelFPS = new JLabel();
+        labelCameraPosition = new JLabel();
+        textX = new JTextField();
+        textY = new JTextField();
+        textZ = new JTextField();
+        jToggleButton1 = new JToggleButton();
+        jToggleButton2 = new JToggleButton();
+        jToggleButton3 = new JToggleButton();
+        jButton2 = new JButton();
+        jButton5 = new JButton();
+        mainMenuBar = new JMenuBar();
+        fileMenu = new JMenu();
+        saveInstallMenuItem = new JMenuItem();
+        exitMenuItem = new JMenuItem();
+        editMenu = new JMenu();
+        resourceBrowserMenuItem = new JMenuItem();
+        hashishGenMenuItem = new JMenuItem();
+        mapCleanerMenuItem = new JMenuItem();
+        helpMenu = new JMenu();
+        aboutMenuItem = new JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Shadow Mapper");
@@ -917,56 +920,56 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        jMenu1.setText("File");
+        fileMenu.setText("File");
 
-        jMenuItem4.setText("Save install");
-        jMenuItem4.setEnabled(false);
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        saveInstallMenuItem.setText("Save install");
+        saveInstallMenuItem.setEnabled(false);
+        saveInstallMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem4);
+        fileMenu.add(saveInstallMenuItem);
 
-        jMenuItem3.setText("Exit");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        exitMenuItem.setText("Exit");
+        exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        fileMenu.add(exitMenuItem);
 
-        jMenuBar1.add(jMenu1);
+        mainMenuBar.add(fileMenu);
 
-        jMenu2.setText("Edit");
+        editMenu.setText("Edit");
 
-        jMenuItem2.setText("Resource Browser");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem2);
+        resourceBrowserMenuItem.setText("Resource Browser");
+        resourceBrowserMenuItem.addActionListener(evt -> onResourceBrowserClicked(evt));
+        editMenu.add(resourceBrowserMenuItem);
 
-        jMenuItem5.setText("Map Cleaner");
-        jMenuItem5.setEnabled(false);
-        jMenu2.add(jMenuItem5);
+        hashishGenMenuItem.setText("HashishGen");
+        hashishGenMenuItem.addActionListener(evt -> onHashishGenClicked(evt));
+        editMenu.add(hashishGenMenuItem);
 
-        jMenuBar1.add(jMenu2);
+        mapCleanerMenuItem.setText("Map Cleaner");
+        mapCleanerMenuItem.setEnabled(false);
+        editMenu.add(mapCleanerMenuItem);
 
-        jMenu3.setText("Help");
+        mainMenuBar.add(editMenu);
 
-        jMenuItem1.setText("About");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        helpMenu.setText("Help");
+
+        aboutMenuItem.setText("About");
+        aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem1);
+        helpMenu.add(aboutMenuItem);
 
-        jMenuBar1.add(jMenu3);
+        mainMenuBar.add(helpMenu);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(mainMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1201,9 +1204,13 @@ public class MainForm extends javax.swing.JFrame {
         buttonDelIDEItem.setEnabled(true);
     }// GEN-LAST:event_jList2ValueChanged
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void onResourceBrowserClicked(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jMenuItem2ActionPerformed
         Browser browser = new Browser(fm);
     }// GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void onHashishGenClicked(ActionEvent evt) {
+        new HashishGen();
+    }
 
     private void listIPLItemsMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_listIPLItemsMouseClicked
         if (evt.getClickCount() == 2) {
@@ -1378,83 +1385,84 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonDelIDEItem;
-    private javax.swing.JButton buttonDeleteIPLItem;
-    private javax.swing.JButton buttonEditIDEItem;
-    private javax.swing.JButton buttonEditIPLItem;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton buttonNewIDEItem;
-    private javax.swing.JButton buttonNewIPLItem;
-    private javax.swing.JButton buttonSelectModel;
-    private javax.swing.JButton buttonSelectModel1;
-    private javax.swing.JButton buttonSelectModel2;
-    private javax.swing.JCheckBox checkCars;
-    private javax.swing.JCheckBox checkMap;
-    private javax.swing.JCheckBox checkWater;
-    private javax.swing.JCheckBox checkZones;
-    private javax.swing.JComboBox comboIPLType;
+    private JButton buttonDelIDEItem;
+    private JButton buttonDeleteIPLItem;
+    private JButton buttonEditIDEItem;
+    private JButton buttonEditIPLItem;
+    private ButtonGroup buttonGroup1;
+    private JButton buttonNewIDEItem;
+    private JButton buttonNewIPLItem;
+    private JButton buttonSelectModel;
+    private JButton buttonSelectModel1;
+    private JButton buttonSelectModel2;
+    private JCheckBox checkCars;
+    private JCheckBox checkMap;
+    private JCheckBox checkWater;
+    private JCheckBox checkZones;
+    private JComboBox comboIPLType;
     private GLCanvas gLCanvas1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JList jList2;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JToggleButton jToggleButton3;
-    private javax.swing.JLabel labelCameraPosition;
-    private javax.swing.JLabel labelFPS;
-    private javax.swing.JLabel labelLodName;
-    private javax.swing.JLabel labelModelName;
-    private javax.swing.JLabel labelPosition;
-    private javax.swing.JLabel labelRotation;
-    private javax.swing.JLabel labelTextureName;
-    private javax.swing.JTabbedPane listIDE;
-    private javax.swing.JList listIDEItems;
-    private javax.swing.JList listIPL;
-    private javax.swing.JList listIPLItems;
-    private javax.swing.JList listScene;
-    private javax.swing.JPanel panelIDE;
-    private javax.swing.JPanel panelIPL;
-    private javax.swing.JPanel panelMapper;
-    private javax.swing.JPanel panelRender;
-    private javax.swing.JSpinner spinnerPosX;
-    private javax.swing.JSpinner spinnerPosY;
-    private javax.swing.JSpinner spinnerPosZ;
-    private javax.swing.JSpinner spinnerRotX;
-    private javax.swing.JSpinner spinnerRotY;
-    private javax.swing.JSpinner spinnerRotZ;
-    private javax.swing.JTextField textLODName;
-    private javax.swing.JTextField textModelName;
-    private javax.swing.JTextField textTextureName;
-    private javax.swing.JTextField textX;
-    private javax.swing.JTextField textY;
-    private javax.swing.JTextField textZ;
+    private JButton jButton1;
+    private JButton jButton10;
+    private JButton jButton2;
+    private JButton jButton3;
+    private JButton jButton4;
+    private JButton jButton5;
+    private JButton jButton6;
+    private JButton jButton7;
+    private JButton jButton8;
+    private JButton jButton9;
+    private JCheckBox jCheckBox1;
+    private JList jList2;
+    private JMenu fileMenu;
+    private JMenu editMenu;
+    private JMenu helpMenu;
+    private JMenuBar mainMenuBar;
+    private JMenuItem aboutMenuItem;
+    private JMenuItem resourceBrowserMenuItem;
+    private JMenuItem hashishGenMenuItem;
+    private JMenuItem exitMenuItem;
+    private JMenuItem saveInstallMenuItem;
+    private JMenuItem mapCleanerMenuItem;
+    private JPanel jPanel1;
+    private JPanel jPanel2;
+    private JPanel jPanel3;
+    private JPanel jPanel4;
+    private JScrollPane jScrollPane1;
+    private JScrollPane jScrollPane2;
+    private JScrollPane jScrollPane3;
+    private JScrollPane jScrollPane4;
+    private JScrollPane jScrollPane5;
+    private JToggleButton jToggleButton1;
+    private JToggleButton jToggleButton2;
+    private JToggleButton jToggleButton3;
+    private JLabel labelCameraPosition;
+    private JLabel labelFPS;
+    private JLabel labelLodName;
+    private JLabel labelModelName;
+    private JLabel labelPosition;
+    private JLabel labelRotation;
+    private JLabel labelTextureName;
+    private JTabbedPane listIDE;
+    private JList listIDEItems;
+    private JList listIPL;
+    private JList listIPLItems;
+    private JList listScene;
+    private JPanel panelIDE;
+    private JPanel panelIPL;
+    private JPanel panelMapper;
+    private JPanel panelRender;
+    private JSpinner spinnerPosX;
+    private JSpinner spinnerPosY;
+    private JSpinner spinnerPosZ;
+    private JSpinner spinnerRotX;
+    private JSpinner spinnerRotY;
+    private JSpinner spinnerRotZ;
+    private JTextField textLODName;
+    private JTextField textModelName;
+    private JTextField textTextureName;
+    private JTextField textX;
+    private JTextField textY;
+    private JTextField textZ;
     // End of variables declaration//GEN-END:variables
 
 }

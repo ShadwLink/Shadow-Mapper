@@ -33,6 +33,7 @@ class HashishGen : JFrame() {
      * Creates new form HashishGen
      */
     init {
+        isVisible = true
         setLookAndFeel()
         initComponents()
         centerWindow()
@@ -40,7 +41,7 @@ class HashishGen : JFrame() {
 
     private fun initComponents() {
         title = "HashishGen"
-        defaultCloseOperation = EXIT_ON_CLOSE
+        defaultCloseOperation = HIDE_ON_CLOSE
 
         val layout = GroupLayout(contentPane)
         contentPane.layout = layout
