@@ -1,9 +1,5 @@
 package nl.shadowlink.tools.shadowlib.utils;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.File;
-
 /**
  * Several usefull functions
  *
@@ -174,28 +170,6 @@ public class Utils {
             return Constants.rtWPL;
         } else {
             return -1;
-        }
-    }
-
-    public static File fileChooser(Component parent, int mode, Filter filter) {
-        JFileChooser chooser = new JFileChooser();
-        chooser.removeChoosableFileFilter(chooser.getAcceptAllFileFilter());
-        chooser.setMultiSelectionEnabled(false);
-        chooser.setFileFilter(filter);
-
-        int option;
-        if (mode == Constants.fileOpen) {
-            option = chooser.showOpenDialog(parent);
-            chooser.setDialogTitle("Import file..");
-        } else {
-            option = chooser.showSaveDialog(parent);
-            chooser.setDialogTitle("Export file..");
-        }
-
-        if (option == JFileChooser.APPROVE_OPTION) {
-            return chooser.getSelectedFile();
-        } else {
-            return null;
         }
     }
 

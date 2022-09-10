@@ -10,8 +10,8 @@ package nl.shadowlink.tools.shadowmapper.gui;
 
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
-import nl.shadowlink.tools.shadowlib.utils.Filter;
-import nl.shadowlink.tools.shadowlib.utils.Utils;
+import nl.shadowlink.tools.shadowlib.utils.filechooser.ExtensionFilter;
+import nl.shadowlink.tools.shadowlib.utils.filechooser.FileChooserUtil;
 import nl.shadowlink.tools.shadowmapper.checklist.CheckListManager;
 import nl.shadowlink.tools.shadowmapper.gui.about.About;
 import nl.shadowlink.tools.shadowmapper.render.GlListener;
@@ -21,6 +21,7 @@ import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.Set;
 
 import static java.awt.Toolkit.getDefaultToolkit;
 
@@ -771,11 +772,6 @@ public class MainForm extends javax.swing.JFrame {
 
         jButton6.setText("Convert IPL");
         jButton6.setEnabled(false);
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
 
         jButton7.setText("Convert IDE");
         jButton7.setEnabled(false);
@@ -1279,8 +1275,7 @@ public class MainForm extends javax.swing.JFrame {
     }// GEN-LAST:event_buttonDelIDEItemActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton3ActionPerformed
-        String[] extensions = {".ide"};
-        File file = Utils.fileChooser(this, Finals.fileSave, new Filter(extensions, "IDE File", false));
+        File file = FileChooserUtil.openFileChooser(this, new ExtensionFilter(Set.of("ide"), "IDE File"));
         fm.addNewIDE(file);
     }// GEN-LAST:event_jButton3ActionPerformed
 
@@ -1289,22 +1284,9 @@ public class MainForm extends javax.swing.JFrame {
     }// GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton9ActionPerformed
-        String[] extensions = {".wpl"};
-        File file = Utils.fileChooser(this, Finals.fileSave, new Filter(extensions, "WPL File", false));
+        File file = FileChooserUtil.openFileChooser(this, new ExtensionFilter(Set.of("wpl"), "WPL File"));
         fm.addNewIPL(file);
     }// GEN-LAST:event_jButton9ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton6ActionPerformed
-//        IPL place = new IPL("E:/zuid.ipl", Finals.gSA, true); // load IPL
-//        place.setGameType(Finals.gIV);
-//        for (int i = 0; i < place.items_inst.size(); i++) {
-//            place.items_inst.get(i).position.y -= 870;
-//            place.items_inst.get(i).position.x -= 600;
-//            place.items_inst.get(i).position.z += 1.9;
-//            System.out.println("Adjusting placement " + i);
-//        }
-//        place.save();
-    }// GEN-LAST:event_jButton6ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jMenuItem4ActionPerformed
         new SaveScreen(fm, false);

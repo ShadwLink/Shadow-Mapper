@@ -9,10 +9,9 @@
 package nl.shadowlink.tools.shadowmapper.gui.install;
 
 import kotlin.Unit;
-import nl.shadowlink.tools.shadowlib.utils.Filter;
 import nl.shadowlink.tools.shadowlib.utils.GameType;
-import nl.shadowlink.tools.shadowlib.utils.Utils;
-import nl.shadowlink.tools.shadowmapper.gui.Finals;
+import nl.shadowlink.tools.shadowlib.utils.filechooser.FileChooserUtil;
+import nl.shadowlink.tools.shadowlib.utils.filechooser.FileNameFilter;
 import nl.shadowlink.tools.shadowmapper.gui.LoadingBar;
 import nl.shadowlink.tools.shadowmapper.utils.GuiFunctions;
 
@@ -20,6 +19,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.util.List;
+import java.util.Set;
 
 import static nl.shadowlink.tools.shadowmapper.utils.GuiFunctions.setLookAndFeel;
 
@@ -28,7 +28,7 @@ import static nl.shadowlink.tools.shadowmapper.utils.GuiFunctions.setLookAndFeel
  */
 public class Select extends JFrame {
 
-    private static final String[] SUPPORTED_EXES = {GameType.GTA_IV.getExecutableName().toLowerCase()};
+    private static final Set<String> SUPPORTED_EXES = Set.of(GameType.GTA_IV.getExecutableName());
 
     private final InstallRepository installRepository = new InstallRepository(new IniInstallStorage());
     private Install selectedInstall;
@@ -135,8 +135,7 @@ public class Select extends JFrame {
     }
 
     private void addInstallButtonPressed(java.awt.event.ActionEvent evt) {
-        File file = Utils.fileChooser(this, Finals.fileOpen, new Filter(SUPPORTED_EXES, "IV Install Folder (" + GameType.GTA_IV.getExecutableName() + ")",
-                true));
+        File file = FileChooserUtil.openFileChooser(this, new FileNameFilter(SUPPORTED_EXES, "IV Install Folder"));
         if (file != null && file.exists() && file.isFile()) {
             String installName = JOptionPane.showInputDialog("Set the name of the install");
             installRepository.addInstall(installName, file.getParent() + "\\", GameType.GTA_IV);
