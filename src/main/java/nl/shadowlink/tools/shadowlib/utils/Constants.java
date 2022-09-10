@@ -61,8 +61,4 @@ public class Constants {
     public static final int iTREE = 10;
     public static final int iTXDP = 11;
     public static final int iWEAP = 12;
-
-    public static final int fileOpen = 0;
-    public static final int fileSave = 1;
-
 }
