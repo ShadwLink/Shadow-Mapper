@@ -1,7 +1,5 @@
 package nl.shadowlink.tools.shadowmapper.gui
 
-import nl.shadowlink.tools.shadowlib.utils.GameType
-import nl.shadowlink.tools.shadowmapper.utils.EncryptionKeyExtractor
 import nl.shadowlink.tools.shadowmapper.utils.GuiFunctions.centerWindow
 import java.awt.Toolkit
 import javax.swing.*
@@ -9,16 +7,10 @@ import javax.swing.*
 /**
  * @author Shadow-Link
  */
-class LoadingBar(
-    gameDir: String,
-    gameType: GameType
-) : JFrame(), LoadingStatusCallbacks {
+internal class LoadingBar : JFrame(), LoadingStatusCallbacks {
 
     private var loadingBar = JProgressBar()
     private var loadingLabel = JLabel()
-
-    private val fm: FileManager
-    private val keyExtractor = EncryptionKeyExtractor()
 
     /**
      * Creates new form LoadingBar
@@ -28,13 +20,6 @@ class LoadingBar(
         initComponents()
         isVisible = true
         centerWindow()
-
-        val key = keyExtractor.getKey(gameDir) ?: throw IllegalStateException("Unable to detect encryption key")
-
-        fm = FileManager(this, key)
-        fm.gameDir = gameDir
-        fm.gameType = gameType
-        fm.start()
     }
 
     override fun onStartLoading(fileCount: Int) {
@@ -59,7 +44,6 @@ class LoadingBar(
 
     override fun onLoadingFinished() {
         dispose()
-        MainForm(fm)
     }
 
     private fun initComponents() {

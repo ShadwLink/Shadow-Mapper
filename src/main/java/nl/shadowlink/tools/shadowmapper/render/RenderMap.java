@@ -262,6 +262,9 @@ public class RenderMap {
                 added = false;
                 System.out.println("Loading added model finished");
             }
+            // TODO: Make this a bit nicer
+            if (fm.ipls == null) return;
+
             gl.glPushName(Finals.pickMap);
             for (int j = 0; j < fm.ipls.length; j++) {
                 if (fm.ipls[j].selected && fm.ipls[j].itemsLoaded) {

@@ -9,8 +9,10 @@ import nl.shadowlink.tools.shadowlib.ide.Item_OBJS;
 import nl.shadowlink.tools.shadowlib.img.Img;
 import nl.shadowlink.tools.shadowlib.ipl.IPL;
 import nl.shadowlink.tools.shadowlib.ipl.Item_INST;
+import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
 import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowlib.water.Water;
+import nl.shadowlink.tools.shadowmapper.gui.install.Install;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher;
 
@@ -44,29 +46,16 @@ public class FileManager extends Thread {
     public int selParam1 = -1;
     public int selParam2 = -1;
 
-    private final byte[] key;
+    private byte[] key;
     private String gameDir;
     private GameType gameType;
 
-    public FileManager(LoadingStatusCallbacks statusCallbacks, byte[] key) {
+    public void startLoading(LoadingStatusCallbacks statusCallbacks, Install install, byte[] key) {
         this.statusCallbacks = statusCallbacks;
+        this.gameDir = install.getPath();
+        this.gameType = install.getGameType();
         this.key = key;
-    }
-
-    public String getGameDir() {
-        return gameDir;
-    }
-
-    public void setGameDir(String gameDir) {
-        this.gameDir = gameDir;
-    }
-
-    public GameType getGameType() {
-        return gameType;
-    }
-
-    public void setGameType(GameType gameType) {
-        this.gameType = gameType;
+        this.start();
     }
 
     public void addIMG(String file) {
@@ -422,6 +411,10 @@ public class FileManager extends Thread {
                     System.out.println("SelParam2: " + selParam2);
             }
         }
+    }
+
+    public TextureDic loadWaterTexture() {
+        return new TextureDic(gameDir + "/pc/textures/water.wtd", null, GameType.GTA_IV, 23655);
     }
 
     public void run() {

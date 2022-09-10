@@ -2,8 +2,6 @@ package nl.shadowlink.tools.shadowmapper.render;
 
 import com.jogamp.opengl.GL2;
 import nl.shadowlink.tools.io.Vector3D;
-import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
-import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowlib.water.WaterPlane;
 import nl.shadowlink.tools.shadowmapper.gui.FileManager;
 import nl.shadowlink.tools.shadowmapper.gui.Finals;
@@ -15,10 +13,11 @@ public class RenderWater {
     public FileManager fm;
     private int[] waterTex = null;
 
-    public void init(GL2 gl, FileManager fm) {
+    public void init(FileManager fm) {
         this.fm = fm;
-        TextureDic WTD = new TextureDic(fm.getGameDir() + "/pc/textures/water.wtd", null, GameType.GTA_IV, 23655);
-        waterTex = WTD.textureId;
+        // TODO: Fix loading water texture
+//        TextureDic WTD = fm.loadWaterTexture();
+//        waterTex = WTD.textureId;
     }
 
     public void display(GL2 gl) {

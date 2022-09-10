@@ -12,11 +12,11 @@ import kotlin.Unit;
 import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowlib.utils.filechooser.FileChooserUtil;
 import nl.shadowlink.tools.shadowlib.utils.filechooser.FileNameFilter;
-import nl.shadowlink.tools.shadowmapper.gui.LoadingBar;
 import nl.shadowlink.tools.shadowmapper.utils.GuiFunctions;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +26,7 @@ import static nl.shadowlink.tools.shadowmapper.utils.GuiFunctions.setLookAndFeel
 /**
  * @author Shadow-Link
  */
-public class Select extends JFrame {
+public class InstallForm extends JFrame {
 
     private static final Set<String> SUPPORTED_EXES = Set.of(GameType.GTA_IV.getExecutableName());
 
@@ -36,10 +36,10 @@ public class Select extends JFrame {
     /**
      * Creates new form Select
      */
-    public Select() {
+    public InstallForm(OnInstallSelectedListener listener) {
         this.setIconImage(Toolkit.getDefaultToolkit().createImage("icon.png"));
         setLookAndFeel();
-        initComponents();
+        initComponents(listener);
         GuiFunctions.centerWindow$Shadow_Mapper(this);
 
         installRepository.observeInstalls(installs -> {
@@ -53,13 +53,13 @@ public class Select extends JFrame {
         installs.forEach(install -> listGames.add(install.getName()));
     }
 
-    private void initComponents() {
+    private void initComponents(OnInstallSelectedListener onInstallSelectedListener) {
 
         listGames = new java.awt.List();
-        buttonOK = new javax.swing.JButton();
-        buttonAddInstall = new javax.swing.JButton();
-        image = new javax.swing.JLabel();
-        buttonRemove = new javax.swing.JButton();
+        buttonOK = new JButton();
+        buttonAddInstall = new JButton();
+        image = new JLabel();
+        buttonRemove = new JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Select install");
@@ -69,12 +69,12 @@ public class Select extends JFrame {
 
         buttonOK.setText("Select");
         buttonOK.setEnabled(false);
-        buttonOK.addActionListener(this::selectInstallButtonPressed);
+        buttonOK.addActionListener(e -> selectInstallButtonPressed(onInstallSelectedListener));
 
         buttonAddInstall.setText("Add Install");
         buttonAddInstall.addActionListener(this::addInstallButtonPressed);
 
-        image.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/shadowmapper.png")));
+        image.setIcon(new ImageIcon(getClass().getResource("/Images/shadowmapper.png")));
 
         buttonRemove.addActionListener(this::removeInstallButtonPressed);
         buttonRemove.setText("Remove install");
@@ -120,21 +120,21 @@ public class Select extends JFrame {
         pack();
     }
 
-    private void removeInstallButtonPressed(java.awt.event.ActionEvent evt) {
+    private void removeInstallButtonPressed(ActionEvent evt) {
         installRepository.removeInstall(selectedInstall);
         selectedInstall = null;
         buttonOK.setEnabled(false);
         buttonRemove.setEnabled(false);
     }
 
-    private void selectInstallButtonPressed(java.awt.event.ActionEvent evt) {
+    private void selectInstallButtonPressed(OnInstallSelectedListener onInstallSelectedListener) {
         if (selectedInstall != null) {
-            new LoadingBar(selectedInstall.getPath(), selectedInstall.getGameType());
+            onInstallSelectedListener.onInstallSelected(selectedInstall);
         }
         this.dispose();
     }
 
-    private void addInstallButtonPressed(java.awt.event.ActionEvent evt) {
+    private void addInstallButtonPressed(ActionEvent evt) {
         File file = FileChooserUtil.openFileChooser(this, new FileNameFilter(SUPPORTED_EXES, "IV Install Folder"));
         if (file != null && file.exists() && file.isFile()) {
             String installName = JOptionPane.showInputDialog("Set the name of the install");
@@ -153,9 +153,14 @@ public class Select extends JFrame {
         }
     }
 
-    private javax.swing.JButton buttonOK;
-    private javax.swing.JButton buttonRemove;
-    private javax.swing.JButton buttonAddInstall;
-    private javax.swing.JLabel image;
+    private JButton buttonOK;
+    private JButton buttonRemove;
+    private JButton buttonAddInstall;
+    private JLabel image;
     private java.awt.List listGames;
+
+    public interface OnInstallSelectedListener {
+        void onInstallSelected(Install install);
+    }
 }
+

@@ -1,8 +1,7 @@
 package nl.shadowlink.tools.shadowmapper
 
-import nl.shadowlink.tools.shadowmapper.gui.install.Select
+import nl.shadowlink.tools.shadowmapper.gui.MainForm
 
-fun main(args: Array<String>) {
-    val window = Select()
-    window.isVisible = true
+fun main() {
+    val window = MainForm()
 }

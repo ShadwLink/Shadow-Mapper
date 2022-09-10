@@ -14,7 +14,9 @@ import nl.shadowlink.tools.shadowlib.utils.filechooser.ExtensionFilter;
 import nl.shadowlink.tools.shadowlib.utils.filechooser.FileChooserUtil;
 import nl.shadowlink.tools.shadowmapper.checklist.CheckListManager;
 import nl.shadowlink.tools.shadowmapper.gui.about.About;
+import nl.shadowlink.tools.shadowmapper.gui.install.InstallForm;
 import nl.shadowlink.tools.shadowmapper.render.GlListener;
+import nl.shadowlink.tools.shadowmapper.utils.EncryptionKeyExtractor;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -31,7 +33,6 @@ import static java.awt.Toolkit.getDefaultToolkit;
  * @author Shadow-Link
  */
 public class MainForm extends javax.swing.JFrame {
-    // opengl stuff
     private final FPSAnimator animator;
     public GlListener glListener = new GlListener(this);
 
@@ -39,13 +40,13 @@ public class MainForm extends javax.swing.JFrame {
     DefaultTreeModel treeModelIPL = new DefaultTreeModel(treeNode);
     CheckListManager checkList;
 
-    public FileManager fm;
+    private FileManager fm;
 
     /**
      * Creates new form Main
      */
-    public MainForm(FileManager fm) {
-        this.fm = fm;
+    public MainForm() {
+        this.fm = new FileManager();
         glListener.fm = fm;
 
         this.setIconImage(getDefaultToolkit().createImage("icon.png"));
@@ -59,6 +60,17 @@ public class MainForm extends javax.swing.JFrame {
 
         glListener.setCanvasPosition(gLCanvas1.getLocation());
         this.setVisible(true);
+
+        new InstallForm(install -> {
+            LoadingBar loadingBar = new LoadingBar();
+            EncryptionKeyExtractor keyExtractor = new EncryptionKeyExtractor();
+            byte[] key = keyExtractor.getKey(install.getPath());
+            if (key == null) {
+                throw new IllegalStateException("Unable to detect encryption key");
+            }
+
+            fm.startLoading(loadingBar, install, key);
+        }).setVisible(true);
     }
 
     /**

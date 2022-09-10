@@ -330,7 +330,7 @@ public class GlListener implements GLEventListener {
         renderMap.init(gl, camera, fm);
 
         renderWater = new RenderWater();
-        renderWater.init(gl, fm);
+        renderWater.init(fm);
 
 //        renderCars = new RenderVehicles();
 //        renderCars.init(gl, fm);
