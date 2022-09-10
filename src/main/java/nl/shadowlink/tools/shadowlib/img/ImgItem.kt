@@ -1,11 +1,10 @@
-
-
 package nl.shadowlink.tools.shadowlib.img
 
 /**
  * @author Shadow-Link
  */
-class IMG_Item {
+class ImgItem {
+
     var type: Int = 0
         set(type) {
             if (type < 1000) {
@@ -13,6 +12,7 @@ class IMG_Item {
             }
             field = type
         }
+
     var offset: Int = 0
     var size: Int = 0
     var name: String? = null

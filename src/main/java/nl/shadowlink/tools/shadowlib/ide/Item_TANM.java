@@ -1,6 +1,6 @@
-
-
 package nl.shadowlink.tools.shadowlib.ide;
+
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -10,13 +10,13 @@ import java.util.logging.Logger;
 /**
  * @author Shadow-Link
  */
-public class Item_TANM extends IDE_Item {
-    private int gameType;
+public class Item_TANM extends IdeItem {
+    private GameType gameType;
 
     public String modelName;
     public String textureName;
 
-    public Item_TANM(int gameType) {
+    public Item_TANM(GameType gameType) {
         this.gameType = gameType;
     }
 

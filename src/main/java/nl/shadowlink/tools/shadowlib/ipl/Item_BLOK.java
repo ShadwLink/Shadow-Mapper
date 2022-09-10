@@ -1,8 +1,7 @@
 package nl.shadowlink.tools.shadowlib.ipl;
 
-import com.nikhaldimann.inieditor.IniEditor;
-
 import nl.shadowlink.tools.io.ReadFunctions;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 
 import java.util.logging.Level;
@@ -12,9 +11,9 @@ import java.util.logging.Logger;
  * @author Shadow-Link
  */
 public class Item_BLOK extends IPL_Item {
-    private int gameType;
+    private GameType gameType;
 
-    Item_BLOK(int gameType) {
+    Item_BLOK(GameType gameType) {
         this.gameType = gameType;
     }
 

@@ -1,16 +1,16 @@
 package nl.shadowlink.tools.shadowlib.ipl;
 
-import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.tools.io.ReadFunctions;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 
 /**
  * @author Shadow-Link
  */
 public class Item_AUZO extends IPL_Item {
-    private int gameType;
+    private GameType gameType;
 
-    public Item_AUZO(int gameType) {
+    public Item_AUZO(GameType gameType) {
         this.gameType = gameType;
     }
 

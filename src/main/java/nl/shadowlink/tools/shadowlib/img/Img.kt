@@ -12,9 +12,9 @@ import java.io.File
 /**
  * @author Shadow-Link
  */
-class IMG(var fileName: String, var gameType: GameType?, key: ByteArray, autoLoad: Boolean, containsProps: Boolean) {
+class Img(var fileName: String, var gameType: GameType, key: ByteArray, autoLoad: Boolean, containsProps: Boolean) {
 
-    var items: ArrayList<IMG_Item> = ArrayList()
+    var items: ArrayList<ImgItem> = ArrayList()
 
     var isChanged = false
 
@@ -60,11 +60,11 @@ class IMG(var fileName: String, var gameType: GameType?, key: ByteArray, autoLoa
 
     private fun loadImg(): Boolean {
         when (gameType) {
-            GameType.GTA_III -> IMG_III().loadImg(this)
-            GameType.GTA_VC -> IMG_VC().loadImg(this)
-            GameType.GTA_SA -> IMG_SA().loadImg(this)
-            GameType.GTA_IV -> IMG_IV().loadImg(this)
-            else -> throw IllegalStateException("Gametype $gameType not supported")
+            GameType.GTA_III -> ImgV1().loadImg(this)
+            GameType.GTA_VC -> ImgV1().loadImg(this)
+            GameType.GTA_SA -> imgV2().loadImg(this)
+            GameType.GTA_IV -> ImgV3().loadImg(this)
+            else -> throw IllegalStateException("GameType $gameType not supported")
         }
         // TODO: Change this to something more meaningful
         return items != null
@@ -84,7 +84,7 @@ class IMG(var fileName: String, var gameType: GameType?, key: ByteArray, autoLoa
      *
      * @return the item or `null` if item can not be found
      */
-    fun findItem(name: String): IMG_Item? {
+    fun findItem(name: String): ImgItem? {
         return items.firstOrNull { item -> item.name == name }
     }
 
@@ -93,7 +93,7 @@ class IMG(var fileName: String, var gameType: GameType?, key: ByteArray, autoLoa
         val wf = WriteFunctions(fileName!!)
         name = name.toLowerCase()
         name = name.replace(".dff".toRegex(), ".wdr")
-        val tempItem = IMG_Item()
+        val tempItem = ImgItem()
         tempItem.name = name
         tempItem.type = Constants.rtWDR
         tempItem.offset = wf.fileSize
@@ -116,7 +116,7 @@ class IMG(var fileName: String, var gameType: GameType?, key: ByteArray, autoLoa
         val wf = WriteFunctions(fileName!!)
         name = name.toLowerCase()
         name = name.replace(".txd".toRegex(), ".wtd")
-        val tempItem = IMG_Item()
+        val tempItem = ImgItem()
         tempItem.name = name
         tempItem.type = Constants.rtWTD
         tempItem.offset = wf.fileSize
@@ -139,36 +139,30 @@ class IMG(var fileName: String, var gameType: GameType?, key: ByteArray, autoLoa
      */
     fun addItem(file: File) {
         if (file.isFile && file.canRead()) {
-            var rf: ReadFunctions? = ReadFunctions()
+            val rf = ReadFunctions(file.absolutePath)
             println("File: " + file.absolutePath)
-            if (rf!!.openFile(file.absolutePath)) {
-                var wf = WriteFunctions(fileName!!)
-                println("File size: " + file.length())
-                var newFile: ByteArray = rf.readArray(file.length().toInt())
-                val tempItem = IMG_Item()
-                tempItem.name = file.name
-                tempItem.type = Utils.getResourceType(file.name)
-                tempItem.offset = wf.fileSize
-                tempItem.size = file.length().toInt()
-                if (tempItem.isResource) {
-                    rf.seek(0x8)
-                    tempItem.flags = rf.readInt()
-                }
-                items.add(tempItem)
-                wf.gotoEnd()
-                wf.write(newFile)
-                if (wf.closeFile()) {
-                    println("Closed file")
-                } else {
-                    println("Unable to close the file")
-                }
-                isChanged = true
-                rf.closeFile()
-                rf = null
-            } else {
-                // JOptionPane.show//MessageDialog(this, "Unable to open " +
-                // file.getName() + " for reading!");
+            val wf = WriteFunctions(fileName)
+            println("File size: " + file.length())
+            val newFile: ByteArray = rf.readArray(file.length().toInt())
+            val tempItem = ImgItem()
+            tempItem.name = file.name
+            tempItem.type = Utils.getResourceType(file.name)
+            tempItem.offset = wf.fileSize
+            tempItem.size = file.length().toInt()
+            if (tempItem.isResource) {
+                rf.seek(0x8)
+                tempItem.flags = rf.readInt()
             }
+            items.add(tempItem)
+            wf.gotoEnd()
+            wf.write(newFile)
+            if (wf.closeFile()) {
+                println("Closed file")
+            } else {
+                println("Unable to close the file")
+            }
+            isChanged = true
+            rf.closeFile()
         }
     }
 
@@ -176,7 +170,7 @@ class IMG(var fileName: String, var gameType: GameType?, key: ByteArray, autoLoa
         when (gameType) {
             /* case Finals.gIII: new IMG_III().saveImg(this); break; case Finals.gVC: new IMG_VC().saveImg(this); break;
 		 * case Finals.gSA: new IMG_SA().saveImg(this); break; */
-            GameType.GTA_IV -> IMG_IV().saveImg(this)
+            GameType.GTA_IV -> ImgV3().saveImg(this)
             GameType.GTA_III -> TODO()
             GameType.GTA_VC -> TODO()
             GameType.GTA_SA -> TODO()

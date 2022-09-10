@@ -12,10 +12,10 @@ import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.Animator;
 import nl.shadowlink.tools.io.ByteReader;
 import nl.shadowlink.tools.io.ReadFunctions;
-import nl.shadowlink.tools.shadowlib.img.IMG_Item;
+import nl.shadowlink.tools.shadowlib.img.ImgItem;
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.gui.FileManager;
-import nl.shadowlink.tools.shadowmapper.gui.Finals;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +28,7 @@ public class Preview extends javax.swing.JFrame {
     private int imgID;
     private int itemID;
     private Animator animator;
-    public glListener glListener = new glListener();
+    public GlListener glListener = new GlListener();
     private DefaultListModel list = new DefaultListModel();
 
     /**
@@ -63,7 +63,7 @@ public class Preview extends javax.swing.JFrame {
 
     private void init() {
         System.out.println("IMGID: " + imgID + " itemID: " + itemID);
-        IMG_Item item = fm.imgs[imgID].getItems().get(itemID);
+        ImgItem item = fm.imgs[imgID].getItems().get(itemID);
         ReadFunctions rf = new ReadFunctions(fm.imgs[imgID].getFileName());
         rf.seek(item.getOffset());
         if (item.getName().toLowerCase().endsWith(".wdr")) {
@@ -76,7 +76,7 @@ public class Preview extends javax.swing.JFrame {
             ByteReader br = rf.getByteReader(item.getSize());
             rf.seek(item.getOffset());
             // TODO: Something changed here, what?
-            TextureDic txd = new TextureDic("", br, Finals.gIV, false, item.getSize());
+            TextureDic txd = new TextureDic("", br, GameType.GTA_IV, false, item.getSize());
             for (int i = 0; i < txd.texName.length; i++) {
                 list.addElement(txd.texName[i]);
             }

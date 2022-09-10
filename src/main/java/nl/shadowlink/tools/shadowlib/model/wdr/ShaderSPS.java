@@ -1,7 +1,6 @@
 package nl.shadowlink.tools.shadowlib.model.wdr;
 
 import nl.shadowlink.tools.io.ByteReader;
-import nl.shadowlink.tools.shadowlib.utils.Utils;
 
 /**
  * @author Shadow-Link
@@ -44,9 +43,5 @@ public class ShaderSPS {
         ShaderSPS = br.readNullTerminatedString();
 
         // Message.displayMsgHigh("ShaderSPS: " + ShaderSPS);
-    }
-
-    public String getStartOffset() {
-        return Utils.getStartOffset(startOffset);
     }
 }

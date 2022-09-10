@@ -5,17 +5,19 @@ import com.jogamp.opengl.glu.GLU;
 import nl.shadowlink.tools.io.ByteReader;
 import nl.shadowlink.tools.shadowlib.model.model.Model;
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.gui.FileManager;
-import nl.shadowlink.tools.shadowmapper.gui.Finals;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 /**
  * @author Shadow-Link
  */
-public class glListener implements GLEventListener {
+public class GlListener implements GLEventListener {
     public FileManager fm;
 
     public Camera camera;
@@ -53,18 +55,18 @@ public class glListener implements GLEventListener {
 
     private int selPoly = 0;
 
-    public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
-        if (evt.getScrollType() == evt.WHEEL_UNIT_SCROLL) {
+    public void mouseWheelMoved(MouseWheelEvent evt) {
+        if (evt.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
             modelZoom -= (evt.getWheelRotation() / 1.5);
         }
     }
 
-    public void mousePressed(java.awt.event.MouseEvent evt) {
+    public void mousePressed(MouseEvent evt) {
         dragX = evt.getX();
         dragY = evt.getY();
     }
 
-    public void keyPressed(java.awt.event.KeyEvent evt) {
+    public void keyPressed(KeyEvent evt) {
         /*
          * if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) { System.exit(0); }
          */
@@ -102,7 +104,7 @@ public class glListener implements GLEventListener {
 //        }
     }
 
-    public void mouseMoved(java.awt.event.MouseEvent evt) {
+    public void mouseMoved(MouseEvent evt) {
         if (evt.getModifiers() == 4) {
             int newX = dragX - evt.getX();
             int newY = dragY - evt.getY();
@@ -128,7 +130,7 @@ public class glListener implements GLEventListener {
                 mdl.loadWDD(br, size, null);
                 break;
             case 3:
-                txd = new TextureDic("", br, Finals.gIV, size);
+                txd = new TextureDic("", br, GameType.GTA_IV, size);
                 break;
             case 4:
                 // wbd = new WBDFile(br);

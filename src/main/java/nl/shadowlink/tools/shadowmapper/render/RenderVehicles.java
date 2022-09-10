@@ -4,6 +4,7 @@ import com.jogamp.opengl.GL2;
 import nl.shadowlink.tools.shadowlib.ipl.Item_CARS;
 import nl.shadowlink.tools.shadowlib.model.model.Model;
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.gui.FileManager;
 import nl.shadowlink.tools.shadowmapper.gui.Finals;
 
@@ -18,7 +19,7 @@ public class RenderVehicles {
         this.fm = fm;
 
         // load the car model and texture
-        TextureDic TXD = new TextureDic("resources/vehicles.txd", null, Finals.gSA, 23655);
+        TextureDic TXD = new TextureDic("resources/vehicles.txd", null, GameType.GTA_IV, 23655);
         Model tempCar = new Model();
         tempCar.loadDFF("resources/car.dff");
         tempCar.attachTXD(TXD.texName, TXD.textureId);

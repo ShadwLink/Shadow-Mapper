@@ -1,12 +1,9 @@
 package nl.shadowlink.tools.shadowlib.ide;
 
 import nl.shadowlink.tools.shadowlib.utils.Constants;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +16,7 @@ public class IDE {
     private BufferedReader input; //Reader
 
     private String fileName; //name of the file
-    private int gameType; //gametype ie: SA
+    private GameType gameType; //gametype ie: SA
 
     public boolean changed = false; //True when the file needs to be saved
 
@@ -37,7 +34,7 @@ public class IDE {
     public ArrayList<Item_TXDP> items_txdp = new ArrayList();
     public ArrayList<Item_CARS> items_cars = new ArrayList();
 
-    public IDE(String fileName, int gameType, boolean autoLoad) {
+    public IDE(String fileName, GameType gameType, boolean autoLoad) {
         this.fileName = fileName;
         this.gameType = gameType;
         if (autoLoad) loadIDE();
@@ -88,7 +85,7 @@ public class IDE {
                         } else if (line.isEmpty()) {
                             System.out.println("Empty line");
                         } else {
-                            IDE_Item item = null;
+                            IdeItem item = null;
                             switch (readItem) {
                                 case Constants.i2DFX:
                                     item = new Item_2DFX(gameType);
@@ -150,8 +147,8 @@ public class IDE {
         return true;
     }
 
-    public IDE_Item findItem(String name) {
-        IDE_Item ret = null;
+    public IdeItem findItem(String name) {
+        IdeItem ret = null;
         if (items_objs.size() != 0) {
             int i = 0;
             Item_OBJS item = items_objs.get(i);
@@ -201,11 +198,11 @@ public class IDE {
         this.fileName = fileName;
     }
 
-    public int getGameType() {
+    public GameType getGameType() {
         return gameType;
     }
 
-    public void setGameType(int gameType) {
+    public void setGameType(GameType gameType) {
         this.gameType = gameType;
     }
 

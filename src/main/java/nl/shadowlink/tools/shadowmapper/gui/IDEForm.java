@@ -13,8 +13,9 @@ import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.Vector3D;
 import nl.shadowlink.tools.io.Vector4D;
 import nl.shadowlink.tools.shadowlib.ide.Item_OBJS;
-import nl.shadowlink.tools.shadowlib.img.IMG_Item;
+import nl.shadowlink.tools.shadowlib.img.ImgItem;
 import nl.shadowlink.tools.shadowlib.model.model.Model;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 
 /**
  * @author Shadow-Link
@@ -227,7 +228,7 @@ public class IDEForm extends javax.swing.JFrame {
             saveIDEItem();
             fm.ides[ideID].changed = true;
         } else if (mode == 2) {
-            Item_OBJS tmpItem = new Item_OBJS(Finals.gIV);
+            Item_OBJS tmpItem = new Item_OBJS(GameType.GTA_IV);
             itemID = fm.addIDEItem(tmpItem, ideID);
             saveIDEItem();
         }
@@ -251,7 +252,7 @@ public class IDEForm extends javax.swing.JFrame {
     public void setModel(String model, int imgID, int itemID) {
         textModel.setText(model);
 
-        IMG_Item imgItem = fm.imgs[imgID].getItems().get(itemID);
+        ImgItem imgItem = fm.imgs[imgID].getItems().get(itemID);
         ReadFunctions rf = new ReadFunctions(fm.imgs[imgID].getFileName());
         rf.seek(imgItem.getOffset());
         Model tmpMdl = new Model();

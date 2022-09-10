@@ -1,16 +1,16 @@
 package nl.shadowlink.tools.shadowlib.ipl;
 
-import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.Vector3D;
 import nl.shadowlink.tools.io.WriteFunctions;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 
 /**
  * @author Shadow-Link
  */
 public class Item_CARS extends IPL_Item {
-    private int gameType;
+    private GameType gameType;
     public boolean selected = false;
 
     public Vector3D position = new Vector3D();
@@ -20,7 +20,7 @@ public class Item_CARS extends IPL_Item {
     public int unknown1, unknown2, unknown3, unknown4, unknown5, unknown6, unknown7;
     public int type = 0;
 
-    public Item_CARS(int gameType) {
+    public Item_CARS(GameType gameType) {
         this.gameType = gameType;
     }
 

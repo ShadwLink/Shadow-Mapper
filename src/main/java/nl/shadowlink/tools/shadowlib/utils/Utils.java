@@ -1,11 +1,5 @@
 package nl.shadowlink.tools.shadowlib.utils;
 
-import nl.shadowlink.tools.shadowlib.img.IMG;
-
-import javax.swing.*;
-import java.awt.*;
-import java.io.File;
-
 /**
  * Several usefull functions
  *
@@ -29,17 +23,6 @@ public class Utils {
         }
         hex = "0x" + hex;
         return hex;
-    }
-
-    /**
-     * TODO: Check if this is still used and refactor it?<br/>
-     * Returns start offset?
-     *
-     * @param offset
-     * @return
-     */
-    public static String getStartOffset(int offset) {
-        return " - (" + getHexString(offset) + ")";
     }
 
     /**
@@ -130,10 +113,9 @@ public class Utils {
      * TODO: Fix this
      *
      * @param fileName returns the type of file that is
-     * @param img
      * @return
      */
-    public static int getFileType(String fileName, IMG img) {
+    public static int getFileType(String fileName) {
         fileName = fileName.toLowerCase();
         if (fileName.endsWith(".dff")) {
             return Constants.ftDFF;
@@ -188,28 +170,6 @@ public class Utils {
             return Constants.rtWPL;
         } else {
             return -1;
-        }
-    }
-
-    public static File fileChooser(Component parent, int mode, Filter filter) {
-        JFileChooser chooser = new JFileChooser();
-        chooser.removeChoosableFileFilter(chooser.getAcceptAllFileFilter());
-        chooser.setMultiSelectionEnabled(false);
-        chooser.setFileFilter(filter);
-
-        int option;
-        if (mode == Constants.fileOpen) {
-            option = chooser.showOpenDialog(parent);
-            chooser.setDialogTitle("Import file..");
-        } else {
-            option = chooser.showSaveDialog(parent);
-            chooser.setDialogTitle("Export file..");
-        }
-
-        if (option == JFileChooser.APPROVE_OPTION) {
-            return chooser.getSelectedFile();
-        } else {
-            return null;
         }
     }
 

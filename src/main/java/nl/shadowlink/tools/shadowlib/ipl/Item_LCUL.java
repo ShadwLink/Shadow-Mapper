@@ -1,15 +1,15 @@
 package nl.shadowlink.tools.shadowlib.ipl;
 
-import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.Vector3D;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 
 /**
  * @author Shadow-Link
  */
 public class Item_LCUL extends IPL_Item {
-    private int gameType;
+    private GameType gameType;
 
     public Vector3D posLowerLeft;
     public Vector3D posUpperRight;
@@ -19,7 +19,7 @@ public class Item_LCUL extends IPL_Item {
     public String name1, name2, name3, name4, name5;
     public String name6, name7, name8, name9, name10;
 
-    Item_LCUL(int gameType) {
+    Item_LCUL(GameType gameType) {
         this.gameType = gameType;
     }
 

@@ -3,6 +3,7 @@ package nl.shadowlink.tools.shadowmapper.render;
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.glu.GLU;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.gui.FileManager;
 import nl.shadowlink.tools.shadowmapper.gui.Finals;
 import nl.shadowlink.tools.shadowmapper.gui.MainForm;
@@ -325,11 +326,11 @@ public class GlListener implements GLEventListener {
 
         camera = new Camera(0, 2, 5, 0, 2.5f, 0, 0, 1, 0);
 
-        renderMap = new RenderMap();
+        renderMap = new RenderMap(GameType.GTA_IV);
         renderMap.init(gl, camera, fm);
 
         renderWater = new RenderWater();
-        renderWater.init(gl, fm);
+        renderWater.init(fm);
 
 //        renderCars = new RenderVehicles();
 //        renderCars.init(gl, fm);

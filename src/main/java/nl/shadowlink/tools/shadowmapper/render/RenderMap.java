@@ -6,10 +6,11 @@ import nl.shadowlink.tools.io.ByteReader;
 import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.Vector3D;
 import nl.shadowlink.tools.shadowlib.ide.Item_OBJS;
-import nl.shadowlink.tools.shadowlib.img.IMG_Item;
+import nl.shadowlink.tools.shadowlib.img.ImgItem;
 import nl.shadowlink.tools.shadowlib.ipl.Item_INST;
 import nl.shadowlink.tools.shadowlib.model.model.Model;
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.gui.FileManager;
 import nl.shadowlink.tools.shadowmapper.gui.Finals;
 
@@ -30,12 +31,13 @@ public class RenderMap {
     public boolean loading = false;
     public boolean added = false;
 
-    private int gameType = 3;
+    private final GameType gameType;
 
     public Item_OBJS tempIDE = null;
     public Item_INST tempIPL = null;
 
-    public RenderMap() {
+    public RenderMap(GameType gameType) {
+        this.gameType = gameType;
     }
 
     private void loadMap(GL2 gl) {
@@ -107,7 +109,7 @@ public class RenderMap {
             for (int i = 0; i < ideList.size(); i++) {
                 if (!boolList.get(i)) {
                     String modelName = "";
-                    IMG_Item item = null;
+                    ImgItem item = null;
                     if (!ideList.get(i).WDD.equals("null")) {
                         modelName = ideList.get(i).WDD + ".wdd";
                         item = fm.imgs[imgNumber].findItem(modelName);
@@ -174,7 +176,7 @@ public class RenderMap {
             glDisplayList[i] = tempList[i];
         }
 
-        IMG_Item item = null;
+        ImgItem item = null;
         int imgID = -1;
         int i = 0;
         while (item == null || i < fm.imgs.length) {
@@ -260,6 +262,9 @@ public class RenderMap {
                 added = false;
                 System.out.println("Loading added model finished");
             }
+            // TODO: Make this a bit nicer
+            if (fm.ipls == null) return;
+
             gl.glPushName(Finals.pickMap);
             for (int j = 0; j < fm.ipls.length; j++) {
                 if (fm.ipls[j].selected && fm.ipls[j].itemsLoaded) {

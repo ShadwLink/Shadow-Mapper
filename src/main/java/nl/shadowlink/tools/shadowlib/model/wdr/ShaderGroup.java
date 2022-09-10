@@ -81,9 +81,4 @@ public class ShaderGroup {
 
         return values;
     }
-
-    public String getStartOffset() {
-        return Utils.getStartOffset(startOffset);
-    }
-
 }

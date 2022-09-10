@@ -4,7 +4,7 @@ import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.Vector3D;
 import nl.shadowlink.tools.io.Vector4D;
 import nl.shadowlink.tools.io.WriteFunctions;
-import nl.shadowlink.tools.shadowlib.utils.Constants;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher;
 
@@ -33,9 +33,9 @@ public class Item_INST extends IPL_Item {
     public boolean selected = false;
     public int glListID;
 
-    private int gameType = Constants.gIV;
+    private GameType gameType;
 
-    public Item_INST(int gameType) {
+    public Item_INST(GameType gameType) {
         this.gameType = gameType;
     }
 
@@ -44,7 +44,7 @@ public class Item_INST extends IPL_Item {
         line = line.replace(" ", "");
         String[] split = line.split(",");
         switch (gameType) {
-            case Constants.gSA:
+            case GTA_SA:
                 id = Integer.valueOf(split[0]);
                 name = split[1];
                 interior = Integer.valueOf(split[2]);
@@ -52,7 +52,7 @@ public class Item_INST extends IPL_Item {
                 rotation = new Vector4D(Float.valueOf(split[6]), Float.valueOf(split[7]), Float.valueOf(split[8]), Float.valueOf(split[9]));
                 lod = Integer.valueOf(split[10]);
                 break;
-            case Constants.gVC:
+            case GTA_VC:
                 id = Integer.valueOf(split[0]);
                 name = split[1];
                 interior = Integer.valueOf(split[2]);
@@ -60,7 +60,7 @@ public class Item_INST extends IPL_Item {
                 scale = new Vector3D(Float.valueOf(split[6]), Float.valueOf(split[7]), Float.valueOf(split[8]));
                 rotation = new Vector4D(Float.valueOf(split[9]), Float.valueOf(split[10]), Float.valueOf(split[11]), Float.valueOf(split[12]));
                 break;
-            case Constants.gIII:
+            case GTA_III:
                 id = Integer.valueOf(split[0]);
                 name = split[1];
                 position = new Vector3D(Float.valueOf(split[2]), Float.valueOf(split[3]), Float.valueOf(split[4]));
@@ -99,13 +99,13 @@ public class Item_INST extends IPL_Item {
     }
 
     public void display() {
-        if (gameType != Constants.gIV)
+        if (gameType != GameType.GTA_IV)
             // Message.displayMsgHigh("ID: " + id);
             System.out.println("Name: " + name);
-        if (gameType == Constants.gVC || gameType == Constants.gSA)
+        if (gameType == GameType.GTA_VC || gameType == GameType.GTA_SA)
             // Message.displayMsgHigh("Interior: " + interior);
             System.out.println("Position: " + position.x + ", " + position.y + ", " + position.z);
-        if (gameType == Constants.gIII || gameType == Constants.gVC)
+        if (gameType == GameType.GTA_III || gameType == GameType.GTA_VC)
             // Message.displayMsgHigh("Scale: " + scale.x + ", " + scale.y + ", " + scale.z);
             System.out.println("Rotation: " + rotation.x + ", " + rotation.y + ", " + rotation.z + ", " + rotation.w);
         System.out.println("Lod: " + lod);

@@ -10,6 +10,7 @@ package nl.shadowlink.tools.shadowmapper.gui;
 
 import nl.shadowlink.tools.io.Vector3D;
 import nl.shadowlink.tools.shadowlib.ipl.Item_CARS;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 
 import java.awt.*;
 
@@ -89,7 +90,7 @@ public class CarForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Item_CARS iplItem = new Item_CARS(Finals.gIV);
+        Item_CARS iplItem = new Item_CARS(GameType.GTA_IV);
         iplItem.name = "" + comboCars.getSelectedItem();
         iplItem.position.x = position.x;
         iplItem.position.y = 0 - position.z;

@@ -10,6 +10,7 @@ import nl.shadowlink.tools.shadowlib.model.dff.NewConvert;
 import nl.shadowlink.tools.shadowlib.model.wdr.*;
 import nl.shadowlink.tools.shadowlib.model.wft.FragTypeModel;
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
+import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher;
 
 import java.util.ArrayList;
@@ -190,7 +191,7 @@ public class Model {
         if (sys.shaderGroup != null) {
             if (sys.shaderGroup.TextureDictionaryOffset != 0) {
                 br.setCurrentOffset(sys.shaderGroup.TextureDictionaryOffset);
-                TextureDic wtd = new TextureDic("embed", br, 3, false, sysSize);
+                TextureDic wtd = new TextureDic("embed", br, GameType.GTA_IV, false, sysSize);
                 element.attachTXD(wtd.texName, wtd.textureId);
             }
         }
