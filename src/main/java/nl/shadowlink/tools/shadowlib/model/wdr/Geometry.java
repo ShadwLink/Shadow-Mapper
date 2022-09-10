@@ -156,8 +156,4 @@ public class Geometry {
     public String toString() {
         return "Geometry";
     }
-
-    public String getStartOffset() {
-        return Utils.getStartOffset(startOffset);
-    }
 }

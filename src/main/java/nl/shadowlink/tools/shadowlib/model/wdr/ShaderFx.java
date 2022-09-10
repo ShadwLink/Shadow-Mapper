@@ -81,9 +81,4 @@ public class ShaderFx {
 
         return values;
     }
-
-    public String getStartOffset() {
-        return Utils.getStartOffset(startOffset);
-    }
-
 }

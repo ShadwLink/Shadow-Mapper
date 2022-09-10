@@ -64,9 +64,4 @@ public class IndexBuffer {
 
         return values;
     }
-
-    public String getStartOffset() {
-        return Utils.getStartOffset(startOffset);
-    }
-
 }

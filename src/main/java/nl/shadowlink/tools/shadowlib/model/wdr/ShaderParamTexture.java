@@ -81,9 +81,4 @@ public class ShaderParamTexture {
 
         return values;
     }
-
-    public String getStartOffset() {
-        return Utils.getStartOffset(startOffset);
-    }
-
 }

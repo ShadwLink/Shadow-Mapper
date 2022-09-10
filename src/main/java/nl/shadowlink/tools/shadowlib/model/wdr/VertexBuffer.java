@@ -99,9 +99,4 @@ public class VertexBuffer {
 
         return values;
     }
-
-    public String getStartOffset() {
-        return Utils.getStartOffset(startOffset);
-    }
-
 }

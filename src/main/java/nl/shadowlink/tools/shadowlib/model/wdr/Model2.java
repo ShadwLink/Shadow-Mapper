@@ -128,8 +128,4 @@ public class Model2 {
 
         return values;
     }
-
-    public String getStartOffset() {
-        return Utils.getStartOffset(startOffset);
-    }
 }

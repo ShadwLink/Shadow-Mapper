@@ -1,7 +1,5 @@
 package nl.shadowlink.tools.shadowlib.utils;
 
-import nl.shadowlink.tools.shadowlib.img.IMG;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -29,17 +27,6 @@ public class Utils {
         }
         hex = "0x" + hex;
         return hex;
-    }
-
-    /**
-     * TODO: Check if this is still used and refactor it?<br/>
-     * Returns start offset?
-     *
-     * @param offset
-     * @return
-     */
-    public static String getStartOffset(int offset) {
-        return " - (" + getHexString(offset) + ")";
     }
 
     /**
@@ -130,10 +117,9 @@ public class Utils {
      * TODO: Fix this
      *
      * @param fileName returns the type of file that is
-     * @param img
      * @return
      */
-    public static int getFileType(String fileName, IMG img) {
+    public static int getFileType(String fileName) {
         fileName = fileName.toLowerCase();
         if (fileName.endsWith(".dff")) {
             return Constants.ftDFF;

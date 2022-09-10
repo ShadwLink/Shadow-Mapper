@@ -152,14 +152,4 @@ public class PtrCollection<T> {
 
         return values;
     }
-
-    /**
-     * Returns the start offset of this object in the file
-     *
-     * @return the start offset of this object in the file
-     */
-    public String getStartOffset() {
-        return Utils.getStartOffset(startOffset);
-    }
-
 }

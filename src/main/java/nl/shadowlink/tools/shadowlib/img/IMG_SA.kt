@@ -24,7 +24,7 @@ class IMG_SA {
             val itemOffset = rf.readInt() * 2048
             val itemSize = rf.readInt() * 2048
             val itemName = rf.readNullTerminatedString(24)
-            val itemType = Utils.getFileType(itemName, image)
+            val itemType = Utils.getFileType(itemName)
             // Message.displayMsgHigh("Offset: " + Utils.getHexString(itemOffset));
             // Message.displayMsgHigh("Size: " + itemSize + " bytes");
             // Message.displayMsgHigh("Name: " + itemName);

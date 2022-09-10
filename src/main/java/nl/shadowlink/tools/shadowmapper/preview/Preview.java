@@ -28,7 +28,7 @@ public class Preview extends javax.swing.JFrame {
     private int imgID;
     private int itemID;
     private Animator animator;
-    public glListener glListener = new glListener();
+    public GlListener glListener = new GlListener();
     private DefaultListModel list = new DefaultListModel();
 
     /**

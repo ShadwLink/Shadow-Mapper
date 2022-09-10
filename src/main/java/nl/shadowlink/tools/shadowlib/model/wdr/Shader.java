@@ -221,9 +221,4 @@ public class Shader {
 
         return values;
     }
-
-    public String getStartOffset() {
-        return Utils.getStartOffset(startOffset);
-    }
-
 }

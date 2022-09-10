@@ -2,7 +2,6 @@ package nl.shadowlink.tools.shadowlib.model.wdr;
 
 import nl.shadowlink.tools.io.ByteReader;
 import nl.shadowlink.tools.io.Vector4D;
-import nl.shadowlink.tools.shadowlib.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -44,9 +43,4 @@ public class ShaderParamVector {
 
         return values;
     }
-
-    public String getStartOffset() {
-        return Utils.getStartOffset(startOffset);
-    }
-
 }
