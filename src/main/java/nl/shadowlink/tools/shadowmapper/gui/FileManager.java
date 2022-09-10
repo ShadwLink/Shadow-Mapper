@@ -26,7 +26,7 @@ import java.util.function.BiConsumer;
 public class FileManager extends Thread {
     private HashTable hashTable = new HashTable(new OneAtATimeHasher());
 
-    private LoadingBar lb;
+    private LoadingStatusCallbacks statusCallbacks;
 
     public GtaDat gtaDat; //object of the gta.dat file
     public IPL[] ipls; //objects of the ipl files
@@ -48,8 +48,8 @@ public class FileManager extends Thread {
     private String gameDir;
     private GameType gameType;
 
-    public FileManager(LoadingBar lb, byte[] key) {
-        this.lb = lb;
+    public FileManager(LoadingStatusCallbacks statusCallbacks, byte[] key) {
+        this.statusCallbacks = statusCallbacks;
         this.key = key;
     }
 
@@ -85,8 +85,7 @@ public class FileManager extends Thread {
         gtaDat = new GtaDat(gameDir + "common/data/gta.dat", gameDir);
 
         int itemsToLoad = gtaDat.ide.size() + gtaDat.img.size() + gtaDat.water.size() + gtaDat.ipl.size();
-
-        lb.setLoadingBarMax(itemsToLoad);
+        statusCallbacks.onStartLoading(itemsToLoad);
 
         ides = new IDE[gtaDat.ide.size()];
         imgs = new Img[gtaDat.img.size()];
@@ -107,7 +106,7 @@ public class FileManager extends Thread {
 
         // load IDE files from GTA.dat
         for (int i = 0; i < gtaDat.ide.size(); i++) {
-            lb.setLabelText("<IDE> " + gtaDat.ide.get(i));
+            statusCallbacks.onLoadingStatusChanged("<IDE> " + gtaDat.ide.get(i));
             ides[i] = new IDE(gameDir + gtaDat.ide.get(i), gameType, true);
             ides[i].items_objs.forEach(item -> hashTable.add(item.modelName));
             ides[i].items_tobj.forEach(item -> hashTable.add(item.modelName));
@@ -117,7 +116,7 @@ public class FileManager extends Thread {
             ides[i].items_tanm.forEach(item -> hashTable.add(item.modelName));
 
             modelIDE.addElement(gtaDat.ide.get(i));
-            lb.addOneToLoadingBar();
+            statusCallbacks.onLoadingValueIncreased();
         }
 
         loadHashesFromIni();
@@ -125,29 +124,29 @@ public class FileManager extends Thread {
 
         //load IMG files from GTA.dat
         for (int i = 0; i < gtaDat.img.size(); i++) {
-            lb.setLabelText("<IMG> " + gtaDat.img.get(i));
+            statusCallbacks.onLoadingStatusChanged("<IMG> " + gtaDat.img.get(i));
             String line = gameDir + gtaDat.img.get(i);
             boolean containsProps = line.endsWith("1");
             line = line.substring(0, line.length() - 1);
             line = line + ".img";
             imgs[i] = new Img(line, GameType.GTA_IV, key, true, containsProps);
-            lb.addOneToLoadingBar();
+            statusCallbacks.onLoadingValueIncreased();
         }
 
         //load WPL files from GTA.dat
         for (int i = 0; i < gtaDat.ipl.size(); i++) {
-            lb.setLabelText("<IPL> " + gtaDat.ipl.get(i));
+            statusCallbacks.onLoadingStatusChanged("<IPL> " + gtaDat.ipl.get(i));
             IPL tempIPL = new IPL(gameDir + gtaDat.ipl.get(i), hashTable, gameType, true);
             iplList.add(tempIPL);
             modelIPL.addElement(gtaDat.ipl.get(i));
-            lb.addOneToLoadingBar();
+            statusCallbacks.onLoadingValueIncreased();
         }
 
         //load water.dat files from gta.dat
         for (int i = 0; i < gtaDat.water.size(); i++) {
-            lb.setLabelText("<WATER> " + gtaDat.ipl.get(i));
+            statusCallbacks.onLoadingStatusChanged("<WATER> " + gtaDat.ipl.get(i));
             waters[i] = new Water(gameDir + gtaDat.water.get(i), gameType);
-            lb.addOneToLoadingBar();
+            statusCallbacks.onLoadingValueIncreased();
         }
 
 
@@ -156,8 +155,7 @@ public class FileManager extends Thread {
         for (int i = 0; i < imgs.length; i++) {
             imgWPLCount += imgs[i].getWplCount();
         }
-        lb.setLoadingBarValue(0);
-        lb.setLoadingBarMax(imgWPLCount);
+        statusCallbacks.onStartLoadingWpl(imgWPLCount);
 
         //load WPL files from IMG files
         for (int i = 0; i < imgs.length; i++) {
@@ -168,10 +166,10 @@ public class FileManager extends Thread {
                         rf.seek(imgs[i].getItems().get(j).getOffset());
                         IPL tempIPL = new IPL(rf, hashTable, gameType, true, imgs[i], imgs[i].getItems().get(j), imgs[i].getItems().get(j).getName());
                         tempIPL.setFileName(imgs[i].getItems().get(j).getName());
-                        lb.setLabelText("<WPL> " + imgs[i].getItems().get(j).getName());
+                        statusCallbacks.onLoadingStatusChanged("<WPL> " + imgs[i].getItems().get(j).getName());
                         iplList.add(tempIPL);
                         modelIPL.addElement(imgs[i].getItems().get(j).getName());
-                        lb.addOneToLoadingBar();
+                        statusCallbacks.onLoadingValueIncreased();
                     }
                 }
                 rf.closeFile();
@@ -185,7 +183,7 @@ public class FileManager extends Thread {
             ipls[i] = iplList.get(i);
         }
 
-        lb.setFinished();
+        statusCallbacks.onLoadingFinished();
     }
 
     private void loadHashesFromIni() {
@@ -429,4 +427,17 @@ public class FileManager extends Thread {
     public void run() {
         init();
     }
+}
+
+interface LoadingStatusCallbacks {
+
+    void onStartLoadingWpl(int wplCount);
+
+    void onStartLoading(int fileCount);
+
+    void onLoadingStatusChanged(String status);
+
+    void onLoadingValueIncreased();
+
+    void onLoadingFinished();
 }
