@@ -2,15 +2,15 @@ package nl.shadowlink.tools.shadowmapper.utils
 
 import nl.shadowlink.tools.shadowmapper.gui.MainForm
 import java.awt.Toolkit
+import java.awt.Window
 import java.util.logging.Level
 import java.util.logging.Logger
-import javax.swing.JFrame
 import javax.swing.UIManager
 import javax.swing.UnsupportedLookAndFeelException
 
 object GuiFunctions {
     @JvmStatic
-	fun setLookAndFeel() {
+    fun setLookAndFeel() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
         } catch (ex: ClassNotFoundException) {
@@ -30,7 +30,7 @@ object GuiFunctions {
     }
 
     @JvmStatic
-    internal fun JFrame.centerWindow() {
+    internal fun Window.centerWindow() {
         val toolkit = Toolkit.getDefaultToolkit()
         val screenSize = toolkit.screenSize
         val x = (screenSize.width - width) / 2
