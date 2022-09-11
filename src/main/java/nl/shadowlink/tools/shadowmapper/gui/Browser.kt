@@ -38,7 +38,6 @@ class Browser : JFrame {
     private val mainMenuBar = JMenuBar()
     private val importMenuItem = JMenuItem()
     private val exportMenuItem = JMenuItem()
-    private val replaceMenuItem = JMenuItem()
     private val deleteMenuItem = JMenuItem()
     private val createNewImgMenuItem = JMenuItem()
     private val deleteImgMenuItem = JMenuItem()
@@ -46,7 +45,7 @@ class Browser : JFrame {
     private val jPanel1 = JPanel()
     private val jScrollPane1 = JScrollPane()
     private val jScrollPane2 = JScrollPane()
-    private val jToggleButton1 = JToggleButton()
+    private val isEncryptedToggleButton = JToggleButton()
     private val labelFileCount = JLabel()
     private val labelProps = JLabel()
     private val listImg = JList<String>()
@@ -107,7 +106,7 @@ class Browser : JFrame {
         listImg.selectedIndex = 0
     }
 
-    private fun initItemTable() {
+    private fun updateItemTable() {
         while (modelImgItems.rowCount != 0) {
             modelImgItems.removeRow(0)
         }
@@ -138,7 +137,7 @@ class Browser : JFrame {
             }
         }
         labelFileCount.text = "File Count: " + fm.imgs[listImg.selectedIndex].totalItemCount
-        jToggleButton1.isSelected = fm.imgs[listImg.selectedIndex].encrypted
+        isEncryptedToggleButton.isSelected = fm.imgs[listImg.selectedIndex].isEncrypted
         labelProps.text = "Props: " + fm.imgs[listImg.selectedIndex].containsProps
     }
 
@@ -148,7 +147,7 @@ class Browser : JFrame {
         isResizable = false
         contentPane.layout = AbsoluteLayout()
         listImg.model = modelIMG
-        listImg.addListSelectionListener { evt: ListSelectionEvent -> listIMGValueChanged(evt) }
+        listImg.addListSelectionListener { evt: ListSelectionEvent -> listImgValueChanged(evt) }
         jScrollPane1.setViewportView(listImg)
         contentPane.add(jScrollPane1, AbsoluteConstraints(10, 90, 220, 450))
         listItems.model = modelImgItems
@@ -185,61 +184,61 @@ class Browser : JFrame {
             }
 
             override fun keyTyped(evt: KeyEvent) {
-                textFilterKeyTyped(evt)
+                // Do nothing
             }
         })
         contentPane.add(textFilter, AbsoluteConstraints(240, 0, 110, -1))
-        jToggleButton1.icon = ImageIcon(javaClass.getResource("/Images/decrypted.png")) // NOI18N
-        jToggleButton1.toolTipText = "Encrypt"
-        jToggleButton1.border = null
-        jToggleButton1.isFocusable = false
-        jToggleButton1.selectedIcon = ImageIcon(javaClass.getResource("/Images/encrypted.png")) // NOI18N
-        jToggleButton1.addItemListener { evt: ItemEvent -> jToggleButton1ItemStateChanged(evt) }
-        contentPane.add(jToggleButton1, AbsoluteConstraints(0, 550, -1, -1))
+        isEncryptedToggleButton.icon = ImageIcon(javaClass.getResource("/Images/decrypted.png")) // NOI18N
+        isEncryptedToggleButton.toolTipText = "Encrypt"
+        isEncryptedToggleButton.border = null
+        isEncryptedToggleButton.isFocusable = false
+        isEncryptedToggleButton.selectedIcon = ImageIcon(javaClass.getResource("/Images/encrypted.png")) // NOI18N
+        isEncryptedToggleButton.addItemListener { evt: ItemEvent -> onEncryptionToggleStateChanged(evt) }
+        contentPane.add(isEncryptedToggleButton, AbsoluteConstraints(0, 550, -1, -1))
         labelProps.text = "Props: "
         contentPane.add(labelProps, AbsoluteConstraints(30, 560, -1, -1))
         jPanel1.border = BorderFactory.createTitledBorder("Filter files")
         jPanel1.layout = AbsoluteLayout()
         checkWDR.isSelected = true
         checkWDR.text = "wdr"
-        checkWDR.addItemListener { evt: ItemEvent -> checkWDRItemStateChanged(evt) }
+        checkWDR.addItemListener { evt: ItemEvent -> onExtensionFilterStateChanged(evt) }
         jPanel1.add(checkWDR, AbsoluteConstraints(10, 20, -1, -1))
         checkWDD.isSelected = true
         checkWDD.text = "wdd"
-        checkWDD.addItemListener { evt: ItemEvent -> checkWDDItemStateChanged(evt) }
+        checkWDD.addItemListener { evt: ItemEvent -> onExtensionFilterStateChanged(evt) }
         jPanel1.add(checkWDD, AbsoluteConstraints(10, 40, -1, -1))
         checkWFT.isSelected = true
         checkWFT.text = "wft"
-        checkWFT.addItemListener { evt: ItemEvent -> checkWFTItemStateChanged(evt) }
+        checkWFT.addItemListener { evt: ItemEvent -> onExtensionFilterStateChanged(evt) }
         jPanel1.add(checkWFT, AbsoluteConstraints(10, 60, -1, -1))
         checkWAD.isSelected = true
         checkWAD.text = "wad"
-        checkWAD.addItemListener { evt: ItemEvent -> checkWADItemStateChanged(evt) }
+        checkWAD.addItemListener { evt: ItemEvent -> onExtensionFilterStateChanged(evt) }
         jPanel1.add(checkWAD, AbsoluteConstraints(90, 60, -1, -1))
         checkWTD.isSelected = true
         checkWTD.text = "wtd"
-        checkWTD.addItemListener { evt: ItemEvent -> checkWTDItemStateChanged(evt) }
+        checkWTD.addItemListener { evt: ItemEvent -> onExtensionFilterStateChanged(evt) }
         jPanel1.add(checkWTD, AbsoluteConstraints(160, 60, -1, 20))
         checkWBD.isSelected = true
         checkWBD.text = "wbd"
-        checkWBD.addItemListener { evt: ItemEvent -> checkWBDItemStateChanged(evt) }
+        checkWBD.addItemListener { evt: ItemEvent -> onExtensionFilterStateChanged(evt) }
         jPanel1.add(checkWBD, AbsoluteConstraints(90, 40, -1, -1))
         checkWBN.isSelected = true
         checkWBN.text = "wbn"
-        checkWBN.addItemListener { evt: ItemEvent -> checkWBNItemStateChanged(evt) }
+        checkWBN.addItemListener { evt: ItemEvent -> onExtensionFilterStateChanged(evt) }
         jPanel1.add(checkWBN, AbsoluteConstraints(90, 20, -1, -1))
         checkCUT.isSelected = true
         checkCUT.text = "cut"
-        checkCUT.addItemListener { evt: ItemEvent -> checkCUTItemStateChanged(evt) }
+        checkCUT.addItemListener { evt: ItemEvent -> onExtensionFilterStateChanged(evt) }
         jPanel1.add(checkCUT, AbsoluteConstraints(160, 20, -1, -1))
         checkWPL.isSelected = true
         checkWPL.text = "wpl"
-        checkWPL.addItemListener { evt: ItemEvent -> checkWPLItemStateChanged(evt) }
+        checkWPL.addItemListener { evt: ItemEvent -> onExtensionFilterStateChanged(evt) }
         jPanel1.add(checkWPL, AbsoluteConstraints(160, 40, -1, -1))
         contentPane.add(jPanel1, AbsoluteConstraints(10, 0, 220, 90))
         fileMenu.text = "File"
         createNewImgMenuItem.text = "New IMG"
-        createNewImgMenuItem.addActionListener { evt: ActionEvent -> jMenuItem5ActionPerformed(evt) }
+        createNewImgMenuItem.addActionListener { evt: ActionEvent -> onAddImgClicked(evt) }
         fileMenu.add(createNewImgMenuItem)
         deleteImgMenuItem.text = "Delete IMG"
         fileMenu.add(deleteImgMenuItem)
@@ -254,9 +253,6 @@ class Browser : JFrame {
         exportMenuItem.text = "Export File"
         exportMenuItem.addActionListener { evt: ActionEvent -> onExportFileClicked(evt) }
         editMenu.add(exportMenuItem)
-        replaceMenuItem.text = "Replace File"
-        replaceMenuItem.addActionListener { evt: ActionEvent -> onReplaceFileClicked(evt) }
-        editMenu.add(replaceMenuItem)
         deleteMenuItem.text = "Delete File"
         deleteMenuItem.addActionListener { evt: ActionEvent -> onDeleteFileClicked(evt) }
         editMenu.add(deleteMenuItem)
@@ -265,27 +261,28 @@ class Browser : JFrame {
         pack()
     }
 
-    private fun listIMGValueChanged(evt: ListSelectionEvent) {
-        if (listImg.selectedIndex != -1) initItemTable()
-    } //GEN-LAST:event_listIMGValueChanged
+    private fun listImgValueChanged(evt: ListSelectionEvent) {
+        if (listImg.selectedIndex != -1) updateItemTable()
+    }
 
-    private fun jToggleButton1ItemStateChanged(evt: ItemEvent) {
-        fm.imgs[listImg.selectedIndex].encrypted = jToggleButton1.isSelected
+    private fun onEncryptionToggleStateChanged(evt: ItemEvent) {
+        getSelectedImg()?.isEncrypted = isEncryptedToggleButton.isSelected
     }
 
     private fun listItemsMouseClicked(evt: MouseEvent) {
         if (evt.clickCount == 2) {
             if (onFileSelectedListener != null) {
-                if (listItems.selectedRow != -1 && listImg.selectedIndex != -1) {
-                    fm.imgs[listImg.selectedIndex].findItem(
-                        listItems.getValueAt(listItems.selectedRow, 0).toString()
-                    )?.let { onFileSelectedListener?.invoke(it, fm.imgs[listImg.selectedIndex]) }
-
+                val selectedImgItem = getSelectedImgItem()
+                val selectedImg = getSelectedImg()
+                if (selectedImgItem != null && selectedImg != null) {
+                    onFileSelectedListener?.invoke(selectedImgItem, selectedImg)
                     dispose()
                 }
             } else {
                 Preview(
-                    fm, listImg.selectedIndex, fm.imgs[listImg.selectedIndex].findItemIndex(
+                    fm,
+                    listImg.selectedIndex,
+                    fm.imgs[listImg.selectedIndex].findItemIndex(
                         listItems.getValueAt(listItems.selectedRow, 0).toString()
                     )
                 )
@@ -293,64 +290,65 @@ class Browser : JFrame {
         }
     }
 
+    private fun getSelectedImgItem(): ImgItem? {
+        return if (listItems.selectedRow != -1 && listImg.selectedIndex != -1) {
+            fm.imgs[listImg.selectedIndex].findItem(
+                listItems.getValueAt(listItems.selectedRow, 0).toString()
+            )
+        } else null
+    }
+
+    private fun getSelectedImg(): Img? {
+        return if (listImg.selectedIndex != -1) {
+            fm.imgs[listImg.selectedIndex]
+        } else null
+    }
+
     private fun onExportFileClicked(evt: ActionEvent) {
-        if (listItems.selectedRow != -1 && listImg.selectedIndex != -1) {
-            val item = fm.imgs[listImg.selectedIndex].items[fm.imgs[listImg.selectedIndex].findItemIndex(
-                "" + listItems.getValueAt(
-                    listItems.selectedRow, 0
-                )
-            )]
-            val name = item.name
-            println("You selected " + name + " from img " + fm.imgs[listImg.selectedIndex].fileName)
+        val selectedImgItem = getSelectedImgItem()
+        val selectedImg = getSelectedImg()
+        if (selectedImg != null && selectedImgItem != null) {
             val file = openFileChooser(this, ExtensionFilter(supportedExtensions, "GTA File")) ?: return
             try {
-                val rf = ReadFunctions(fm.imgs[listImg.selectedIndex].fileName)
-                rf.seek(item.offset)
+                val rf = ReadFunctions(selectedImg.fileName)
+                rf.seek(selectedImgItem.offset)
                 val wf = WriteFunctions(file.path)
-                val newFile = rf.readArray(item.size)
+                val newFile = rf.readArray(selectedImgItem.size)
                 wf.write(newFile)
                 wf.closeFile()
                 rf.closeFile()
             } catch (e: Exception) {
                 JOptionPane.showMessageDialog(this, "Unable to read IMG archive")
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Select file to export")
         }
     }
 
     private fun onImportFileClicked(evt: ActionEvent) {
-        if (listImg.selectedIndex != -1) {
-            val file = openFileChooser(this, ExtensionFilter(supportedExtensions, "GTA File"))
-            if (file != null) {
-                if (file.extension.equals("dff", true)) {
-                    val mdl = Model()
-                    mdl.loadDFF(file.absolutePath)
-                    println("Started dff conversion")
-                    fm.imgs[listImg.selectedIndex].addItem(mdl, file.name)
-                } else if (file.extension.equals("txd", true)) {
-                    val txd = TextureDic(file.absolutePath, GameType.GTA_IV)
-                    println("Started txd conversion")
-                    fm.imgs[listImg.selectedIndex].addItem(txd, file.name)
-                } else {
-                    fm.imgs[listImg.selectedIndex].addItem(file)
-                }
-                initItemTable()
-            }
+        val selectedImg = getSelectedImg() ?: return
+        val file = openFileChooser(this, ExtensionFilter(supportedExtensions, "GTA File")) ?: return
+        if (file.extension.equals("dff", true)) {
+            val mdl = Model().apply { loadDFF(file.absolutePath) }
+            selectedImg.addItem(mdl, file.name)
+        } else if (file.extension.equals("txd", true)) {
+            val txd = TextureDic(file.absolutePath, GameType.GTA_IV)
+            selectedImg.addItem(txd, file.name)
+        } else {
+            selectedImg.addItem(file)
         }
-    } //GEN-LAST:event_jMenuItem1ActionPerformed
+        updateItemTable()
+    }
 
-    private fun onCloseClicked(evt: ActionEvent) { //GEN-FIRST:event_jMenuItem7ActionPerformed
+    private fun onCloseClicked(evt: ActionEvent) {
         dispose()
-    } //GEN-LAST:event_jMenuItem7ActionPerformed
+    }
 
-    private fun jMenuItem5ActionPerformed(evt: ActionEvent) { //GEN-FIRST:event_jMenuItem5ActionPerformed
+    private fun onAddImgClicked(evt: ActionEvent) {
         val file = openFileChooser(this, ExtensionFilter(setOf("img"), "GTA IMG File"))
         if (file != null && !file.exists()) {
             fm.addIMG(file.absolutePath)
             initImgList()
         }
-    } //GEN-LAST:event_jMenuItem5ActionPerformed
+    }
 
     private fun disableTypeFilterEditing() {
         checkWDR.isEnabled = false
@@ -364,77 +362,35 @@ class Browser : JFrame {
         checkWPL.isEnabled = false
     }
 
-    private fun onDeleteFileClicked(evt: ActionEvent) { //GEN-FIRST:event_jMenuItem4ActionPerformed
-        if (listImg.selectedIndex != -1 && listItems.selectedRow != -1) {
-            fm.imgs[listImg.selectedIndex].items.removeAt(listItems.selectedRow)
-            initItemTable()
-            fm.imgs[listImg.selectedIndex].isChanged = true
+    private fun onDeleteFileClicked(evt: ActionEvent) {
+        val selectedImg = getSelectedImg()
+        val selectedImgItem = getSelectedImgItem()
+        if (selectedImg != null && selectedImgItem != null) {
+            selectedImg.removeItem(selectedImgItem)
+            updateItemTable()
         }
-    } //GEN-LAST:event_jMenuItem4ActionPerformed
+    }
 
-    private fun textFilterKeyTyped(evt: KeyEvent) { //GEN-FIRST:event_textFilterKeyTyped
-        /*System.out.println("Filter started " + textFilter.getText());
-        evt.getKeyChar();
-        initItemTable();*/
-    } //GEN-LAST:event_textFilterKeyTyped
-
-    private fun textFilterFocusGained(evt: FocusEvent) { //GEN-FIRST:event_textFilterFocusGained
+    private fun textFilterFocusGained(evt: FocusEvent) {
         if (!filterEnabled) textFilter.text = ""
         filterEnabled = true
-    } //GEN-LAST:event_textFilterFocusGained
+    }
 
-    private fun textFilterFocusLost(evt: FocusEvent) { //GEN-FIRST:event_textFilterFocusLost
+    private fun textFilterFocusLost(evt: FocusEvent) {
         if (textFilter.text.equals("", ignoreCase = true)) {
             textFilter.text = "Filter"
+            textFilter.toolTipText = "Filter"
             filterEnabled = false
         }
-    } //GEN-LAST:event_textFilterFocusLost
+    }
 
-    private fun textFilterKeyReleased(evt: KeyEvent) { //GEN-FIRST:event_textFilterKeyReleased
-        println("Filter started " + textFilter.text)
-        println(evt.keyChar)
-        initItemTable()
-    } //GEN-LAST:event_textFilterKeyReleased
+    private fun textFilterKeyReleased(evt: KeyEvent) {
+        updateItemTable()
+    }
 
-    private fun checkWDRItemStateChanged(evt: ItemEvent) { //GEN-FIRST:event_checkWDRItemStateChanged
-        initItemTable()
-    } //GEN-LAST:event_checkWDRItemStateChanged
-
-    private fun checkWDDItemStateChanged(evt: ItemEvent) { //GEN-FIRST:event_checkWDDItemStateChanged
-        initItemTable()
-    } //GEN-LAST:event_checkWDDItemStateChanged
-
-    private fun checkWFTItemStateChanged(evt: ItemEvent) { //GEN-FIRST:event_checkWFTItemStateChanged
-        initItemTable()
-    } //GEN-LAST:event_checkWFTItemStateChanged
-
-    private fun checkWADItemStateChanged(evt: ItemEvent) { //GEN-FIRST:event_checkWADItemStateChanged
-        initItemTable()
-    } //GEN-LAST:event_checkWADItemStateChanged
-
-    private fun checkWTDItemStateChanged(evt: ItemEvent) { //GEN-FIRST:event_checkWTDItemStateChanged
-        initItemTable()
-    } //GEN-LAST:event_checkWTDItemStateChanged
-
-    private fun checkWBNItemStateChanged(evt: ItemEvent) { //GEN-FIRST:event_checkWBNItemStateChanged
-        initItemTable()
-    } //GEN-LAST:event_checkWBNItemStateChanged
-
-    private fun checkWBDItemStateChanged(evt: ItemEvent) { //GEN-FIRST:event_checkWBDItemStateChanged
-        initItemTable()
-    } //GEN-LAST:event_checkWBDItemStateChanged
-
-    private fun checkCUTItemStateChanged(evt: ItemEvent) { //GEN-FIRST:event_checkCUTItemStateChanged
-        initItemTable()
-    } //GEN-LAST:event_checkCUTItemStateChanged
-
-    private fun checkWPLItemStateChanged(evt: ItemEvent) { //GEN-FIRST:event_checkWPLItemStateChanged
-        initItemTable()
-    } //GEN-LAST:event_checkWPLItemStateChanged
-
-    private fun onReplaceFileClicked(evt: ActionEvent) { //GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
-    } //GEN-LAST:event_jMenuItem3ActionPerformed
+    private fun onExtensionFilterStateChanged(evt: ItemEvent) {
+        updateItemTable()
+    }
 
     companion object {
         private val supportedExtensions = setOf("wdr", "wtd", "wbd", "wbn", "wdd", "wft", "wpl")

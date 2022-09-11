@@ -30,7 +30,7 @@ class ImgV3 {
             // Message.displayMsgHigh("Unencryped IMG");
             readUnEncryptedImg(rf, image)
         } else {
-            image.encrypted = true
+            image.isEncrypted = true
             // Message.displayMsgHigh("Encrypted IMG");
             readEncryptedImg(rf, image)
         }

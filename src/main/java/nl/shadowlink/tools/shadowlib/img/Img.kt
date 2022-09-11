@@ -18,7 +18,12 @@ class Img(var fileName: String, var gameType: GameType, key: ByteArray, autoLoad
 
     var isChanged = false
 
-    var encrypted = false
+    var isEncrypted = false
+        set(value) {
+            field = value
+            isChanged = true
+        }
+    
     var containsProps = false
 
     var key = ByteArray(32)
@@ -164,6 +169,11 @@ class Img(var fileName: String, var gameType: GameType, key: ByteArray, autoLoad
             isChanged = true
             rf.closeFile()
         }
+    }
+
+    fun removeItem(imgItem: ImgItem) {
+        items.remove(imgItem)
+        isChanged = true
     }
 
     fun save() {
