@@ -56,23 +56,23 @@ public class RenderMap {
         glDisplayList = null;
         ArrayList<Boolean> boolList = new ArrayList();
         ArrayList<Item_OBJS> ideList = new ArrayList();
-        for (int iplCount = 0; iplCount < fm.ipls.length; iplCount++) { // door
+        for (int iplCount = 0; iplCount < fm.ipls.size(); iplCount++) { // door
             // alle
             // IPL's
-            if (fm.ipls[iplCount].selected) { // kijk of het een geselecteerde
+            if (fm.ipls.get(iplCount).selected) { // kijk of het een geselecteerde
                 // ipl is
-                ArrayList<Item_INST> items_inst = fm.ipls[iplCount].items_inst; // alle
+                ArrayList<Item_INST> items_inst = fm.ipls.get(iplCount).items_inst; // alle
                 // instances
                 // van
                 // de
                 // ipl
                 for (int iplItem = 0; iplItem < items_inst.size(); iplItem++) { //
                     int ideNumber = 0;
-                    Item_OBJS ideItem = (Item_OBJS) fm.ides[ideNumber].findItem(items_inst.get(iplItem).name);
+                    Item_OBJS ideItem = (Item_OBJS) fm.ides.get(ideNumber).findItem(items_inst.get(iplItem).name);
                     while (ideItem == null) {
                         ideNumber++;
-                        if (ideNumber < fm.ides.length) {
-                            ideItem = (Item_OBJS) fm.ides[ideNumber].findItem(items_inst.get(iplItem).name);
+                        if (ideNumber < fm.ides.size()) {
+                            ideItem = (Item_OBJS) fm.ides.get(ideNumber).findItem(items_inst.get(iplItem).name);
                         } else {
                             System.out.println("I really can't find in IDE: " + items_inst.get(iplItem).name);
                             break;
@@ -97,27 +97,27 @@ public class RenderMap {
                         items_inst.get(iplItem).glListID = 0;
                     }
                 }
-                fm.ipls[iplCount].itemsLoaded = true;
+                fm.ipls.get(iplCount).itemsLoaded = true;
             }
         }
         glDisplayList = new int[ideList.size() + 1];
         System.out.println("ideList Size: " + ideList.size());
 
-        for (int imgNumber = 0; imgNumber < fm.imgs.length; imgNumber++) {
-            ReadFunctions rf = new ReadFunctions(fm.imgs[imgNumber].getFileName()); // open the img file
-            System.out.println("Opened: " + fm.imgs[imgNumber].getFileName());
+        for (int imgNumber = 0; imgNumber < fm.imgs.size(); imgNumber++) {
+            ReadFunctions rf = new ReadFunctions(fm.imgs.get(imgNumber).getFileName()); // open the img file
+            System.out.println("Opened: " + fm.imgs.get(imgNumber).getFileName());
             for (int i = 0; i < ideList.size(); i++) {
                 if (!boolList.get(i)) {
                     String modelName = "";
                     ImgItem item = null;
                     if (!ideList.get(i).WDD.equals("null")) {
                         modelName = ideList.get(i).WDD + ".wdd";
-                        item = fm.imgs[imgNumber].findItem(modelName);
+                        item = fm.imgs.get(imgNumber).findItem(modelName);
                     } else {
                         modelName = ideList.get(i).modelName + ".wdr";
-                        item = fm.imgs[imgNumber].findItem(modelName);
+                        item = fm.imgs.get(imgNumber).findItem(modelName);
                         if (item == null)
-                            item = fm.imgs[imgNumber].findItem(ideList.get(i).modelName + ".wft");
+                            item = fm.imgs.get(imgNumber).findItem(ideList.get(i).modelName + ".wft");
                     }
                     if (item != null) {
                         rf.seek(item.getOffset());
@@ -125,20 +125,15 @@ public class RenderMap {
                         Model mdl = null;
                         if (item.getName().endsWith(".wdr")) {
                             System.out.println(item.getName());
-                            mdl = new Model().loadWDR(br, item.getSize()); // load
-                            // the
-                            // model
-                            // from
-                            // img
+                            mdl = new Model().loadWDR(br, item.getSize());
                         } else if (item.getName().endsWith(".wdd")) {
                             mdl = new Model().loadWDD(br, item.getSize(), ideList.get(i).modelName);
                         } else if (item.getName().endsWith(".wft")) {
                             System.out.println("Loading WFT: " + item.getName());
                             mdl = new Model().loadWFT(br, item.getSize());
                         }
-                        br = null;
                         String texName = ideList.get(i).textureName + ".wtd";
-                        item = fm.imgs[imgNumber].findItem(texName);
+                        item = fm.imgs.get(imgNumber).findItem(texName);
                         if (item != null) {
                             rf.seek(item.getOffset());
                             br = rf.getByteReader(item.getSize());
@@ -156,21 +151,17 @@ public class RenderMap {
                             drawCube(gl, 10, 0.1f, 0.5f, 0.9f);
                         gl.glEndList();
                         mdl.reset();
-                        mdl = null;
                         boolList.set(i, true);
                     }
                 }
                 rf.closeFile();
             }
         }
-        boolList = null;
-        ideList = null;
     }
 
     private void loadAddedModel(GL2 gl) {
         int tempList[] = glDisplayList; // store all glInts to a temp array
-        glDisplayList = new int[tempList.length + 1]; // make the displaylist
-        // one bigger
+        glDisplayList = new int[tempList.length + 1];
 
         for (int i = 0; i < tempList.length; i++) {
             glDisplayList[i] = tempList[i];
@@ -179,13 +170,13 @@ public class RenderMap {
         ImgItem item = null;
         int imgID = -1;
         int i = 0;
-        while (item == null || i < fm.imgs.length) {
+        while (item == null || i < fm.imgs.size()) {
             if (!tempIDE.WDD.equals("null"))
-                item = fm.imgs[i].findItem(tempIDE.WDD + ".wdd");
+                item = fm.imgs.get(i).findItem(tempIDE.WDD + ".wdd");
             else {
-                item = fm.imgs[i].findItem(tempIDE.modelName + ".wdr");
+                item = fm.imgs.get(i).findItem(tempIDE.modelName + ".wdr");
                 if (item == null)
-                    item = fm.imgs[i].findItem(tempIDE.modelName + ".wft");
+                    item = fm.imgs.get(i).findItem(tempIDE.modelName + ".wft");
             }
             if (item != null)
                 imgID = i;
@@ -193,7 +184,7 @@ public class RenderMap {
         }
 
         if (item != null) {
-            ReadFunctions rf = new ReadFunctions(fm.imgs[imgID].getFileName());
+            ReadFunctions rf = new ReadFunctions(fm.imgs.get(imgID).getFileName());
             rf.seek(item.getOffset());
             ByteReader br = rf.getByteReader(item.getSize());
             Model mdl = null;
@@ -209,7 +200,7 @@ public class RenderMap {
                 mdl = new Model().loadWFT(br, item.getSize());
             }
             br = null;
-            item = fm.imgs[imgID].findItem(tempIDE.textureName + ".wtd");
+            item = fm.imgs.get(imgID).findItem(tempIDE.textureName + ".wtd");
             if (item != null) {
                 rf.seek(item.getOffset());
                 br = rf.getByteReader(item.getSize());
@@ -266,12 +257,12 @@ public class RenderMap {
             if (fm.ipls == null) return;
 
             gl.glPushName(PickingType.map);
-            for (int j = 0; j < fm.ipls.length; j++) {
-                if (fm.ipls[j].selected && fm.ipls[j].itemsLoaded) {
+            for (int j = 0; j < fm.ipls.size(); j++) {
+                if (fm.ipls.get(j).selected && fm.ipls.get(j).itemsLoaded) {
                     gl.glPushName(j);
-                    for (int i = 0; i < fm.ipls[j].items_inst.size(); i++) {// instances
+                    for (int i = 0; i < fm.ipls.get(j).items_inst.size(); i++) {// instances
                         // rendering
-                        Item_INST item = fm.ipls[j].items_inst.get(i);
+                        Item_INST item = fm.ipls.get(j).items_inst.get(i);
                         if (!item.name.toLowerCase().contains("lod")) {
                             int drawID = i;
                             /*

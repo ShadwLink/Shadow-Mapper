@@ -10,6 +10,8 @@ package nl.shadowlink.tools.shadowmapper.gui;
 
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
+import nl.shadowlink.tools.shadowlib.ipl.Item_CARS;
+import nl.shadowlink.tools.shadowlib.ipl.Item_INST;
 import nl.shadowlink.tools.shadowlib.utils.filechooser.ExtensionFilter;
 import nl.shadowlink.tools.shadowlib.utils.filechooser.FileChooserUtil;
 import nl.shadowlink.tools.shadowmapper.checklist.CheckListManager;
@@ -19,11 +21,14 @@ import nl.shadowlink.tools.shadowmapper.render.GlListener;
 import nl.shadowlink.tools.shadowmapper.utils.EncryptionKeyExtractor;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.Set;
 
@@ -109,7 +114,7 @@ public class MainForm extends javax.swing.JFrame {
         comboIPLType = new JComboBox();
         panelIDE = new JPanel();
         jScrollPane2 = new JScrollPane();
-        jList2 = new JList();
+        idesJList = new JList();
         jButton3 = new JButton();
         jButton4 = new JButton();
         buttonNewIDEItem = new JButton();
@@ -140,7 +145,6 @@ public class MainForm extends javax.swing.JFrame {
         jPanel4 = new JPanel();
         jButton6 = new JButton();
         jButton7 = new JButton();
-        jButton8 = new JButton();
         labelFPS = new JLabel();
         labelCameraPosition = new JLabel();
         textX = new JTextField();
@@ -150,7 +154,7 @@ public class MainForm extends javax.swing.JFrame {
         jToggleButton2 = new JToggleButton();
         jToggleButton3 = new JToggleButton();
         jButton2 = new JButton();
-        jButton5 = new JButton();
+        mapCleanerButton = new JButton();
         mainMenuBar = new JMenuBar();
         fileMenu = new JMenu();
         saveInstallMenuItem = new JMenuItem();
@@ -173,16 +177,16 @@ public class MainForm extends javax.swing.JFrame {
         gLCanvas1.addGLEventListener(glListener);
         glListener.setFPSLabel(labelFPS);
         gLCanvas1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            public void mouseClicked(MouseEvent evt) {
                 gLCanvas1MouseClicked(evt);
             }
 
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+            public void mousePressed(MouseEvent evt) {
                 gLCanvas1MousePressed(evt);
             }
         });
         gLCanvas1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
+            public void mouseDragged(MouseEvent evt) {
                 gLCanvas1MouseDragged(evt);
             }
         });
@@ -194,7 +198,7 @@ public class MainForm extends javax.swing.JFrame {
 
         jButton1.setText("Render");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
@@ -203,7 +207,7 @@ public class MainForm extends javax.swing.JFrame {
         checkList = new CheckListManager(listScene);
         checkList.setFileManager(fm);
         listScene.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            public void mouseClicked(MouseEvent evt) {
                 listSceneMouseClicked(evt);
             }
         });
@@ -214,7 +218,7 @@ public class MainForm extends javax.swing.JFrame {
         checkCars.setSelected(true);
         checkCars.setText("Cars");
         checkCars.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 checkCarsActionPerformed(evt);
             }
         });
@@ -225,7 +229,7 @@ public class MainForm extends javax.swing.JFrame {
         checkWater.setSelected(true);
         checkWater.setText("Water");
         checkWater.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+            public void itemStateChanged(ItemEvent evt) {
                 checkWaterItemStateChanged(evt);
             }
         });
@@ -233,7 +237,7 @@ public class MainForm extends javax.swing.JFrame {
         checkMap.setSelected(true);
         checkMap.setText("Map");
         checkMap.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+            public void itemStateChanged(ItemEvent evt) {
                 checkMapItemStateChanged(evt);
             }
         });
@@ -298,7 +302,7 @@ public class MainForm extends javax.swing.JFrame {
 
         listIPL.setModel(fm.modelIPL);
         listIPL.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+            public void valueChanged(ListSelectionEvent evt) {
                 listIPLValueChanged(evt);
             }
         });
@@ -306,8 +310,8 @@ public class MainForm extends javax.swing.JFrame {
 
         jButton9.setText("New");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+            public void actionPerformed(ActionEvent evt) {
+                onAddIplClicked(evt);
             }
         });
 
@@ -316,7 +320,7 @@ public class MainForm extends javax.swing.JFrame {
         buttonNewIPLItem.setText("New");
         buttonNewIPLItem.setEnabled(false);
         buttonNewIPLItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 buttonNewIPLItemActionPerformed(evt);
             }
         });
@@ -327,19 +331,19 @@ public class MainForm extends javax.swing.JFrame {
         buttonDeleteIPLItem.setText("Delete");
         buttonDeleteIPLItem.setEnabled(false);
         buttonDeleteIPLItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 buttonDeleteIPLItemActionPerformed(evt);
             }
         });
 
         listIPLItems.setModel(fm.modelIPLItems);
         listIPLItems.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            public void mouseClicked(MouseEvent evt) {
                 listIPLItemsMouseClicked(evt);
             }
         });
         listIPLItems.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+            public void valueChanged(ListSelectionEvent evt) {
                 listIPLItemsValueChanged(evt);
             }
         });
@@ -349,7 +353,7 @@ public class MainForm extends javax.swing.JFrame {
                 "Cull", "Strbig", "LODCull", "Zone", "Blok"}));
         comboIPLType.setEnabled(false);
         comboIPLType.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+            public void itemStateChanged(ItemEvent evt) {
                 comboIPLTypeItemStateChanged(evt);
             }
         });
@@ -424,18 +428,18 @@ public class MainForm extends javax.swing.JFrame {
 
         listIDE.addTab("IPL", panelIPL);
 
-        jList2.setModel(fm.modelIDE);
-        jList2.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+        idesJList.setModel(fm.modelIDE);
+        idesJList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent evt) {
                 jList2ValueChanged(evt);
             }
         });
-        jScrollPane2.setViewportView(jList2);
+        jScrollPane2.setViewportView(idesJList);
 
         jButton3.setText("New");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+            public void actionPerformed(ActionEvent evt) {
+                onAddIdeClicked(evt);
             }
         });
 
@@ -444,7 +448,7 @@ public class MainForm extends javax.swing.JFrame {
         buttonNewIDEItem.setText("New");
         buttonNewIDEItem.setEnabled(false);
         buttonNewIDEItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 buttonNewIDEItemActionPerformed(evt);
             }
         });
@@ -452,7 +456,7 @@ public class MainForm extends javax.swing.JFrame {
         buttonDelIDEItem.setText("Delete");
         buttonDelIDEItem.setEnabled(false);
         buttonDelIDEItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 buttonDelIDEItemActionPerformed(evt);
             }
         });
@@ -460,19 +464,19 @@ public class MainForm extends javax.swing.JFrame {
         buttonEditIDEItem.setText("Edit");
         buttonEditIDEItem.setEnabled(false);
         buttonEditIDEItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 buttonEditIDEItemActionPerformed(evt);
             }
         });
 
         listIDEItems.setModel(fm.modelIDEItems);
         listIDEItems.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            public void mouseClicked(MouseEvent evt) {
                 listIDEItemsMouseClicked(evt);
             }
         });
         listIDEItems.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+            public void valueChanged(ListSelectionEvent evt) {
                 listIDEItemsValueChanged(evt);
             }
         });
@@ -791,13 +795,6 @@ public class MainForm extends javax.swing.JFrame {
         jButton7.setText("Convert IDE");
         jButton7.setEnabled(false);
 
-        jButton8.setText("Print WPL");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -810,8 +807,6 @@ public class MainForm extends javax.swing.JFrame {
                                                 .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                 .addComponent(jButton6)
                                                 .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE,
                                                         javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addContainerGap(150, Short.MAX_VALUE)));
         jPanel4Layout.setVerticalGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -819,8 +814,7 @@ public class MainForm extends javax.swing.JFrame {
                         jPanel4Layout.createSequentialGroup().addComponent(jButton6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton8).addContainerGap(74, Short.MAX_VALUE)));
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)));
 
         javax.swing.GroupLayout panelMapperLayout = new javax.swing.GroupLayout(panelMapper);
         panelMapper.setLayout(panelMapperLayout);
@@ -900,7 +894,7 @@ public class MainForm extends javax.swing.JFrame {
         jToggleButton2.setFocusable(false);
         jToggleButton2.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/wireframeSel.png"))); // NOI18N
         jToggleButton2.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+            public void itemStateChanged(ItemEvent evt) {
                 jToggleButton2ItemStateChanged(evt);
             }
         });
@@ -916,37 +910,31 @@ public class MainForm extends javax.swing.JFrame {
         jButton2.setBorder(null);
         jButton2.setFocusable(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+            public void actionPerformed(ActionEvent evt) {
+                onOpenResourceBrowserClicked(evt);
             }
         });
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/mapcleaner.png"))); // NOI18N
-        jButton5.setToolTipText("Map Cleaner");
-        jButton5.setBorder(null);
-        jButton5.setEnabled(false);
-        jButton5.setFocusable(false);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
+        mapCleanerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/mapcleaner.png"))); // NOI18N
+        mapCleanerButton.setToolTipText("Map Cleaner");
+        mapCleanerButton.setBorder(null);
+        mapCleanerButton.setEnabled(false);
+        mapCleanerButton.setFocusable(false);
         fileMenu.setText("File");
 
         saveInstallMenuItem.setText("Save install");
         saveInstallMenuItem.setEnabled(false);
         saveInstallMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+            public void actionPerformed(ActionEvent evt) {
+                onSaveClicked(evt);
             }
         });
         fileMenu.add(saveInstallMenuItem);
 
         exitMenuItem.setText("Exit");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+            public void actionPerformed(ActionEvent evt) {
+                onCloseClicked(evt);
             }
         });
         fileMenu.add(exitMenuItem);
@@ -973,7 +961,7 @@ public class MainForm extends javax.swing.JFrame {
 
         aboutMenuItem.setText("About");
         aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
             }
         });
@@ -998,7 +986,7 @@ public class MainForm extends javax.swing.JFrame {
                                                                 .addComponent(jButton2)
                                                                 .addPreferredGap(
                                                                         javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                .addComponent(jButton5)
+                                                                .addComponent(mapCleanerButton)
                                                                 .addGap(18, 18, 18)
                                                                 .addComponent(jToggleButton2,
                                                                         javax.swing.GroupLayout.PREFERRED_SIZE, 24,
@@ -1063,7 +1051,7 @@ public class MainForm extends javax.swing.JFrame {
                                         .addComponent(jToggleButton3, 0, 0, Short.MAX_VALUE)
                                         .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23,
                                                 Short.MAX_VALUE)
-                                        .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        .addComponent(mapCleanerButton, javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1092,7 +1080,7 @@ public class MainForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jMenuItem1ActionPerformed(ActionEvent evt) {// GEN-FIRST:event_jMenuItem1ActionPerformed
         String[] values = {"Shadow Mapper", "Beta 0.1a", "31-12-2009"};
         String[] thanks = {"Aru ", "DeXx  ", "JostVice", "Johnline", "OinkOink", "Paroxum  ", "REspawn  ",
                 "supermortalhuman ", "Tim  ", "", "Everyone I forgot"};
@@ -1104,8 +1092,8 @@ public class MainForm extends javax.swing.JFrame {
             switch (fm.selType) {
                 case PickingType.map:
                     if (fm.selParam1 != -1 && fm.selParam2 != -1) {
-                        fm.ipls[fm.selParam1].items_inst.remove(fm.selParam2);
-                        fm.ipls[fm.selParam1].changed = true;
+                        fm.ipls.get(fm.selParam1).items_inst.remove(fm.selParam2);
+                        fm.ipls.get(fm.selParam1).changed = true;
                         fm.updateIPLItemList(fm.selParam1, fm.selParam1);
                     }
                     break;
@@ -1116,34 +1104,34 @@ public class MainForm extends javax.swing.JFrame {
         glListener.keyPressed(evt);
     }// GEN-LAST:event_gLCanvas1KeyPressed
 
-    private void gLCanvas1MouseDragged(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_gLCanvas1MouseDragged
+    private void gLCanvas1MouseDragged(MouseEvent evt) {// GEN-FIRST:event_gLCanvas1MouseDragged
         glListener.mouseMoved(evt);
     }// GEN-LAST:event_gLCanvas1MouseDragged
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
         glListener.renderMap.reload = true;
     }// GEN-LAST:event_jButton1ActionPerformed
 
-    private void gLCanvas1MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_gLCanvas1MouseClicked
+    private void gLCanvas1MouseClicked(MouseEvent evt) {// GEN-FIRST:event_gLCanvas1MouseClicked
         if (evt.getClickCount() == 2) {
             glListener.setPick();
         }
     }// GEN-LAST:event_gLCanvas1MouseClicked
 
-    private void gLCanvas1MousePressed(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_gLCanvas1MousePressed
+    private void gLCanvas1MousePressed(MouseEvent evt) {// GEN-FIRST:event_gLCanvas1MousePressed
         System.out.println("Set pos " + evt.getX() + ", " + evt.getY());
         glListener.setCurrentMousePos(evt.getPoint());
     }// GEN-LAST:event_gLCanvas1MousePressed
 
-    private void jToggleButton2ItemStateChanged(java.awt.event.ItemEvent evt) {// GEN-FIRST:event_jToggleButton2ItemStateChanged
+    private void jToggleButton2ItemStateChanged(ItemEvent evt) {// GEN-FIRST:event_jToggleButton2ItemStateChanged
         glListener.setWireFrame(jToggleButton2.isSelected());
     }// GEN-LAST:event_jToggleButton2ItemStateChanged
 
     private void spinnerPosXStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerPosXStateChanged
         switch (fm.selType) {
             case PickingType.map:
-                fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).position.x = (Float) spinnerPosX.getValue();
-                fm.ipls[fm.selParam1].changed = true;
+                fm.ipls.get(fm.selParam1).items_inst.get(fm.selParam2).position.x = (Float) spinnerPosX.getValue();
+                fm.ipls.get(fm.selParam1).changed = true;
                 break;
         }
     }// GEN-LAST:event_spinnerPosXStateChanged
@@ -1151,8 +1139,8 @@ public class MainForm extends javax.swing.JFrame {
     private void spinnerPosYStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerPosYStateChanged
         switch (fm.selType) {
             case PickingType.map:
-                fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).position.y = (Float) spinnerPosY.getValue();
-                fm.ipls[fm.selParam1].changed = true;
+                fm.ipls.get(fm.selParam1).items_inst.get(fm.selParam2).position.y = (Float) spinnerPosY.getValue();
+                fm.ipls.get(fm.selParam1).changed = true;
                 break;
         }
     }// GEN-LAST:event_spinnerPosYStateChanged
@@ -1160,8 +1148,8 @@ public class MainForm extends javax.swing.JFrame {
     private void spinnerPosZStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerPosZStateChanged
         switch (fm.selType) {
             case PickingType.map:
-                fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).position.z = (Float) spinnerPosZ.getValue();
-                fm.ipls[fm.selParam1].changed = true;
+                fm.ipls.get(fm.selParam1).items_inst.get(fm.selParam2).position.z = (Float) spinnerPosZ.getValue();
+                fm.ipls.get(fm.selParam1).changed = true;
                 break;
         }
     }// GEN-LAST:event_spinnerPosZStateChanged
@@ -1174,15 +1162,15 @@ public class MainForm extends javax.swing.JFrame {
         new SaveScreen(fm, true);
     }// GEN-LAST:event_formWindowClosing
 
-    private void checkMapItemStateChanged(java.awt.event.ItemEvent evt) {// GEN-FIRST:event_checkMapItemStateChanged
+    private void checkMapItemStateChanged(ItemEvent evt) {// GEN-FIRST:event_checkMapItemStateChanged
         glListener.displayMap = checkMap.isSelected();
     }// GEN-LAST:event_checkMapItemStateChanged
 
-    private void checkWaterItemStateChanged(java.awt.event.ItemEvent evt) {// GEN-FIRST:event_checkWaterItemStateChanged
+    private void checkWaterItemStateChanged(ItemEvent evt) {
         glListener.displayWater = checkWater.isSelected();
     }// GEN-LAST:event_checkWaterItemStateChanged
 
-    private void listIPLValueChanged(javax.swing.event.ListSelectionEvent evt) {// GEN-FIRST:event_listIPLValueChanged
+    private void listIPLValueChanged(ListSelectionEvent evt) {
         fm.updateIPLItemList(listIPL.getSelectedIndex(), comboIPLType.getSelectedIndex());
         if (listIPL.getSelectedIndex() != -1) {
             buttonNewIPLItem.setEnabled(true);
@@ -1191,40 +1179,40 @@ public class MainForm extends javax.swing.JFrame {
             buttonNewIPLItem.setEnabled(false);
             comboIPLType.setEnabled(false);
         }
-    }// GEN-LAST:event_listIPLValueChanged
+    }
 
-    private void comboIPLTypeItemStateChanged(java.awt.event.ItemEvent evt) {// GEN-FIRST:event_comboIPLTypeItemStateChanged
+    private void comboIPLTypeItemStateChanged(ItemEvent evt) {
         fm.updateIPLItemList(listIPL.getSelectedIndex(), comboIPLType.getSelectedIndex());
-    }// GEN-LAST:event_comboIPLTypeItemStateChanged
+    }
 
-    private void buttonDeleteIPLItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonDeleteIPLItemActionPerformed
+    private void buttonDeleteIPLItemActionPerformed(ActionEvent evt) {
         switch (comboIPLType.getSelectedIndex()) {
             case 0:
-                fm.ipls[listIPL.getSelectedIndex()].items_inst.remove(listIPLItems.getSelectedIndex());
+                fm.ipls.get(listIPL.getSelectedIndex()).items_inst.remove(listIPLItems.getSelectedIndex());
                 break;
             case 2:
-                fm.ipls[listIPL.getSelectedIndex()].items_cars.remove(listIPLItems.getSelectedIndex());
+                fm.ipls.get(listIPL.getSelectedIndex()).items_cars.remove(listIPLItems.getSelectedIndex());
                 break;
         }
-        fm.ipls[listIPL.getSelectedIndex()].changed = true;
+        fm.ipls.get(listIPL.getSelectedIndex()).changed = true;
         fm.updateIPLItemList(listIPL.getSelectedIndex(), comboIPLType.getSelectedIndex());
-    }// GEN-LAST:event_buttonDeleteIPLItemActionPerformed
+    }
 
-    private void jList2ValueChanged(javax.swing.event.ListSelectionEvent evt) {// GEN-FIRST:event_jList2ValueChanged
-        fm.updateIDEItemList(jList2.getSelectedIndex(), 0);
+    private void jList2ValueChanged(ListSelectionEvent evt) {
+        fm.updateIDEItemList(idesJList.getSelectedIndex(), 0);
         buttonNewIDEItem.setEnabled(true);
         buttonDelIDEItem.setEnabled(true);
-    }// GEN-LAST:event_jList2ValueChanged
+    }
 
-    private void onResourceBrowserClicked(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void onResourceBrowserClicked(ActionEvent evt) {
         Browser browser = new Browser(fm);
-    }// GEN-LAST:event_jMenuItem2ActionPerformed
+    }
 
     private void onHashishGenClicked(ActionEvent evt) {
         new HashishGen();
     }
 
-    private void listIPLItemsMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_listIPLItemsMouseClicked
+    private void listIPLItemsMouseClicked(MouseEvent evt) {
         if (evt.getClickCount() == 2) {
             switch (comboIPLType.getSelectedIndex()) {
                 case 0:
@@ -1236,44 +1224,42 @@ public class MainForm extends javax.swing.JFrame {
             }
             selectionChanged();
         }
-    }// GEN-LAST:event_listIPLItemsMouseClicked
+    }
 
-    private void listIDEItemsMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_listIDEItemsMouseClicked
+    private void listIDEItemsMouseClicked(MouseEvent evt) {
         if (evt.getClickCount() == 2) {
-            new IDEForm(jList2.getSelectedIndex(), listIDEItems.getSelectedIndex(), fm);
+            new IDEForm(idesJList.getSelectedIndex(), listIDEItems.getSelectedIndex(), fm);
         }
-    }// GEN-LAST:event_listIDEItemsMouseClicked
+    }
 
-    private void buttonEditIDEItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonEditIDEItemActionPerformed
-        new IDEForm(jList2.getSelectedIndex(), listIDEItems.getSelectedIndex(), fm);
-    }// GEN-LAST:event_buttonEditIDEItemActionPerformed
+    private void buttonEditIDEItemActionPerformed(ActionEvent evt) {
+        new IDEForm(idesJList.getSelectedIndex(), listIDEItems.getSelectedIndex(), fm);
+    }
 
-    private void listIDEItemsValueChanged(javax.swing.event.ListSelectionEvent evt) {// GEN-FIRST:event_listIDEItemsValueChanged
-        if (listIDEItems.getSelectedIndex() != -1)
-            buttonEditIDEItem.setEnabled(true);
-        else
-            buttonEditIDEItem.setEnabled(false);
-    }// GEN-LAST:event_listIDEItemsValueChanged
+    private void listIDEItemsValueChanged(ListSelectionEvent evt) {
+        buttonEditIDEItem.setEnabled(listIDEItems.getSelectedIndex() != -1);
+    }
 
-    private void buttonNewIDEItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonNewIDEItemActionPerformed
-        new IDEForm(jList2.getSelectedIndex(), fm);
-    }// GEN-LAST:event_buttonNewIDEItemActionPerformed
+    private void buttonNewIDEItemActionPerformed(ActionEvent evt) {
+        new IDEForm(idesJList.getSelectedIndex(), fm);
+    }
 
-    private void listSceneMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_listSceneMouseClicked
+    private void listSceneMouseClicked(MouseEvent evt) {
         if (evt.getClickCount() == 2) {
-            glListener.camera.pos.x = fm.ipls[listScene.getSelectedIndex()].items_inst.get(0).position.x;
-            glListener.camera.pos.z = 0 - fm.ipls[listScene.getSelectedIndex()].items_inst.get(0).position.y;
-            glListener.camera.pos.y = fm.ipls[listScene.getSelectedIndex()].items_inst.get(0).position.z;
-            glListener.camera.view.x = fm.ipls[listScene.getSelectedIndex()].items_inst.get(0).position.x;
-            glListener.camera.view.z = 0 - fm.ipls[listScene.getSelectedIndex()].items_inst.get(0).position.y + 5.0f;
-            glListener.camera.view.y = fm.ipls[listScene.getSelectedIndex()].items_inst.get(0).position.z - 0.5f;
+            Item_INST instance = fm.ipls.get(listScene.getSelectedIndex()).items_inst.get(0);
+            glListener.camera.pos.x = instance.position.x;
+            glListener.camera.pos.z = 0 - instance.position.y;
+            glListener.camera.pos.y = instance.position.z;
+            glListener.camera.view.x = instance.position.x;
+            glListener.camera.view.z = 0 - instance.position.y + 5.0f;
+            glListener.camera.view.y = instance.position.z - 0.5f;
             glListener.camera.up.x = 0;
             glListener.camera.up.z = 0;
             glListener.camera.up.y = 1;
         }
-    }// GEN-LAST:event_listSceneMouseClicked
+    }
 
-    private void buttonNewIPLItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonNewIPLItemActionPerformed
+    private void buttonNewIPLItemActionPerformed(ActionEvent evt) {
         switch (comboIPLType.getSelectedIndex()) {
             case 0:
                 new IPLForm(fm, listIPL.getSelectedIndex(), glListener.camera.view);
@@ -1284,38 +1270,37 @@ public class MainForm extends javax.swing.JFrame {
                 new CarForm(fm, listIPL.getSelectedIndex(), glListener.camera.view);
                 break;
         }
-    }// GEN-LAST:event_buttonNewIPLItemActionPerformed
+    }
 
-    private void buttonDelIDEItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonDelIDEItemActionPerformed
-        fm.ides[jList2.getSelectedIndex()].items_objs.remove(listIDEItems.getSelectedIndex());
-        fm.ides[jList2.getSelectedIndex()].changed = true;
-        System.out.println("Deleted IDE");
-        fm.updateIDEItemList(jList2.getSelectedIndex(), 0);
-    }// GEN-LAST:event_buttonDelIDEItemActionPerformed
+    private void buttonDelIDEItemActionPerformed(ActionEvent evt) {
+        fm.ides.get(idesJList.getSelectedIndex()).items_objs.remove(listIDEItems.getSelectedIndex());
+        fm.ides.get(idesJList.getSelectedIndex()).changed = true;
+        fm.updateIDEItemList(idesJList.getSelectedIndex(), 0);
+    }
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton3ActionPerformed
+    private void onAddIdeClicked(ActionEvent evt) {
         File file = FileChooserUtil.openFileChooser(this, new ExtensionFilter(Set.of("ide"), "IDE File"));
         fm.addNewIDE(file);
-    }// GEN-LAST:event_jButton3ActionPerformed
+    }
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void onCloseClicked(ActionEvent evt) {
         this.dispose();
-    }// GEN-LAST:event_jMenuItem3ActionPerformed
+    }
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton9ActionPerformed
+    private void onAddIplClicked(ActionEvent evt) {
         File file = FileChooserUtil.openFileChooser(this, new ExtensionFilter(Set.of("wpl"), "WPL File"));
         fm.addNewIPL(file);
-    }// GEN-LAST:event_jButton9ActionPerformed
+    }
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void onSaveClicked(ActionEvent evt) {
         new SaveScreen(fm, false);
-    }// GEN-LAST:event_jMenuItem4ActionPerformed
+    }
 
-    private void checkCarsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_checkCarsActionPerformed
+    private void checkCarsActionPerformed(ActionEvent evt) {
         glListener.displayCars = checkCars.isSelected();
-    }// GEN-LAST:event_checkCarsActionPerformed
+    }
 
-    private void listIPLItemsValueChanged(javax.swing.event.ListSelectionEvent evt) {// GEN-FIRST:event_listIPLItemsValueChanged
+    private void listIPLItemsValueChanged(ListSelectionEvent evt) {
         if (listIPLItems.getSelectedIndex() != -1) {
             buttonEditIPLItem.setEnabled(true);
             buttonDeleteIPLItem.setEnabled(true);
@@ -1323,59 +1308,50 @@ public class MainForm extends javax.swing.JFrame {
             buttonEditIPLItem.setEnabled(false);
             buttonDeleteIPLItem.setEnabled(false);
         }
-    }// GEN-LAST:event_listIPLItemsValueChanged
+    }
 
-    private void spinnerRotXStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerRotXStateChanged
+    private void spinnerRotXStateChanged(javax.swing.event.ChangeEvent evt) {
         switch (fm.selType) {
             case PickingType.map:
-                fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.x = (Float) spinnerRotX.getValue();
-                fm.ipls[fm.selParam1].changed = true;
+                fm.ipls.get(fm.selParam1).items_inst.get(fm.selParam2).axisAngle.x = (Float) spinnerRotX.getValue();
+                fm.ipls.get(fm.selParam1).changed = true;
                 break;
         }
-    }// GEN-LAST:event_spinnerRotXStateChanged
+    }
 
-    private void spinnerRotYStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerRotYStateChanged
+    private void spinnerRotYStateChanged(javax.swing.event.ChangeEvent evt) {
         switch (fm.selType) {
             case PickingType.map:
-                fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.y = (Float) spinnerRotY.getValue();
-                fm.ipls[fm.selParam1].changed = true;
+                fm.ipls.get(fm.selParam1).items_inst.get(fm.selParam2).axisAngle.y = (Float) spinnerRotY.getValue();
+                fm.ipls.get(fm.selParam1).changed = true;
                 break;
         }
-    }// GEN-LAST:event_spinnerRotYStateChanged
+    }
 
-    private void spinnerRotZStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerRotZStateChanged
+    private void spinnerRotZStateChanged(javax.swing.event.ChangeEvent evt) {
         switch (fm.selType) {
             case PickingType.map:
-                fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.z = (Float) spinnerRotZ.getValue();
-                fm.ipls[fm.selParam1].changed = true;
+                fm.ipls.get(fm.selParam1).items_inst.get(fm.selParam2).axisAngle.z = (Float) spinnerRotZ.getValue();
+                fm.ipls.get(fm.selParam1).changed = true;
                 break;
         }
-    }// GEN-LAST:event_spinnerRotZStateChanged
+    }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton2ActionPerformed
-        Browser browser = new Browser(fm);
-    }// GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton8ActionPerformed
-        for (int i = 0; i < fm.gtaDat.ipl.size(); i++) {
-            System.out.println(fm.gtaDat.ipl.get(i));
-        }
-    }// GEN-LAST:event_jButton8ActionPerformed
+    private void onOpenResourceBrowserClicked(ActionEvent evt) {
+        new Browser(fm);
+    }
 
     public void selectionChanged() {
         switch (fm.selType) {
             case PickingType.map:
-                textModelName.setText(fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).name);
-                spinnerPosX.setValue(fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).position.x);
-                spinnerPosY.setValue(fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).position.y);
-                spinnerPosZ.setValue(fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).position.z);
-                spinnerRotX.setValue(fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.x);
-                spinnerRotY.setValue(fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.y);
-                spinnerRotZ.setValue(fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.z);
+                Item_INST instance = fm.ipls.get(fm.selParam1).items_inst.get(fm.selParam2);
+                textModelName.setText(instance.name);
+                spinnerPosX.setValue(instance.position.x);
+                spinnerPosY.setValue(instance.position.y);
+                spinnerPosZ.setValue(instance.position.z);
+                spinnerRotX.setValue(instance.axisAngle.x);
+                spinnerRotY.setValue(instance.axisAngle.y);
+                spinnerRotZ.setValue(instance.axisAngle.z);
                 listIPL.setSelectedIndex(fm.selParam1);
                 listIPLItems.setSelectedIndex(fm.selParam2);
                 break;
@@ -1383,13 +1359,14 @@ public class MainForm extends javax.swing.JFrame {
                 textModelName.setText("Water");
                 break;
             case PickingType.car:
-                textModelName.setText(fm.ipls[fm.selParam1].items_cars.get(fm.selParam2).name);
-                spinnerPosX.setValue(fm.ipls[fm.selParam1].items_cars.get(fm.selParam2).position.x);
-                spinnerPosY.setValue(fm.ipls[fm.selParam1].items_cars.get(fm.selParam2).position.y);
-                spinnerPosZ.setValue(fm.ipls[fm.selParam1].items_cars.get(fm.selParam2).position.z);
-                spinnerRotX.setValue(fm.ipls[fm.selParam1].items_cars.get(fm.selParam2).rotation.x);
-                spinnerRotY.setValue(fm.ipls[fm.selParam1].items_cars.get(fm.selParam2).rotation.y);
-                spinnerRotZ.setValue(fm.ipls[fm.selParam1].items_cars.get(fm.selParam2).rotation.z);
+                Item_CARS car = fm.ipls.get(fm.selParam1).items_cars.get(fm.selParam2);
+                textModelName.setText(car.name);
+                spinnerPosX.setValue(car.position.x);
+                spinnerPosY.setValue(car.position.y);
+                spinnerPosZ.setValue(car.position.z);
+                spinnerRotX.setValue(car.rotation.x);
+                spinnerRotY.setValue(car.rotation.y);
+                spinnerRotZ.setValue(car.rotation.z);
                 break;
             default:
                 textModelName.setText("Unknown");
@@ -1418,13 +1395,12 @@ public class MainForm extends javax.swing.JFrame {
     private JButton jButton2;
     private JButton jButton3;
     private JButton jButton4;
-    private JButton jButton5;
+    private JButton mapCleanerButton;
     private JButton jButton6;
     private JButton jButton7;
-    private JButton jButton8;
     private JButton jButton9;
     private JCheckBox jCheckBox1;
-    private JList jList2;
+    private JList idesJList;
     private JMenu fileMenu;
     private JMenu editMenu;
     private JMenu helpMenu;

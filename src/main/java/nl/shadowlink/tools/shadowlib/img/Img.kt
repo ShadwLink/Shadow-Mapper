@@ -18,12 +18,13 @@ class Img(var fileName: String, var gameType: GameType, key: ByteArray, autoLoad
 
     var isChanged = false
 
-    var isEncrypted = false
-        set(value) {
-            field = value
-            isChanged = true
-        }
-    
+    var isEncrypted: Boolean = false
+
+    fun toggleEncryption(enabled: Boolean) {
+        isEncrypted = enabled
+        isChanged = true
+    }
+
     var containsProps = false
 
     var key = ByteArray(32)

@@ -103,8 +103,8 @@ public class CarForm extends javax.swing.JFrame {
         iplItem.unknown5 = 0;
         iplItem.unknown6 = 0;
         iplItem.unknown7 = 0;
-        fm.ipls[ipl].items_cars.add(iplItem);
-        fm.ipls[ipl].changed = true;
+        fm.ipls.get(ipl).items_cars.add(iplItem);
+        fm.ipls.get(ipl).changed = true;
         fm.modelIPLItems.addElement(iplItem.name);
         //addHashToIni(name);
         iplItem = null;

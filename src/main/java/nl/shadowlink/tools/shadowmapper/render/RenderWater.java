@@ -31,8 +31,8 @@ public class RenderWater {
         gl.glPushName(PickingType.water);
         gl.glBegin(GL2.GL_QUADS);
 
-        for (int i = 0; i < fm.waters[0].planes.size(); i++) {
-            WaterPlane plane = fm.waters[0].planes.get(i);
+        for (int i = 0; i < fm.waters.get(0).planes.size(); i++) {
+            WaterPlane plane = fm.waters.get(0).planes.get(i);
             if (plane.selected) gl.glColor3f(0.9f, 0, 0);
             else gl.glColor4f(0, 0.4f, 1.0f, 0.5f);
 

@@ -52,12 +52,12 @@ public class RenderVehicles {
     public void display(GL2 gl) {
         if (fm != null) {
             gl.glPushName(PickingType.car);
-            for (int i = 0; i < fm.ipls.length; i++) {
+            for (int i = 0; i < fm.ipls.size(); i++) {
                 gl.glPushName(i);
-                if (fm.ipls[i].selected) {
-                    for (int j = 0; j < fm.ipls[i].items_cars.size(); j++) {
+                if (fm.ipls.get(i).selected) {
+                    for (int j = 0; j < fm.ipls.get(i).items_cars.size(); j++) {
                         gl.glPushName(j);
-                        Item_CARS car = fm.ipls[i].items_cars.get(j);
+                        Item_CARS car = fm.ipls.get(i).items_cars.get(j);
                         gl.glPushMatrix();
                         if (car.selected)
                             gl.glColor3f(0.9f, 0, 0);

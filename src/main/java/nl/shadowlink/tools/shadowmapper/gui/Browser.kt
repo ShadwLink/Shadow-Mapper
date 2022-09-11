@@ -64,8 +64,8 @@ class Browser : JFrame {
 
     constructor(fm: FileManager) {
         this.iconImage = Toolkit.getDefaultToolkit().createImage("icon.png")
-        this.centerWindow()
         this.isVisible = true
+        this.centerWindow()
 
         this.fm = fm
         initComponents()
@@ -266,7 +266,7 @@ class Browser : JFrame {
     }
 
     private fun onEncryptionToggleStateChanged(evt: ItemEvent) {
-        getSelectedImg()?.isEncrypted = isEncryptedToggleButton.isSelected
+        getSelectedImg()?.toggleEncryption(isEncryptedToggleButton.isSelected)
     }
 
     private fun listItemsMouseClicked(evt: MouseEvent) {
@@ -345,7 +345,7 @@ class Browser : JFrame {
     private fun onAddImgClicked(evt: ActionEvent) {
         val file = openFileChooser(this, ExtensionFilter(setOf("img"), "GTA IMG File"))
         if (file != null && !file.exists()) {
-            fm.addIMG(file.absolutePath)
+            fm.addIMG(file)
             initImgList()
         }
     }

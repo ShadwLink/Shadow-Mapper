@@ -46,15 +46,17 @@ public class IDEForm extends javax.swing.JFrame {
         this.itemID = itemID;
         mode = 1; //edit item
         initComponents();
-        textModel.setText(fm.ides[ideID].items_objs.get(itemID).modelName);
-        textText.setText(fm.ides[ideID].items_objs.get(itemID).textureName);
-        textWDD.setText(fm.ides[ideID].items_objs.get(itemID).WDD);
-        textDraw.setText("" + fm.ides[ideID].items_objs.get(itemID).drawDistance[0]);
-        textFlag1.setText("" + fm.ides[ideID].items_objs.get(itemID).flag1);
-        textFlag2.setText("" + fm.ides[ideID].items_objs.get(itemID).flag2);
-        labelBoundsMin.setText("Bounds Min: " + fm.ides[ideID].items_objs.get(itemID).boundsMin.x + ", " + fm.ides[ideID].items_objs.get(itemID).boundsMin.y + ", " + fm.ides[ideID].items_objs.get(itemID).boundsMin.z);
-        labelBoundsMax.setText("Bounds Max: " + fm.ides[ideID].items_objs.get(itemID).boundsMax.x + ", " + fm.ides[ideID].items_objs.get(itemID).boundsMax.y + ", " + fm.ides[ideID].items_objs.get(itemID).boundsMax.z);
-        labelSphere.setText("Sphere: " + fm.ides[ideID].items_objs.get(itemID).boundsSphere.x + ", " + fm.ides[ideID].items_objs.get(itemID).boundsSphere.y + ", " + fm.ides[ideID].items_objs.get(itemID).boundsSphere.z + ", " + fm.ides[ideID].items_objs.get(itemID).boundsSphere.w);
+
+        Item_OBJS objs = fm.ides.get(ideID).items_objs.get(itemID);
+        textModel.setText(objs.modelName);
+        textText.setText(objs.textureName);
+        textWDD.setText(objs.WDD);
+        textDraw.setText(String.valueOf(objs.drawDistance[0]));
+        textFlag1.setText(String.valueOf(objs.flag1));
+        textFlag2.setText(String.valueOf(objs.flag2));
+        labelBoundsMin.setText("Bounds Min: " + objs.boundsMin.x + ", " + objs.boundsMin.y + ", " + objs.boundsMin.z);
+        labelBoundsMax.setText("Bounds Max: " + objs.boundsMax.x + ", " + objs.boundsMax.y + ", " + objs.boundsMax.z);
+        labelSphere.setText("Sphere: " + objs.boundsSphere.x + ", " + objs.boundsSphere.y + ", " + objs.boundsSphere.z + ", " + objs.boundsSphere.w);
         this.fm = fm;
         this.setVisible(true);
     }
@@ -228,7 +230,7 @@ public class IDEForm extends javax.swing.JFrame {
     private void buttonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOkActionPerformed
         if (mode == 1) {
             saveIDEItem();
-            fm.ides[ideID].changed = true;
+            fm.ides.get(ideID).changed = true;
         } else if (mode == 2) {
             Item_OBJS tmpItem = new Item_OBJS(GameType.GTA_IV);
             itemID = fm.addIDEItem(tmpItem, ideID);
@@ -238,17 +240,18 @@ public class IDEForm extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonOkActionPerformed
 
     private void saveIDEItem() {
-        fm.ides[ideID].items_objs.get(itemID).modelName = textModel.getText();
-        fm.ides[ideID].items_objs.get(itemID).textureName = textText.getText();
-        fm.ides[ideID].items_objs.get(itemID).WDD = textWDD.getText();
-        if (fm.ides[ideID].items_objs.get(itemID).WDD.isEmpty()) fm.ides[ideID].items_objs.get(itemID).WDD = "null";
-        fm.ides[ideID].items_objs.get(itemID).drawDistance = new float[1];
-        fm.ides[ideID].items_objs.get(itemID).drawDistance[0] = Float.valueOf(textDraw.getText());
-        fm.ides[ideID].items_objs.get(itemID).flag1 = Integer.valueOf(textFlag1.getText());
-        fm.ides[ideID].items_objs.get(itemID).flag2 = Integer.valueOf(textFlag2.getText());
-        fm.ides[ideID].items_objs.get(itemID).boundsMax = boundsMax;
-        fm.ides[ideID].items_objs.get(itemID).boundsMin = boundsMin;
-        fm.ides[ideID].items_objs.get(itemID).boundsSphere = boundsSphere;
+        Item_OBJS objs = fm.ides.get(ideID).items_objs.get(itemID);
+        objs.modelName = textModel.getText();
+        objs.textureName = textText.getText();
+        objs.WDD = textWDD.getText();
+        if (objs.WDD.isEmpty()) objs.WDD = "null";
+        objs.drawDistance = new float[1];
+        objs.drawDistance[0] = Float.valueOf(textDraw.getText());
+        objs.flag1 = Integer.valueOf(textFlag1.getText());
+        objs.flag2 = Integer.valueOf(textFlag2.getText());
+        objs.boundsMax = boundsMax;
+        objs.boundsMin = boundsMin;
+        objs.boundsSphere = boundsSphere;
     }
 
     private void setModel(ImgItem imgItem, Img img) {//}, String model, int imgID, int itemID) {
