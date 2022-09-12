@@ -7,6 +7,7 @@ import nl.shadowlink.tools.shadowlib.model.model.Model;
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
 import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.gui.FileManager;
+import nl.shadowlink.tools.shadowmapper.render.Camera;
 
 import javax.swing.*;
 import java.awt.*;
