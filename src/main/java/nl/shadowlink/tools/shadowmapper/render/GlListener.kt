@@ -24,8 +24,8 @@ class GlListener(
     private val onFpsUpdateListener: ((fps: Float) -> Unit)? = null
 ) : GLEventListener {
     private val renderMap: RenderMap = RenderMap(GameType.GTA_IV)
-    private val renderWater: RenderWater = RenderWater()
-    private val renderCars: RenderVehicles = RenderVehicles()
+    private val renderWater: RenderWater = RenderWater(fm)
+    private val renderCars: RenderVehicles = RenderVehicles(fm)
 
     @JvmField
     val camera = Camera(0f, 2f, 5f, 0f, 2.5f, 0f, 0f, 1f, 0f)
@@ -249,7 +249,7 @@ class GlListener(
         // gl.glDisable(gl.GL_COLOR_MATERIAL);
 
         renderMap.init(gl, camera, fm)
-        renderWater.init(fm)
+        renderWater.init()
 //        renderCars.init(gl, fm);
     }
 
