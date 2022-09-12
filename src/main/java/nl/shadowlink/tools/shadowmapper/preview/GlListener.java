@@ -147,23 +147,22 @@ public class GlListener implements GLEventListener {
         GL2 gl = drawable.getGL().getGL2();
         GLU glu = new GLU();
 
-        if (load)
+        if (load) {
             loadModel(gl);
+        }
 
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT); // Clear
-        // the
-        // drawing
-        // area
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
-        gl.glLoadIdentity(); // Reset the current matrix to the "identity"
+        gl.glLoadIdentity();
 
         glu.gluLookAt(camera.getPosX(), camera.getPosY(), camera.getPosZ(), camera.getViewX(), camera.getViewY(),
                 camera.getViewZ(), camera.getUpX(), camera.getUpY(), camera.getUpZ());
 
-        if (wireFrame)
+        if (wireFrame) {
             gl.glPolygonMode(GL2.GL_FRONT, GL2.GL_LINE);
-        else
+        } else {
             gl.glPolygonMode(GL2.GL_FRONT, GL2.GL_FILL);
+        }
 
         if (type == 3) {
             int height = 512;
@@ -450,45 +449,6 @@ public class GlListener implements GLEventListener {
         updateFPS();
 
         gl.glFlush();
-    }
-
-    public void drawCube(GL2 gl, float size, float red, float green, float blue) {
-        gl.glColor3f(red, green, blue); // Set The Color To Green
-        gl.glBegin(GL2.GL_QUADS); // Start Drawing The Cube
-
-        gl.glVertex3f(size, size, -size); // Top Right Of The Quad (Top)
-        gl.glVertex3f(-size, size, -size); // Top Left Of The Quad (Top)
-        gl.glVertex3f(-size, size, size); // Bottom Left Of The Quad (Top)
-        gl.glVertex3f(size, size, size); // Bottom Right Of The Quad (Top)
-
-        gl.glVertex3f(size, -size, size); // Top Right Of The Quad (Bottom)
-        gl.glVertex3f(-size, -size, size); // Top Left Of The Quad (Bottom)
-        gl.glVertex3f(-size, -size, -size); // Bottom Left Of The Quad (Bottom)
-        gl.glVertex3f(size, -size, -size); // Bottom Right Of The Quad (Bottom)
-
-        gl.glVertex3f(size, size, size); // Top Right Of The Quad (Front)
-        gl.glVertex3f(-size, size, size); // Top Left Of The Quad (Front)
-        gl.glVertex3f(-size, -size, size); // Bottom Left Of The Quad (Front)
-        gl.glVertex3f(size, -size, size); // Bottom Right Of The Quad (Front)
-
-        gl.glVertex3f(size, -size, -size); // Bottom Left Of The Quad (Back)
-        gl.glVertex3f(-size, -size, -size); // Bottom Right Of The Quad (Back)
-        gl.glVertex3f(-size, size, -size); // Top Right Of The Quad (Back)
-        gl.glVertex3f(size, size, -size); // Top Left Of The Quad (Back)
-
-        gl.glVertex3f(-size, size, size); // Top Right Of The Quad (Left)
-        gl.glVertex3f(-size, size, -size); // Top Left Of The Quad (Left)
-        gl.glVertex3f(-size, -size, -size); // Bottom Left Of The Quad (Left)
-        gl.glVertex3f(-size, -size, size); // Bottom Right Of The Quad (Left)
-
-        gl.glVertex3f(size, size, -size); // Top Right Of The Quad (Right)
-        gl.glVertex3f(size, size, size); // Top Left Of The Quad (Right)
-        gl.glVertex3f(size, -size, size); // Bottom Left Of The Quad (Right)
-        gl.glVertex3f(size, -size, -size); // Bottom Right Of The Quad (Right)
-
-        gl.glEnd();
-
-        gl.glColor3f(1.0f, 1.0f, 1.0f);
     }
 
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {

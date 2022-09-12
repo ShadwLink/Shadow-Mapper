@@ -161,7 +161,7 @@ class FileManager : Thread() {
                     }
                     ipls.add(ipl)
 
-                    statusCallbacks?.onLoadingStatusChanged("<WPL> $wplEntry")
+                    statusCallbacks?.onLoadingStatusChanged("<WPL> ${wplEntry.name}")
                     modelIPL.addElement(wplEntry.name)
                     statusCallbacks?.onLoadingValueIncreased()
                 }

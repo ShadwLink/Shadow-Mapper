@@ -82,6 +82,7 @@ class RenderMap(
     }
 
     private fun loadMap(gl: GL2) {
+        // Clear existing display list
         glDisplayList.forEach { dl -> gl.glDeleteLists(dl, 1) }
 
         val boolList: ArrayList<Boolean> = ArrayList<Boolean>()
