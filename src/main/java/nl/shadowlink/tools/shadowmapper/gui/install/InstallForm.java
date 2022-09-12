@@ -1,11 +1,3 @@
-
-
-/*
- * Select.java
- *
- * Created on 14-aug-2009, 18:17:11
- */
-
 package nl.shadowlink.tools.shadowmapper.gui.install;
 
 import kotlin.Unit;

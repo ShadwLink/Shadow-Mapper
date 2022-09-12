@@ -132,10 +132,9 @@ class FileManager : Thread() {
             statusCallbacks?.onLoadingValueIncreased()
         }
 
-        val iplList = mutableListOf<IPL>()
         gtaDat.ipl.forEach { iplPath ->
             statusCallbacks?.onLoadingStatusChanged("<IPL> $iplPath")
-            iplList.add(IPL("$gameDir$iplPath", hashTable, gameType, true))
+            ipls.add(IPL("$gameDir$iplPath", hashTable, gameType, true))
             modelIPL.addElement(iplPath)
             statusCallbacks?.onLoadingValueIncreased()
         }
@@ -160,7 +159,7 @@ class FileManager : Thread() {
                     val ipl = IPL(rf, hashTable, gameType, true, img, wplEntry, wplEntry.name).apply {
                         fileName = wplEntry.name
                     }
-                    iplList.add(ipl)
+                    ipls.add(ipl)
 
                     statusCallbacks?.onLoadingStatusChanged("<WPL> $wplEntry")
                     modelIPL.addElement(wplEntry.name)
@@ -237,23 +236,23 @@ class FileManager : Thread() {
         }
 
     fun addIPLItem(name: String, iplID: Int, pos: Vector3D) {
-        val iplItem: Item_INST = Item_INST(gameType)
+        val iplItem = Item_INST(gameType)
         iplItem.name = name
         iplItem.interior = 0
         iplItem.lod = -1
         iplItem.position.x = pos.x
         iplItem.position.y = 0 - pos.z
         iplItem.position.z = pos.y
-        ipls!![iplID]!!.items_inst.add(iplItem)
-        ipls!![iplID]!!.changed = true
+        ipls[iplID].items_inst.add(iplItem)
+        ipls[iplID].changed = true
         modelIPLItems.addElement(name)
     }
 
     fun addIDEItem(tmp: Item_OBJS, ideID: Int): Int {
-        ides!![ideID]!!.items_objs.add(tmp)
-        ides!![ideID]!!.changed = true
+        ides[ideID].items_objs.add(tmp)
+        ides[ideID].changed = true
         modelIDEItems.addElement(tmp.modelName)
-        return ides!![ideID]!!.items_objs.size - 1
+        return ides[ideID].items_objs.size - 1
     }
 
     fun updateIDEItemList(ideID: Int, type: Int) {
@@ -261,8 +260,8 @@ class FileManager : Thread() {
         when (type) {
             0 -> {
                 var i = 0
-                while (i < ides!![ideID]!!.items_objs.size) {
-                    modelIDEItems.addElement(ides!![ideID]!!.items_objs[i].modelName)
+                while (i < ides[ideID].items_objs.size) {
+                    modelIDEItems.addElement(ides[ideID].items_objs[i].modelName)
                     i++
                 }
             }
@@ -274,25 +273,25 @@ class FileManager : Thread() {
         when (type) {
             0 -> {
                 var i = 0
-                while (i < ipls!![iplID]!!.items_inst.size) {
-                    modelIPLItems.addElement(ipls!![iplID]!!.items_inst[i].name)
+                while (i < ipls[iplID].items_inst.size) {
+                    modelIPLItems.addElement(ipls[iplID].items_inst[i].name)
                     i++
                 }
             }
 
             1 -> {
                 var i = 0
-                while (i < ipls!![iplID]!!.items_grge.size) {
-                    modelIPLItems.addElement(ipls!![iplID]!!.items_grge[i].name)
+                while (i < ipls[iplID].items_grge.size) {
+                    modelIPLItems.addElement(ipls[iplID].items_grge[i].name)
                     i++
                 }
             }
 
             2 -> {
                 var i = 0
-                while (i < ipls!![iplID]!!.items_cars.size) {
-                    if (ipls!![iplID]!!.items_cars[i].name != "") {
-                        modelIPLItems.addElement(ipls!![iplID]!!.items_cars[i].name)
+                while (i < ipls[iplID].items_cars.size) {
+                    if (ipls[iplID].items_cars[i].name != "") {
+                        modelIPLItems.addElement(ipls[iplID].items_cars[i].name)
                     } else {
                         modelIPLItems.addElement("Random")
                     }
@@ -302,40 +301,40 @@ class FileManager : Thread() {
 
             3 -> {
                 var i = 0
-                while (i < ipls!![iplID]!!.items_cull.size) {
-                    modelIPLItems.addElement(ipls!![iplID]!!.items_cull[i].name)
+                while (i < ipls[iplID].items_cull.size) {
+                    modelIPLItems.addElement(ipls[iplID].items_cull[i].name)
                     i++
                 }
             }
 
             4 -> {
                 var i = 0
-                while (i < ipls!![iplID]!!.items_strbig.size) {
-                    modelIPLItems.addElement(ipls!![iplID]!!.items_strbig[i].modelName)
+                while (i < ipls[iplID].items_strbig.size) {
+                    modelIPLItems.addElement(ipls[iplID].items_strbig[i].modelName)
                     i++
                 }
             }
 
             5 -> {
                 var i = 0
-                while (i < ipls!![iplID]!!.items_lcul.size) {
-                    modelIPLItems.addElement(ipls!![iplID]!!.items_lcul[i].name1)
+                while (i < ipls[iplID].items_lcul.size) {
+                    modelIPLItems.addElement(ipls[iplID].items_lcul[i].name1)
                     i++
                 }
             }
 
             6 -> {
                 var i = 0
-                while (i < ipls!![iplID]!!.items_zone.size) {
-                    modelIPLItems.addElement(ipls!![iplID]!!.items_zone[i].toString())
+                while (i < ipls[iplID].items_zone.size) {
+                    modelIPLItems.addElement(ipls[iplID].items_zone[i].toString())
                     i++
                 }
             }
 
             7 -> {
                 var i = 0
-                while (i < ipls!![iplID]!!.items_blok.size) {
-                    modelIPLItems.addElement(ipls!![iplID]!!.items_blok[i].toString())
+                while (i < ipls[iplID].items_blok.size) {
+                    modelIPLItems.addElement(ipls[iplID].items_blok[i].toString())
                     i++
                 }
             }
@@ -379,9 +378,9 @@ class FileManager : Thread() {
     fun setSelection(selType: Int, selParam1: Int, selParam2: Int) {
         if (this.selType != -1) {
             when (this.selType) {
-                PickingType.map -> ipls!![this.selParam1]!!.items_inst[this.selParam2].selected = false
-                PickingType.water -> waters[0]!!.planes[this.selParam1].selected = false
-                PickingType.car -> ipls!![this.selParam1]!!.items_cars[this.selParam2].selected = false
+                PickingType.map -> ipls[this.selParam1].items_inst[this.selParam2].selected = false
+                PickingType.water -> waters[0].planes[this.selParam1].selected = false
+                PickingType.car -> ipls[this.selParam1].items_cars[this.selParam2].selected = false
                 else -> {
                     println("--Something went wrong--")
                     println("SelType: $selType")
@@ -395,9 +394,9 @@ class FileManager : Thread() {
         this.selParam2 = selParam2
         if (this.selType != -1) {
             when (selType) {
-                PickingType.map -> ipls!![selParam1]!!.items_inst[selParam2].selected = true
-                PickingType.water -> waters[0]!!.planes[selParam1].selected = true
-                PickingType.car -> ipls!![selParam1]!!.items_cars[selParam2].selected = true
+                PickingType.map -> ipls[selParam1].items_inst[selParam2].selected = true
+                PickingType.water -> waters[0].planes[selParam1].selected = true
+                PickingType.car -> ipls[selParam1].items_cars[selParam2].selected = true
                 else -> {
                     println("--Something went wrong--")
                     println("SelType: $selType")

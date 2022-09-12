@@ -1,6 +1,5 @@
 package nl.shadowlink.tools.io
 
-import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.RandomAccessFile
 import java.nio.ByteBuffer
@@ -8,26 +7,16 @@ import java.util.logging.Level
 import java.util.logging.Logger
 
 class ReadFunctions(name: String) {
-    private var dataIn: RandomAccessFile? = null
+    private var dataIn: RandomAccessFile
 
     init {
-        openFile(name)
-    }
-    
-    private fun openFile(name: String): Boolean {
-        var ret = true
-        try {
-            dataIn = RandomAccessFile(name, "r")
-        } catch (ex: FileNotFoundException) {
-            ret = false
-        }
-        return ret
+        dataIn = RandomAccessFile(name, "r")
     }
 
     fun closeFile(): Boolean {
         var ret = true
         try {
-            dataIn!!.close()
+            dataIn.close()
         } catch (ex: IOException) {
             println("Unable to close file")
             ret = false
@@ -38,7 +27,7 @@ class ReadFunctions(name: String) {
     fun readByte(): Byte {
         var waarde: Byte = -1
         waarde = try {
-            dataIn!!.readByte()
+            dataIn.readByte()
         } catch (ex: IOException) {
             -1
         }
@@ -47,7 +36,7 @@ class ReadFunctions(name: String) {
 
     fun readBytes(bytes: ByteArray?) {
         try {
-            dataIn!!.read(bytes)
+            dataIn.read(bytes)
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
@@ -56,7 +45,7 @@ class ReadFunctions(name: String) {
     fun readInt(): Int {
         var waarde = -1
         waarde = try {
-            swapInt(dataIn!!.readInt())
+            swapInt(dataIn.readInt())
         } catch (ex: IOException) {
             -1
         }
@@ -66,7 +55,7 @@ class ReadFunctions(name: String) {
     fun readShort(): Int {
         var waarde = -1
         waarde = try {
-            swapShort(dataIn!!.readShort())
+            swapShort(dataIn.readShort())
         } catch (ex: IOException) {
             -1
         }
@@ -120,7 +109,7 @@ class ReadFunctions(name: String) {
     fun readChar(): Char {
         var letter = '\u0000'
         try {
-            letter = Char(dataIn!!.readByte().toUShort())
+            letter = Char(dataIn.readByte().toUShort())
         } catch (ex: IOException) {
             //Logger.getLogger(loadSAFiles.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -169,7 +158,7 @@ class ReadFunctions(name: String) {
 
     fun moreToRead(): Int {
         return try {
-            (dataIn!!.length() - dataIn!!.filePointer).toInt()
+            (dataIn.length() - dataIn.filePointer).toInt()
         } catch (ex: IOException) {
             Logger.getLogger(ReadFunctions::class.java.name).log(Level.SEVERE, null, ex)
             0
@@ -178,27 +167,22 @@ class ReadFunctions(name: String) {
 
     val byteReader: ByteReader?
         get() = try {
-            val stream = ByteArray(dataIn!!.length().toInt())
-            dataIn!!.read(stream, 0, dataIn!!.length().toInt())
+            val stream = ByteArray(dataIn.length().toInt())
+            dataIn.read(stream, 0, dataIn.length().toInt())
             ByteReader(stream, 0)
         } catch (ex: IOException) {
             null
         }
 
-    fun getByteReader(size: Int): ByteReader? {
-        return try {
-            val stream = ByteArray(size)
-            dataIn!!.read(stream, 0, size)
-            ByteReader(stream, 0)
-        } catch (ex: IOException) {
-            println("Error in getByteReader")
-            null
-        }
+    fun getByteReader(size: Int): ByteReader {
+        val stream = ByteArray(size)
+        dataIn.read(stream, 0, size)
+        return ByteReader(stream, 0)
     }
 
     fun seek(offset: Int) {
         try {
-            dataIn!!.seek(offset.toLong())
+            dataIn.seek(offset.toLong())
         } catch (ex: IOException) {
             Logger.getLogger(ReadFunctions::class.java.name).log(Level.SEVERE, null, ex)
         }
@@ -206,7 +190,7 @@ class ReadFunctions(name: String) {
 
     fun seek(pOffset: Long) {
         try {
-            dataIn!!.seek(pOffset)
+            dataIn.seek(pOffset)
         } catch (ex: IOException) {
             Logger.getLogger(ReadFunctions::class.java.name).log(Level.SEVERE, null, ex)
         }
@@ -220,7 +204,7 @@ class ReadFunctions(name: String) {
     fun readArray(size: Int): ByteArray {
         val array = ByteArray(size)
         try {
-            dataIn!!.readFully(array)
+            dataIn.readFully(array)
         } catch (ex: IOException) {
             Logger.getLogger(ReadFunctions::class.java.name).log(Level.SEVERE, null, ex)
         }

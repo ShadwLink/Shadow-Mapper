@@ -13,6 +13,7 @@ import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
 import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.gui.FileManager;
 import nl.shadowlink.tools.shadowmapper.gui.PickingType;
+import nl.shadowlink.tools.shadowmapper.utils.GlUtil;
 
 import java.util.ArrayList;
 
@@ -46,26 +47,12 @@ public class RenderMap {
             gl.glDeleteLists(glDisplayList[i], 1);
         }
 
-        // TestLoadBar lb = new TestLoadBar();
-        // TestLoadBar lb = new TestLoadBar();
-        // Thread worker = new Thread(lb);
-        // worker.start();
-
-        // lb.setLabelText("blah1");
-
         glDisplayList = null;
         ArrayList<Boolean> boolList = new ArrayList();
         ArrayList<Item_OBJS> ideList = new ArrayList();
-        for (int iplCount = 0; iplCount < fm.ipls.size(); iplCount++) { // door
-            // alle
-            // IPL's
-            if (fm.ipls.get(iplCount).selected) { // kijk of het een geselecteerde
-                // ipl is
-                ArrayList<Item_INST> items_inst = fm.ipls.get(iplCount).items_inst; // alle
-                // instances
-                // van
-                // de
-                // ipl
+        for (int iplCount = 0; iplCount < fm.ipls.size(); iplCount++) {
+            if (fm.ipls.get(iplCount).selected) {
+                ArrayList<Item_INST> items_inst = fm.ipls.get(iplCount).items_inst;
                 for (int iplItem = 0; iplItem < items_inst.size(); iplItem++) { //
                     int ideNumber = 0;
                     Item_OBJS ideItem = (Item_OBJS) fm.ides.get(ideNumber).findItem(items_inst.get(iplItem).name);
@@ -145,17 +132,18 @@ public class RenderMap {
                         }
                         glDisplayList[i + 1] = gl.glGenLists(1);
                         gl.glNewList(glDisplayList[i + 1], GL2.GL_COMPILE);
-                        if (mdl != null)
+                        if (mdl != null) {
                             mdl.render(gl);
-                        else
-                            drawCube(gl, 10, 0.1f, 0.5f, 0.9f);
+                        } else {
+                            GlUtil.drawCube(gl, 10, 0.1f, 0.5f, 0.9f);
+                        }
                         gl.glEndList();
                         mdl.reset();
                         boolList.set(i, true);
                     }
                 }
-                rf.closeFile();
             }
+            rf.closeFile();
         }
     }
 
@@ -213,10 +201,11 @@ public class RenderMap {
 
             glDisplayList[tempList.length] = gl.glGenLists(1);
             gl.glNewList(glDisplayList[tempList.length], GL2.GL_COMPILE);
-            if (mdl != null)
+            if (mdl != null) {
                 mdl.render(gl);
-            else
-                drawCube(gl, 10, 0.1f, 0.5f, 0.9f);
+            } else {
+                GlUtil.drawCube(gl, 10, 0.1f, 0.5f, 0.9f);
+            }
             gl.glEndList();
             mdl.reset();
             rf.closeFile();
@@ -253,8 +242,6 @@ public class RenderMap {
                 added = false;
                 System.out.println("Loading added model finished");
             }
-            // TODO: Make this a bit nicer
-            if (fm.ipls == null) return;
 
             gl.glPushName(PickingType.map);
             for (int j = 0; j < fm.ipls.size(); j++) {
@@ -308,45 +295,6 @@ public class RenderMap {
         float dz = test1.y - test2.z;
         float distance = (float) Math.sqrt(dx * dx + dy * dy + dz * dz);
         return distance;
-    }
-
-    public void drawCube(GL2 gl, float size, float red, float green, float blue) {
-        gl.glColor3f(red, green, blue); // Set The Color To Green
-        gl.glBegin(gl.GL_QUADS); // Start Drawing The Cube
-
-        gl.glVertex3f(size, size, -size); // Top Right Of The Quad (Top)
-        gl.glVertex3f(-size, size, -size); // Top Left Of The Quad (Top)
-        gl.glVertex3f(-size, size, size); // Bottom Left Of The Quad (Top)
-        gl.glVertex3f(size, size, size); // Bottom Right Of The Quad (Top)
-
-        gl.glVertex3f(size, -size, size); // Top Right Of The Quad (Bottom)
-        gl.glVertex3f(-size, -size, size); // Top Left Of The Quad (Bottom)
-        gl.glVertex3f(-size, -size, -size); // Bottom Left Of The Quad (Bottom)
-        gl.glVertex3f(size, -size, -size); // Bottom Right Of The Quad (Bottom)
-
-        gl.glVertex3f(size, size, size); // Top Right Of The Quad (Front)
-        gl.glVertex3f(-size, size, size); // Top Left Of The Quad (Front)
-        gl.glVertex3f(-size, -size, size); // Bottom Left Of The Quad (Front)
-        gl.glVertex3f(size, -size, size); // Bottom Right Of The Quad (Front)
-
-        gl.glVertex3f(size, -size, -size); // Bottom Left Of The Quad (Back)
-        gl.glVertex3f(-size, -size, -size); // Bottom Right Of The Quad (Back)
-        gl.glVertex3f(-size, size, -size); // Top Right Of The Quad (Back)
-        gl.glVertex3f(size, size, -size); // Top Left Of The Quad (Back)
-
-        gl.glVertex3f(-size, size, size); // Top Right Of The Quad (Left)
-        gl.glVertex3f(-size, size, -size); // Top Left Of The Quad (Left)
-        gl.glVertex3f(-size, -size, -size); // Bottom Left Of The Quad (Left)
-        gl.glVertex3f(-size, -size, size); // Bottom Right Of The Quad (Left)
-
-        gl.glVertex3f(size, size, -size); // Top Right Of The Quad (Right)
-        gl.glVertex3f(size, size, size); // Top Left Of The Quad (Right)
-        gl.glVertex3f(size, -size, size); // Bottom Left Of The Quad (Right)
-        gl.glVertex3f(size, -size, -size); // Bottom Right Of The Quad (Right)
-
-        gl.glEnd();
-
-        gl.glColor3f(1.0f, 1.0f, 1.0f);
     }
 
     public void addLoadModelToLoad(Item_INST tempIPL, Item_OBJS tempIDE) {
