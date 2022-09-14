@@ -20,7 +20,7 @@ dependencies {
     implementation("org.netbeans.external:AbsoluteLayout:RELEASE150")
 
     testImplementation(kotlin("test"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
 }
 
 tasks.test {
@@ -28,9 +28,14 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("nl.shadowlink.tools.shadowmapper.MainKt")
 }
