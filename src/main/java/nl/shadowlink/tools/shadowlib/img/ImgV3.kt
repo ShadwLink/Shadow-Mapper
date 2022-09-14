@@ -10,35 +10,31 @@ import java.util.logging.Logger
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
 import javax.swing.JOptionPane
+import kotlin.system.exitProcess
 
 /**
  * @author Shadow-Link
  */
 class ImgV3 {
-    private val ident = ByteArray(4)
+    private val identifier = ByteArray(4)
 
     fun loadImg(image: Img) {
-        // Message.displayMsgHigh("Started IV");
-
         val rf = ReadFunctions(image.fileName)
 
-        ident[0] = rf.readByte()
-        ident[1] = rf.readByte()
-        ident[2] = rf.readByte()
-        ident[3] = rf.readByte()
-        if (ident[0].toInt() == 82 && ident[1].toInt() == 42 && ident[2].toInt() == 78 && ident[3].toInt() == -87) {
-            // Message.displayMsgHigh("Unencryped IMG");
+        identifier[0] = rf.readByte()
+        identifier[1] = rf.readByte()
+        identifier[2] = rf.readByte()
+        identifier[3] = rf.readByte()
+        if (identifier[0].toInt() == 82 && identifier[1].toInt() == 42 && identifier[2].toInt() == 78 && identifier[3].toInt() == -87) {
             readUnEncryptedImg(rf, image)
         } else {
             image.isEncrypted = true
-            // Message.displayMsgHigh("Encrypted IMG");
             readEncryptedImg(rf, image)
         }
         rf.closeFile()
     }
 
     fun saveImg(img: Img) {
-        println("Saving IV IMG")
         val wf = WriteFunctions("${img.fileName}.temp")
         val rf = ReadFunctions(img.fileName)
         wf.writeByte(82)// write R*N start bytes
@@ -74,7 +70,6 @@ class ImgV3 {
             while (offset % 0x800 != 0) {
                 offset += 1
                 pad += 1
-                // System.out.println("Offset: " + offset + " " + pad);
             }
             wf.writeShort((img.items[i].size + pad) / 0x800) // blocks
             if (img.items[i].isResource) {
@@ -102,7 +97,7 @@ class ImgV3 {
         }
         rf.closeFile()
         wf.closeFile()
-        var origFile: File? = File(img.fileName!!)
+        var origFile: File? = File(img.fileName)
         try {
             if (origFile!!.canWrite()) {
                 println("Can write")
@@ -111,7 +106,7 @@ class ImgV3 {
                 println("Can execute")
             }
             if (origFile.delete()) {
-                println("Deleted " + img.fileName!!)
+                println("Deleted " + img.fileName)
             } else {
                 println("Not deleted")
             }
@@ -119,8 +114,8 @@ class ImgV3 {
             println("Unable to delete " + img.fileName + " " + ex)
         }
 
-        var newFile: File? = File(img.fileName!! + ".temp")
-        if (newFile!!.renameTo(File(img.fileName!!))) {
+        var newFile: File? = File(img.fileName + ".temp")
+        if (newFile!!.renameTo(File(img.fileName))) {
             println("rename file")
         } else {
             println("Unable to rename file")
@@ -158,10 +153,7 @@ class ImgV3 {
 
         // read names
         for (curName in 0 until itemCount) {
-            val name = rf.readNullTerminatedString()
-            items[curName].name = name
-            // items.get(curName).setType(Utils.getFileType(name, image));
-            // Message.displayMsgHigh(name);
+            items[curName].name = rf.readNullTerminatedString()
         }
 
         image.items = items
@@ -241,10 +233,10 @@ class ImgV3 {
     fun withIdent(test: ReadFunctions, key: ByteArray): ByteArray {
         var data = ByteArray(16)
 
-        data[0] = ident[0]
-        data[1] = ident[1]
-        data[2] = ident[2]
-        data[3] = ident[3]
+        data[0] = identifier[0]
+        data[1] = identifier[1]
+        data[2] = identifier[2]
+        data[3] = identifier[3]
 
         for (j in 4..15) {
             data[j] = test.readByte()
@@ -290,20 +282,16 @@ class ImgV3 {
 
     @Throws(Exception::class)
     fun decryptAES(key: ByteArray, msg: ByteArray): ByteArray {
-
-        val skeySpec = SecretKeySpec(key, "Rijndael")
-
-        // Instantiate the cipher
         val cipher = Cipher.getInstance("Rijndael/ECB/NoPadding")
         try {
-            cipher.init(Cipher.DECRYPT_MODE, skeySpec)
+            cipher.init(Cipher.DECRYPT_MODE, SecretKeySpec(key, "Rijndael"))
         } catch (ex: Exception) {
             JOptionPane.showMessageDialog(
                 null,
                 "You didn't install the JCE unlimited strength files. Follow the usage instructions in the readme.\nThis program will now exit."
             )
-            Logger.getLogger("IMG").log(Level.SEVERE, "Unable to use JCE: " + ex.toString())
-            System.exit(0)
+            Logger.getLogger("IMG").log(Level.SEVERE, "Unable to use JCE", ex)
+            exitProcess(0)
         }
 
         return cipher.doFinal(msg)

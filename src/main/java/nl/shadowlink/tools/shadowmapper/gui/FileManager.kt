@@ -145,10 +145,7 @@ class FileManager : Thread() {
             statusCallbacks?.onLoadingValueIncreased()
         }
 
-        var imgWPLCount = 0
-        for (i in imgs.indices) {
-            imgWPLCount += imgs[i].wplCount
-        }
+        val imgWPLCount = imgs.sumOf { img -> img.getItemOfTypeCount(".wpl") }
 
         statusCallbacks?.onStartLoadingWpl(imgWPLCount)
         imgs.forEach { img ->

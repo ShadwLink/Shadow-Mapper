@@ -4,9 +4,6 @@ import nl.shadowlink.tools.io.ReadFunctions
 import nl.shadowlink.tools.io.WriteFunctions
 import nl.shadowlink.tools.shadowlib.img.Img
 import nl.shadowlink.tools.shadowlib.img.ImgItem
-import nl.shadowlink.tools.shadowlib.model.model.Model
-import nl.shadowlink.tools.shadowlib.texturedic.TextureDic
-import nl.shadowlink.tools.shadowlib.utils.GameType
 import nl.shadowlink.tools.shadowlib.utils.filechooser.ExtensionFilter
 import nl.shadowlink.tools.shadowlib.utils.filechooser.FileChooserUtil.openFileChooser
 import nl.shadowlink.tools.shadowmapper.preview.Preview
@@ -326,15 +323,7 @@ class Browser : JFrame {
     private fun onImportFileClicked(evt: ActionEvent) {
         val selectedImg = getSelectedImg() ?: return
         val file = openFileChooser(this, ExtensionFilter(supportedExtensions, "GTA File")) ?: return
-        if (file.extension.equals("dff", true)) {
-            val mdl = Model().apply { loadDFF(file.absolutePath) }
-            selectedImg.addItem(mdl, file.name)
-        } else if (file.extension.equals("txd", true)) {
-            val txd = TextureDic(file.absolutePath, GameType.GTA_IV)
-            selectedImg.addItem(txd, file.name)
-        } else {
-            selectedImg.addItem(file)
-        }
+        selectedImg.addItem(file)
         updateItemTable()
     }
 

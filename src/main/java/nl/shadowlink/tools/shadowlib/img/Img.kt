@@ -2,9 +2,6 @@ package nl.shadowlink.tools.shadowlib.img
 
 import nl.shadowlink.tools.io.ReadFunctions
 import nl.shadowlink.tools.io.WriteFunctions
-import nl.shadowlink.tools.shadowlib.model.model.Model
-import nl.shadowlink.tools.shadowlib.texturedic.TextureDic
-import nl.shadowlink.tools.shadowlib.utils.Constants
 import nl.shadowlink.tools.shadowlib.utils.GameType
 import nl.shadowlink.tools.shadowlib.utils.Utils
 import java.io.File
@@ -12,7 +9,13 @@ import java.io.File
 /**
  * @author Shadow-Link
  */
-class Img(var fileName: String, var gameType: GameType, key: ByteArray, autoLoad: Boolean, containsProps: Boolean) {
+class Img(
+    var fileName: String,
+    var gameType: GameType,
+    key: ByteArray,
+    autoLoad: Boolean,
+    containsProps: Boolean
+) {
 
     var items: ArrayList<ImgItem> = ArrayList()
 
@@ -29,29 +32,6 @@ class Img(var fileName: String, var gameType: GameType, key: ByteArray, autoLoad
 
     var key = ByteArray(32)
 
-    val itemCount: Int
-        get() = items.count()
-
-    val cutCount: Int
-        get() = getItemOfTypeCount("cut")
-
-    val wtdCount: Int
-        get() = getItemOfTypeCount("wtd")
-    val wbdCount: Int
-        get() = getItemOfTypeCount("wbd")
-    val wbnCount: Int
-        get() = getItemOfTypeCount("wbn")
-    val wplCount: Int
-        get() = getItemOfTypeCount("wpl")
-    val wddCount: Int
-        get() = getItemOfTypeCount("wdd")
-    val wdrCount: Int
-        get() = getItemOfTypeCount("wdr")
-    val wadCount: Int
-        get() = getItemOfTypeCount("wad")
-    val wftCount: Int
-        get() = getItemOfTypeCount("wft")
-
     val totalItemCount: Int
         get() = items.count()
 
@@ -63,11 +43,11 @@ class Img(var fileName: String, var gameType: GameType, key: ByteArray, autoLoad
         }
     }
 
-    private fun getItemOfTypeCount(extension: String): Int {
-        return items.count { item -> item.name?.endsWith(extension) == true }
+    fun getItemOfTypeCount(extension: String): Int {
+        return items.count { item -> item.name.endsWith(extension) == true }
     }
 
-    private fun loadImg(): Boolean {
+    private fun loadImg() {
         when (gameType) {
             GameType.GTA_III -> ImgV1().loadImg(this)
             GameType.GTA_VC -> ImgV1().loadImg(this)
@@ -75,8 +55,6 @@ class Img(var fileName: String, var gameType: GameType, key: ByteArray, autoLoad
             GameType.GTA_IV -> ImgV3().loadImg(this)
             else -> throw IllegalStateException("GameType $gameType not supported")
         }
-        // TODO: Change this to something more meaningful
-        return items != null
     }
 
     /**
@@ -95,50 +73,6 @@ class Img(var fileName: String, var gameType: GameType, key: ByteArray, autoLoad
      */
     fun findItem(name: String): ImgItem? {
         return items.firstOrNull { item -> item.name == name }
-    }
-
-    fun addItem(mdl: Model, name: String) {
-        var name = name
-        val wf = WriteFunctions(fileName!!)
-        name = name.toLowerCase()
-        name = name.replace(".dff".toRegex(), ".wdr")
-        val tempItem = ImgItem(name)
-        tempItem.type = Constants.rtWDR
-        tempItem.offset = wf.fileSize
-        wf.gotoEnd()
-        mdl.convertToWDR(wf)
-        tempItem.size = mdl.size
-        tempItem.flags = mdl.flags
-
-        items.add(tempItem)
-        if (wf.closeFile()) {
-            println("Closed file")
-        } else {
-            println("Unable to close the file")
-        }
-        isChanged = true
-    }
-
-    fun addItem(txd: TextureDic, name: String) {
-        var name = name
-        val wf = WriteFunctions(fileName!!)
-        name = name.toLowerCase()
-        name = name.replace(".txd".toRegex(), ".wtd")
-        val tempItem = ImgItem(name)
-        tempItem.type = Constants.rtWTD
-        tempItem.offset = wf.fileSize
-        wf.gotoEnd()
-        txd.convertToWTD(wf)
-        tempItem.size = txd.size
-        tempItem.flags = txd.flags
-
-        items.add(tempItem)
-        if (wf.closeFile()) {
-            println("Closed file")
-        } else {
-            println("Unable to close the file")
-        }
-        isChanged = true
     }
 
     /**
