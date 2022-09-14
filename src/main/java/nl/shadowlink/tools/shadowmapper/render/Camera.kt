@@ -1,7 +1,6 @@
 package nl.shadowlink.tools.shadowmapper.render
 
 import nl.shadowlink.tools.io.Vector3D
-import javax.swing.JTextField
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -31,10 +30,6 @@ class Camera(
     var up = Vector3D()
     private val camYaw = 0.0f
     private val camPitch = 0.0f
-    private var textX: JTextField? = null
-    private var textY: JTextField? = null
-    private var textZ: JTextField? = null
-    private var hasText = false
 
     /**
      * Constructor of the camera.
