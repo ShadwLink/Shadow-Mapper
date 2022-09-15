@@ -37,7 +37,7 @@ class InstallDialog(
         initComponents(onInstallSelectedListener)
         this.centerWindow()
         isModal = true
-        defaultCloseOperation = DO_NOTHING_ON_CLOSE
+        defaultCloseOperation = DISPOSE_ON_CLOSE
         modalityType = ModalityType.APPLICATION_MODAL
         installRepository.observeInstalls { installs: List<Install> ->
             fillGameList(installs)

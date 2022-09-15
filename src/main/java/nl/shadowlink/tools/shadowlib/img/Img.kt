@@ -43,8 +43,12 @@ class Img(
         }
     }
 
+    fun getItemsOfType(extension: String): List<ImgItem> {
+        return items.filter { item -> item.name.endsWith(extension) }
+    }
+
     fun getItemOfTypeCount(extension: String): Int {
-        return items.count { item -> item.name.endsWith(extension) == true }
+        return items.count { item -> item.name.endsWith(extension) }
     }
 
     private fun loadImg() {

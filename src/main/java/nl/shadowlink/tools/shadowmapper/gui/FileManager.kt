@@ -150,7 +150,7 @@ class FileManager : Thread() {
         statusCallbacks?.onStartLoadingWpl(imgWPLCount)
         imgs.forEach { img ->
             val rf = ReadFunctions(img.fileName)
-            img.items.filter { it.name.endsWith(".wpl") }
+            img.getItemsOfType(".wpl")
                 .forEach { wplEntry ->
                     rf.seek(wplEntry.offset)
                     val ipl = IPL(rf, hashTable, gameType, true, img, wplEntry, wplEntry.name).apply {
