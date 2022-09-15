@@ -9,7 +9,7 @@ import nl.shadowlink.tools.shadowlib.utils.filechooser.ExtensionFilter;
 import nl.shadowlink.tools.shadowlib.utils.filechooser.FileChooserUtil;
 import nl.shadowlink.tools.shadowmapper.checklist.CheckListManager;
 import nl.shadowlink.tools.shadowmapper.gui.about.About;
-import nl.shadowlink.tools.shadowmapper.gui.install.InstallForm;
+import nl.shadowlink.tools.shadowmapper.gui.install.InstallDialog;
 import nl.shadowlink.tools.shadowmapper.render.GlListener;
 import nl.shadowlink.tools.shadowmapper.utils.EncryptionKeyExtractor;
 
@@ -58,7 +58,7 @@ public class MainForm extends javax.swing.JFrame {
         glListener.setCanvasPosition(gLCanvas1.getLocation());
         this.setVisible(true);
 
-        new InstallForm(install -> {
+        new InstallDialog(install -> {
             LoadingBar loadingBar = new LoadingBar();
             EncryptionKeyExtractor keyExtractor = new EncryptionKeyExtractor();
             byte[] key = keyExtractor.getKey(install.getPath());

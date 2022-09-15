@@ -15,7 +15,7 @@ import java.awt.List as AwtList
 /**
  * @author Shadow-Link
  */
-class InstallForm(
+class InstallDialog(
     listener: OnInstallSelectedListener
 ) : JDialog() {
 
@@ -37,6 +37,7 @@ class InstallForm(
         initComponents(listener)
         this.centerWindow()
         isModal = true
+        defaultCloseOperation = DO_NOTHING_ON_CLOSE
         modalityType = ModalityType.APPLICATION_MODAL
         installRepository.observeInstalls { installs: List<Install> ->
             fillGameList(installs)
@@ -51,12 +52,6 @@ class InstallForm(
     }
 
     private fun initComponents(onInstallSelectedListener: OnInstallSelectedListener) {
-        listGames = java.awt.List()
-        buttonOK = JButton()
-        buttonAddInstall = JButton()
-        image = JLabel()
-        buttonRemove = JButton()
-        defaultCloseOperation = DISPOSE_ON_CLOSE
         title = "Select install"
         isResizable = false
         listGames.addItemListener { evt: ItemEvent -> listGamesItemStateChanged(evt) }
