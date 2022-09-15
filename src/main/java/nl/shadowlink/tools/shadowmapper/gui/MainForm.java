@@ -67,6 +67,7 @@ public class MainForm extends javax.swing.JFrame {
             }
 
             fm.startLoading(loadingBar, install, key);
+            return Unit.INSTANCE;
         }).setVisible(true);
     }
 

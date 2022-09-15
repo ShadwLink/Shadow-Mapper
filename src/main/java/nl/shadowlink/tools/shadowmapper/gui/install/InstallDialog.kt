@@ -16,7 +16,7 @@ import java.awt.List as AwtList
  * @author Shadow-Link
  */
 class InstallDialog(
-    listener: OnInstallSelectedListener
+    onInstallSelectedListener: (install: Install) -> Unit
 ) : JDialog() {
 
     private val installRepository = InstallRepository(IniInstallStorage())
@@ -34,7 +34,7 @@ class InstallDialog(
     init {
         setIconImage(Toolkit.getDefaultToolkit().createImage("icon.png"))
         setLookAndFeel()
-        initComponents(listener)
+        initComponents(onInstallSelectedListener)
         this.centerWindow()
         isModal = true
         defaultCloseOperation = DO_NOTHING_ON_CLOSE
@@ -51,7 +51,7 @@ class InstallDialog(
         }
     }
 
-    private fun initComponents(onInstallSelectedListener: OnInstallSelectedListener) {
+    private fun initComponents(onInstallSelectedListener: (install: Install) -> Unit) {
         title = "Select install"
         isResizable = false
         listGames.addItemListener { evt: ItemEvent -> listGamesItemStateChanged(evt) }
@@ -124,8 +124,8 @@ class InstallDialog(
         buttonRemove.isEnabled = false
     }
 
-    private fun selectInstallButtonPressed(onInstallSelectedListener: OnInstallSelectedListener) {
-        selectedInstall?.let { onInstallSelectedListener.onInstallSelected(it) }
+    private fun selectInstallButtonPressed(onInstallSelectedListener: (install: Install) -> Unit) {
+        selectedInstall?.let { onInstallSelectedListener(it) }
         dispose()
     }
 
@@ -146,10 +146,6 @@ class InstallDialog(
             buttonOK.isEnabled = false
             buttonRemove.isEnabled = false
         }
-    }
-
-    interface OnInstallSelectedListener {
-        fun onInstallSelected(install: Install?)
     }
 
     companion object {
