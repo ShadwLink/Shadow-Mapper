@@ -3,7 +3,6 @@ package nl.shadowlink.tools.shadowmapper.utils
 import com.nikhaldimann.inieditor.IniEditor
 import nl.shadowlink.tools.io.ReadFunctions
 import nl.shadowlink.tools.shadowmapper.utils.hashing.SHA1Hasher
-import java.io.IOException
 
 class EncryptionKeyExtractor {
 
@@ -14,7 +13,7 @@ class EncryptionKeyExtractor {
     }
 
     private fun loadVersionData(): List<Version> {
-        try {
+        return runCatching {
             val iniEditor = IniEditor()
 
             this::class.java.getResourceAsStream("/versions.ini")?.let {
@@ -32,9 +31,10 @@ class EncryptionKeyExtractor {
                     }
                 }
             }
-        } catch (ex: IOException) {
-            return emptyList()
-        }
+        }.fold(
+            onSuccess = { it },
+            onFailure = { emptyList() }
+        )
     }
 
     fun getKey(gameDir: String): ByteArray? {

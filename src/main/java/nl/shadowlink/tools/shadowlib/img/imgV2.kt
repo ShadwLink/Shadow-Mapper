@@ -2,22 +2,22 @@ package nl.shadowlink.tools.shadowlib.img
 
 import nl.shadowlink.tools.io.ReadFunctions
 import nl.shadowlink.tools.shadowlib.utils.Utils
+import java.io.File
 
 /**
  * @author Shadow-Link
  */
-class imgV2 {
+class ImgV2 : ImgLoader {
 
-    fun loadImg(image: Img) {
+    override fun load(file: File): Img {
         val items = ArrayList<ImgItem>()
 
-        val rf = ReadFunctions(image.fileName)
+        val rf = ReadFunctions(file.absolutePath)
 
         var itemCount = 0
 
         // Message.displayMsgHigh("Ver2: " + rf.readChar() + rf.readChar() + rf.readChar() + rf.readChar());
         itemCount = rf.readInt()
-        // Message.displayMsgHigh("Item Count: " + itemCount);
 
         for (curItem in 0 until itemCount) {
             val itemOffset = rf.readInt() * 2048
@@ -31,6 +31,6 @@ class imgV2 {
             items.add(item)
         }
 
-        image.items = items
+        return Img(file = file, items = items)
     }
 }

@@ -1,13 +1,12 @@
 package nl.shadowlink.tools.shadowmapper.gui
 
 import nl.shadowlink.tools.shadowmapper.utils.GuiFunctions.centerWindow
-import java.awt.Toolkit
 import javax.swing.*
 
 /**
  * @author Shadow-Link
  */
-internal class LoadingBar : JFrame(), LoadingStatusCallbacks {
+internal class LoadingDialog : JDialog(), LoadingStatusCallbacks {
 
     private var loadingBar = JProgressBar()
     private var loadingLabel = JLabel()
@@ -16,10 +15,11 @@ internal class LoadingBar : JFrame(), LoadingStatusCallbacks {
      * Creates new form LoadingBar
      */
     init {
-        iconImage = Toolkit.getDefaultToolkit().createImage("icon.png")
         initComponents()
-        isVisible = true
         centerWindow()
+        defaultCloseOperation = DO_NOTHING_ON_CLOSE
+//        modalityType = ModalityType.APPLICATION_MODAL
+        isVisible = true
     }
 
     override fun onStartLoading(fileCount: Int) {

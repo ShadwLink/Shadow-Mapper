@@ -8,6 +8,7 @@ import nl.shadowlink.tools.shadowmapper.utils.GuiFunctions.setLookAndFeel
 import java.awt.Toolkit
 import java.awt.event.ActionEvent
 import java.awt.event.ItemEvent
+import java.io.File
 import javax.swing.*
 import kotlin.collections.List
 import java.awt.List as AwtList
@@ -36,7 +37,6 @@ class InstallDialog(
         setLookAndFeel()
         initComponents(onInstallSelectedListener)
         this.centerWindow()
-        isModal = true
         defaultCloseOperation = DISPOSE_ON_CLOSE
         modalityType = ModalityType.APPLICATION_MODAL
         installRepository.observeInstalls { installs: List<Install> ->
@@ -125,15 +125,15 @@ class InstallDialog(
     }
 
     private fun selectInstallButtonPressed(onInstallSelectedListener: (install: Install) -> Unit) {
-        selectedInstall?.let { onInstallSelectedListener(it) }
         dispose()
+        selectedInstall?.let { onInstallSelectedListener(it) }
     }
 
     private fun addInstallButtonPressed(evt: ActionEvent) {
         val file = openFileChooser(this, FileNameFilter(SUPPORTED_EXES, "IV Install Folder"))
         if (file != null && file.exists() && file.isFile) {
             val installName = JOptionPane.showInputDialog("Set the name of the install")
-            installRepository.addInstall(installName, file.parent + "\\", GameType.GTA_IV)
+            installRepository.addInstall(installName, file.parent + File.separator, GameType.GTA_IV)
         }
     }
 

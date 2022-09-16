@@ -59,16 +59,21 @@ public class MainForm extends javax.swing.JFrame {
         this.setVisible(true);
 
         new InstallDialog(install -> {
-            LoadingBar loadingBar = new LoadingBar();
+            LoadingDialog loadingDialog = new LoadingDialog();
             EncryptionKeyExtractor keyExtractor = new EncryptionKeyExtractor();
             byte[] key = keyExtractor.getKey(install.getPath());
             if (key == null) {
-                throw new IllegalStateException("Unable to detect encryption key");
+                showError("Error loading install", "Unable to detect encryption key");
+                dispose();
             }
 
-            fm.startLoading(loadingBar, install, key);
+            fm.startLoading(loadingDialog, install, key);
             return Unit.INSTANCE;
         }).setVisible(true);
+    }
+
+    private void showError(String title, String msg) {
+        JOptionPane.showMessageDialog(this, msg, title, JOptionPane.ERROR_MESSAGE);
     }
 
     private void initComponents() {

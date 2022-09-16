@@ -6,6 +6,7 @@ import nl.shadowlink.tools.io.Vector3D
 import nl.shadowlink.tools.shadowlib.dat.GtaDat
 import nl.shadowlink.tools.shadowlib.ide.*
 import nl.shadowlink.tools.shadowlib.img.Img
+import nl.shadowlink.tools.shadowlib.img.ImgLoaderFactory
 import nl.shadowlink.tools.shadowlib.ipl.IPL
 import nl.shadowlink.tools.shadowlib.ipl.Item_INST
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic
@@ -81,12 +82,13 @@ class FileManager : Thread() {
     }
 
     fun addIMG(file: File) {
-        imgs.add(Img(file.path, gameType!!, key!!, autoLoad = false, containsProps = true).apply {
+        imgs.add(Img(file).apply {
             isChanged = true
         })
     }
 
     private fun startLoading() {
+        val imgLoader = ImgLoaderFactory.getImgLoader(gameType!!, key!!)
         val defaultDat = GtaDat(gameDir + "common/data/default.dat", gameDir!!)
         val gtaDat = GtaDat(gameDir + "common/data/gta.dat", gameDir!!)
 
@@ -127,7 +129,7 @@ class FileManager : Thread() {
             line = line.substring(0, line.length - 1)
             line = "$line.img"
 
-            imgs.add(Img(line, GameType.GTA_IV, key!!, true, containsProps))
+            imgs.add(imgLoader.load(File(line)))
 
             statusCallbacks?.onLoadingValueIncreased()
         }
@@ -149,7 +151,7 @@ class FileManager : Thread() {
 
         statusCallbacks?.onStartLoadingWpl(imgWPLCount)
         imgs.forEach { img ->
-            val rf = ReadFunctions(img.fileName)
+            val rf = ReadFunctions(img.file)
             img.getItemsOfType(".wpl")
                 .forEach { wplEntry ->
                     rf.seek(wplEntry.offset)
@@ -217,7 +219,7 @@ class FileManager : Thread() {
             if (img.isChanged) {
                 img.save()
                 img.isChanged = false
-                println("Saving img ${img.fileName}")
+                println("Saving img ${img.file.absolutePath}")
             }
         }
     }

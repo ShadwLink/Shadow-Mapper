@@ -1,13 +1,18 @@
 package nl.shadowlink.tools.io
 
+import java.io.File
 import java.io.IOException
 import java.io.RandomAccessFile
 import java.nio.ByteBuffer
 import java.util.logging.Level
 import java.util.logging.Logger
 
-class ReadFunctions(name: String) {
-    private var dataIn: RandomAccessFile
+class ReadFunctions(
+    name: String
+) {
+    private val dataIn: RandomAccessFile
+
+    constructor(file: File) : this(file.absolutePath)
 
     init {
         dataIn = RandomAccessFile(name, "r")
@@ -34,7 +39,7 @@ class ReadFunctions(name: String) {
         return waarde
     }
 
-    fun readBytes(bytes: ByteArray?) {
+    fun readBytes(bytes: ByteArray) {
         try {
             dataIn.read(bytes)
         } catch (e: IOException) {

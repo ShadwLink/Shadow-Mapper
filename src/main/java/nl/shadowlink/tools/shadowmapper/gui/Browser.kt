@@ -135,7 +135,6 @@ class Browser : JFrame {
         }
         labelFileCount.text = "File Count: " + fm.imgs[listImg.selectedIndex].totalItemCount
         isEncryptedToggleButton.isSelected = fm.imgs[listImg.selectedIndex].isEncrypted
-        labelProps.text = "Props: " + fm.imgs[listImg.selectedIndex].containsProps
     }
 
     private fun initComponents() {
