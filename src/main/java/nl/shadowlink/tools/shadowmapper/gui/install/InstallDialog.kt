@@ -47,7 +47,8 @@ class InstallDialog(
     private fun fillGameList(installs: List<Install>) {
         listGames.removeAll()
         installs.forEach { install ->
-            listGames.add(install.name)
+            val isValid = if (!install.isValid) " (Install not found)" else ""
+            listGames.add("${install.name}$isValid")
         }
     }
 
@@ -138,13 +139,23 @@ class InstallDialog(
     }
 
     private fun listGamesItemStateChanged(evt: ItemEvent) {
-        if (listGames.selectedIndex != -1) {
-            selectedInstall = installRepository.getInstall(listGames.selectedIndex)
-            buttonOK.isEnabled = true
-            buttonRemove.isEnabled = true
-        } else {
-            buttonOK.isEnabled = false
-            buttonRemove.isEnabled = false
+        selectedInstall = installRepository.getInstall(listGames.selectedIndex)
+        val install = selectedInstall
+        when {
+            install?.isValid == true -> {
+                buttonOK.isEnabled = true
+                buttonRemove.isEnabled = true
+            }
+
+            install?.isValid != true -> {
+                buttonOK.isEnabled = false
+                buttonRemove.isEnabled = true
+            }
+
+            else -> {
+                buttonOK.isEnabled = false
+                buttonRemove.isEnabled = false
+            }
         }
     }
 
