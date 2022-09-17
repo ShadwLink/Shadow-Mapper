@@ -8,7 +8,7 @@ import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 /**
  * @author Shadow-Link
  */
-public class Item_CULL extends IPL_Item {
+public class Item_CULL extends IplItem {
     private GameType gameType;
     public Vector3D posLowerLeft;
     public Vector3D posUpperRight;

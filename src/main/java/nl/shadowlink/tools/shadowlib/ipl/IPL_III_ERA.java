@@ -1,6 +1,6 @@
-
-
 package nl.shadowlink.tools.shadowlib.ipl;
+
+import nl.shadowlink.tools.shadowlib.utils.Constants;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -8,11 +8,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import nl.shadowlink.tools.shadowlib.utils.Constants;
-
 
 /**
- *
  * @author Shadow-Link
  */
 public class IPL_III_ERA {
@@ -22,7 +19,7 @@ public class IPL_III_ERA {
     private int readItem = -1;
 
     public void loadPlacement(IPL ipl) {
-        if(openIPL(ipl.getFileName())){
+        if (openIPL(ipl.getFileName())) {
             try {
                 String line = null; //not declared within while loop
                 while ((line = input.readLine()) != null) {
@@ -30,92 +27,92 @@ public class IPL_III_ERA {
                         if (line.startsWith("#")) {
                             //Message.displayMsgHigh("Commentaar: " + line);
                         } else if (line.startsWith("inst")) {
-							readItem = Constants.pINST;
+                            readItem = Constants.pINST;
                             //Message.displayMsgHigh("Started reading item " + readItem);
                         } else if (line.startsWith("cull")) {
-							readItem = Constants.pCULL;
+                            readItem = Constants.pCULL;
                             //Message.displayMsgHigh("Started reading item " + readItem);
                         } else if (line.startsWith("path")) {
-							readItem = Constants.pPATH;
+                            readItem = Constants.pPATH;
                             //Message.displayMsgHigh("Started reading item " + readItem);
                         } else if (line.startsWith("grge")) {
-							readItem = Constants.pGRGE;
+                            readItem = Constants.pGRGE;
                             //Message.displayMsgHigh("Started reading item " + readItem);
                         } else if (line.startsWith("enex")) {
-							readItem = Constants.pENEX;
+                            readItem = Constants.pENEX;
                             //Message.displayMsgHigh("Started reading item " + readItem);
                         } else if (line.startsWith("pick")) {
-							readItem = Constants.pPICK;
+                            readItem = Constants.pPICK;
                             //Message.displayMsgHigh("Started reading item " + readItem);
                         } else if (line.startsWith("jump")) {
-							readItem = Constants.pJUMP;
+                            readItem = Constants.pJUMP;
                             //Message.displayMsgHigh("Started reading item " + readItem);
                         } else if (line.startsWith("tcyc")) {
-							readItem = Constants.pTCYC;
+                            readItem = Constants.pTCYC;
                             //Message.displayMsgHigh("Started reading item " + readItem);
                         } else if (line.startsWith("auzo")) {
-							readItem = Constants.pAUZO;
+                            readItem = Constants.pAUZO;
                             //Message.displayMsgHigh("Started reading item " + readItem);
                         } else if (line.startsWith("mult")) {
-							readItem = Constants.pMULT;
+                            readItem = Constants.pMULT;
                             //Message.displayMsgHigh("Started reading item " + readItem);
                         } else if (line.startsWith("cars")) {
-							readItem = Constants.pCARS;
+                            readItem = Constants.pCARS;
                             //Message.displayMsgHigh("Started reading item " + readItem);
                         } else if (line.startsWith("occl")) {
-							readItem = Constants.pOCCL;
+                            readItem = Constants.pOCCL;
                             //Message.displayMsgHigh("Started reading item " + readItem);
                         } else if (line.startsWith("zone")) {
-							readItem = Constants.pZONE;
+                            readItem = Constants.pZONE;
                             //Message.displayMsgHigh("Started reading item " + readItem);
                         }
                     } else {
                         if (line.startsWith("#")) {
                             //Message.displayMsgHigh("Commentaar: " + line);
-                        }else if (line.startsWith("end")) {
+                        } else if (line.startsWith("end")) {
                             //Message.displayMsgHigh("Item " + readItem + " ended");
                             readItem = -1;
                         } else {
-                            IPL_Item item = null;
-                            switch(readItem){
-							case Constants.pINST:
+                            IplItem item = null;
+                            switch (readItem) {
+                                case Constants.pINST:
                                     item = new Item_INST(ipl.getGameType());
-                                    ipl.items_inst.add((Item_INST)item);
+                                    ipl.items_inst.add((Item_INST) item);
                                     break;
-							case Constants.pAUZO:
+                                case Constants.pAUZO:
                                     item = new Item_AUZO(ipl.getGameType());
                                     break;
-							case Constants.pCARS:
+                                case Constants.pCARS:
                                     item = new Item_CARS(ipl.getGameType());
                                     break;
-							case Constants.pCULL:
+                                case Constants.pCULL:
                                     item = new Item_CULL(ipl.getGameType());
                                     break;
-							case Constants.pENEX:
+                                case Constants.pENEX:
                                     item = new Item_ENEX(ipl.getGameType());
                                     break;
-							case Constants.pJUMP:
+                                case Constants.pJUMP:
                                     item = new Item_JUMP(ipl.getGameType());
                                     break;
-							case Constants.pGRGE:
+                                case Constants.pGRGE:
                                     item = new Item_GRGE(ipl.getGameType());
                                     break;
-							case Constants.pMULT:
+                                case Constants.pMULT:
                                     item = new Item_MULT(ipl.getGameType());
                                     break;
-							case Constants.pOCCL:
+                                case Constants.pOCCL:
                                     item = new Item_OCCL(ipl.getGameType());
                                     break;
-							case Constants.pPATH:
+                                case Constants.pPATH:
                                     item = new Item_PATH(ipl.getGameType());
                                     break;
-							case Constants.pPICK:
+                                case Constants.pPICK:
                                     item = new Item_PICK(ipl.getGameType());
                                     break;
-							case Constants.pTCYC:
+                                case Constants.pTCYC:
                                     item = new Item_TCYC(ipl.getGameType());
                                     break;
-							case Constants.pZONE:
+                                case Constants.pZONE:
                                     item = new Item_ZONE(ipl.getGameType());
                                     break;
                                 default:
@@ -129,23 +126,23 @@ public class IPL_III_ERA {
                 Logger.getLogger(IPL_III_ERA.class.getName()).log(Level.SEVERE, null, ex);
             }
             closeIPL();
-        }else{
+        } else {
             //Message.displayMsgHigh("Error: Can't open file");
         }
         ipl.loaded = true;
     }
 
-    public boolean openIPL(String fileName){
+    public boolean openIPL(String fileName) {
         try {
             fileReader = new FileReader(fileName);
-            input =  new BufferedReader(fileReader);
+            input = new BufferedReader(fileReader);
         } catch (IOException ex) {
             return false;
         }
         return true;
     }
 
-    public boolean closeIPL(){
+    public boolean closeIPL() {
         try {
             input.close();
             fileReader.close();
@@ -155,7 +152,7 @@ public class IPL_III_ERA {
         return true;
     }
 
-    public void save(IPL ipl){
+    public void save(IPL ipl) {
 
     }
 

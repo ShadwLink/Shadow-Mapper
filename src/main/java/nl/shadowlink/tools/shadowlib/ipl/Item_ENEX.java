@@ -7,7 +7,7 @@ import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 /**
  * @author Shadow-Link
  */
-public class Item_ENEX extends IPL_Item {
+public class Item_ENEX extends IplItem {
     private GameType gameType;
 
     Item_ENEX(GameType gameType) {

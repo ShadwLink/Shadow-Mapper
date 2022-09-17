@@ -9,7 +9,7 @@ import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 /**
  * @author Shadow-Link
  */
-public class Item_STRBIG extends IPL_Item {
+public class Item_STRBIG extends IplItem {
     private GameType gameType;
 
     public String modelName;

@@ -5,13 +5,13 @@ import com.jogamp.opengl.util.FPSAnimator;
 import kotlin.Unit;
 import nl.shadowlink.tools.shadowlib.ipl.Item_CARS;
 import nl.shadowlink.tools.shadowlib.ipl.Item_INST;
+import nl.shadowlink.tools.shadowlib.utils.encryption.EncryptionKeyExtractor;
 import nl.shadowlink.tools.shadowlib.utils.filechooser.ExtensionFilter;
 import nl.shadowlink.tools.shadowlib.utils.filechooser.FileChooserUtil;
 import nl.shadowlink.tools.shadowmapper.checklist.CheckListManager;
 import nl.shadowlink.tools.shadowmapper.gui.about.About;
 import nl.shadowlink.tools.shadowmapper.gui.install.InstallDialog;
 import nl.shadowlink.tools.shadowmapper.render.GlListener;
-import nl.shadowlink.tools.shadowmapper.utils.EncryptionKeyExtractor;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

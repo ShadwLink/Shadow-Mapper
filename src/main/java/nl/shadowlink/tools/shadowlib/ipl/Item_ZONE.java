@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 /**
  * @author Shadow-Link
  */
-public class Item_ZONE extends IPL_Item {
+public class Item_ZONE extends IplItem {
     private GameType gameType;
 
     public Vector3D posLowerLeft;

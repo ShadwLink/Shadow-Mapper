@@ -7,7 +7,7 @@ import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 /**
  * @author Shadow-Link
  */
-public class Item_OCCL extends IPL_Item {
+public class Item_OCCL extends IplItem {
     private GameType gameType;
 
     Item_OCCL(GameType gameType) {

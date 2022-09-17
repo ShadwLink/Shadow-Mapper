@@ -9,7 +9,7 @@ import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 /**
  * @author Shadow-Link
  */
-public class Item_CARS extends IPL_Item {
+public class Item_CARS extends IplItem {
     private GameType gameType;
     public boolean selected = false;
 

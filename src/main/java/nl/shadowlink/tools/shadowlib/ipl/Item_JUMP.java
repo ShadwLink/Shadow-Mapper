@@ -7,7 +7,7 @@ import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 /**
  * @author Shadow-Link
  */
-public class Item_JUMP extends IPL_Item {
+public class Item_JUMP extends IplItem {
     private GameType gameType;
 
     Item_JUMP(GameType gameType) {

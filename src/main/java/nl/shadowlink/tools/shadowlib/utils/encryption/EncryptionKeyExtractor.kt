@@ -1,4 +1,4 @@
-package nl.shadowlink.tools.shadowmapper.utils
+package nl.shadowlink.tools.shadowlib.utils.encryption
 
 import com.nikhaldimann.inieditor.IniEditor
 import nl.shadowlink.tools.io.ReadFunctions

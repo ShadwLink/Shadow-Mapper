@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 /**
  * @author Shadow-Link
  */
-public class Item_BLOK extends IPL_Item {
+public class Item_BLOK extends IplItem {
     private GameType gameType;
 
     Item_BLOK(GameType gameType) {

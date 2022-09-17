@@ -11,7 +11,7 @@ import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher;
 /**
  * @author Shadow-Link
  */
-public class Item_INST extends IPL_Item {
+public class Item_INST extends IplItem {
     public int id; // III, VC, SA
     public String name = ""; // III, VC, SA, IV(Hash)
     public int hash = 0;

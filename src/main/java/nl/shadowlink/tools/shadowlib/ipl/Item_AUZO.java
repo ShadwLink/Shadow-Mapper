@@ -7,7 +7,7 @@ import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
 /**
  * @author Shadow-Link
  */
-public class Item_AUZO extends IPL_Item {
+public class Item_AUZO extends IplItem {
     private GameType gameType;
 
     public Item_AUZO(GameType gameType) {
