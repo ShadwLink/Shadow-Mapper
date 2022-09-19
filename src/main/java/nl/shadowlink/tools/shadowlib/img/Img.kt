@@ -23,8 +23,10 @@ class Img(
     }
 
     fun toggleEncryption(enabled: Boolean) {
-        isEncrypted = enabled
-        setSaveRequired()
+        if (isEncrypted != enabled) {
+            isEncrypted = enabled
+            setSaveRequired()
+        }
     }
 
     val totalItemCount: Int
