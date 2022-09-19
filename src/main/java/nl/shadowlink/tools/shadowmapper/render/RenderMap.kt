@@ -127,7 +127,7 @@ class RenderMap(
         glDisplayList = IntArray(ideList.size + 1)
         println("ideList Size: " + ideList.size)
         for (imgNumber in fm.imgs.indices) {
-            val rf = ReadFunctions(fm.imgs[imgNumber].fileName)
+            val rf = ReadFunctions(fm.imgs[imgNumber].file)
             println("Opened: " + fm.imgs[imgNumber].fileName)
             for (i in ideList.indices) {
                 if (!boolList[i]) {
