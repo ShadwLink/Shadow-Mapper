@@ -28,7 +28,7 @@ class MainForm : JFrame() {
     private val animator: FPSAnimator
     var glListener: GlListener
     var checkList: CheckListManager? = null
-    private val fm: FileManager
+    private val fm = FileManager()
 
     private var buttonDelIDEItem = JButton()
     private var buttonDeleteIPLItem = JButton()
@@ -112,7 +112,6 @@ class MainForm : JFrame() {
      * Creates new form Main
      */
     init {
-        fm = FileManager()
         glListener = GlListener(this, fm) { fps: Float ->
             labelFPS.text = "FPS: $fps"
         }
@@ -132,7 +131,6 @@ class MainForm : JFrame() {
                 dispose()
             }
             fm.startLoading(loadingDialog, install, key!!)
-            Unit
         }.isVisible = true
     }
 
@@ -1096,7 +1094,6 @@ class MainForm : JFrame() {
             when (fm.selType) {
                 PickingType.map -> if (fm.selParam1 != -1 && fm.selParam2 != -1) {
                     fm.ipls[fm.selParam1].items_inst.removeAt(fm.selParam2)
-                    fm.ipls[fm.selParam1].changed = true
                     fm.updateIPLItemList(fm.selParam1, fm.selParam1)
                 }
 

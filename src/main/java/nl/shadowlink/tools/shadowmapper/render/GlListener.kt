@@ -217,12 +217,10 @@ class GlListener(
     }
 
     override fun reshape(drawable: GLAutoDrawable, x: Int, y: Int, width: Int, height: Int) {
-        var height = height
+        if (width == 0 || height == 0) return;
+
         val gl = drawable.gl.gL2
         val glu = GLU()
-        if (height <= 0) { // avoid a divide by zero error!
-            height = 1
-        }
         val h = width.toFloat() / height.toFloat()
         gl.glViewport(0, 0, width, height)
         gl.glMatrixMode(GL2.GL_PROJECTION)
@@ -239,7 +237,7 @@ class GlListener(
         caps.doubleBuffered = true
         val gl = drawable.gl.gL2
         System.err.println("INIT GL IS: " + gl.javaClass.name)
-        gl.glClearColor(0.250f, 0.250f, 0.250f, 0.0f)
+        gl.glClearColor(0.3921f, 0.5843f, 0.929411f, 0.0f)
         gl.glEnable(GL.GL_TEXTURE_2D)
         gl.glEnable(GL.GL_DEPTH_TEST)
         gl.glEnable(GL.GL_CULL_FACE)

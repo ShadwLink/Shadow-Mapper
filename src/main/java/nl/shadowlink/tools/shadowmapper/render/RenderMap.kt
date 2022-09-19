@@ -26,7 +26,6 @@ class RenderMap(
 ) {
 
     private var glDisplayList: IntArray = IntArray(0)
-    var pick = false
     var reload = false
     var loading = false
     var added = false

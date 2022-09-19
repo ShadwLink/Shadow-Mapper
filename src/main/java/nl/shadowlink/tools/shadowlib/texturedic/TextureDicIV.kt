@@ -45,7 +45,7 @@ class TextureDicIV {
         val hashTableOffset = br.readOffset()
         val texCount = br.readUInt16()
         val texSize = br.readUInt16()
-        println("texcount: $texCount")
+
         if (texCount > 0) {
 
             // TODO: We need this somewhere

@@ -65,10 +65,9 @@ class Browser : JFrame {
     constructor(fm: FileManager) {
         this.iconImage = Toolkit.getDefaultToolkit().createImage("icon.png")
         this.isVisible = true
-        this.centerWindow()
-
         this.fm = fm
         initComponents()
+        centerWindow()
         initImgList()
     }
 
