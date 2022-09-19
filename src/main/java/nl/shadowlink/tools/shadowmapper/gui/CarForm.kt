@@ -3,6 +3,7 @@ package nl.shadowlink.tools.shadowmapper.gui
 import nl.shadowlink.tools.io.Vector3D
 import nl.shadowlink.tools.shadowlib.ipl.Item_CARS
 import nl.shadowlink.tools.shadowlib.utils.GameType
+import nl.shadowlink.tools.shadowmapper.FileManager
 import nl.shadowlink.tools.shadowmapper.utils.GuiFunctions.centerWindow
 import java.awt.event.ActionEvent
 import javax.swing.*

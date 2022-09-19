@@ -5,6 +5,7 @@ import java.awt.Toolkit
 import java.awt.Window
 import java.util.logging.Level
 import java.util.logging.Logger
+import javax.swing.JOptionPane
 import javax.swing.UIManager
 import javax.swing.UnsupportedLookAndFeelException
 
@@ -36,5 +37,10 @@ object GuiFunctions {
         val x = (screenSize.width - width) / 2
         val y = (screenSize.height - height) / 2
         this.setLocation(x, y)
+    }
+
+    @JvmStatic
+    fun Window.showError(title: String, msg: String) {
+        JOptionPane.showMessageDialog(this, msg, title, JOptionPane.ERROR_MESSAGE)
     }
 }

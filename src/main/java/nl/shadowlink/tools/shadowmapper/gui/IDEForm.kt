@@ -9,6 +9,7 @@ import nl.shadowlink.tools.shadowlib.img.Img
 import nl.shadowlink.tools.shadowlib.img.ImgItem
 import nl.shadowlink.tools.shadowlib.model.model.Model
 import nl.shadowlink.tools.shadowlib.utils.GameType
+import nl.shadowlink.tools.shadowmapper.FileManager
 import org.netbeans.lib.awtextra.AbsoluteConstraints
 import org.netbeans.lib.awtextra.AbsoluteLayout
 import java.awt.event.ActionEvent
@@ -212,14 +213,14 @@ class IDEForm : JFrame {
     }
 
     private fun buttonModelActionPerformed(evt: ActionEvent) {
-        Browser(fm, { imgItem: ImgItem, img: Img ->
+        Browser.createModelPickerBrowser(fm) { imgItem: ImgItem, img: Img ->
             setModel(imgItem, img)
-        }, true)
+        }
     }
 
     private fun buttonTextureActionPerformed(evt: ActionEvent) {
-        Browser(fm, { imgItem: ImgItem, _: Img? ->
+        Browser.createTxdPickerBrowser(fm) { imgItem: ImgItem, _: Img? ->
             setTexture(imgItem.nameWithoutExtension)
-        }, false)
+        }
     }
 }

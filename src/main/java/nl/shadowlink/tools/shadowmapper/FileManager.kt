@@ -1,4 +1,4 @@
-package nl.shadowlink.tools.shadowmapper.gui
+package nl.shadowlink.tools.shadowmapper
 
 import com.nikhaldimann.inieditor.IniEditor
 import nl.shadowlink.tools.io.ReadFunctions
@@ -12,6 +12,7 @@ import nl.shadowlink.tools.shadowlib.ipl.Item_INST
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic
 import nl.shadowlink.tools.shadowlib.utils.GameType
 import nl.shadowlink.tools.shadowlib.water.Water
+import nl.shadowlink.tools.shadowmapper.gui.PickingType
 import nl.shadowlink.tools.shadowmapper.gui.install.Install
 import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable
 import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher
@@ -73,6 +74,9 @@ class FileManager : Thread() {
     private var gameDir: String? = null
     private var gameType: GameType? = null
 
+    val gamePath: File
+        get() = File(requireNotNull(gameDir))
+
     fun startLoading(statusCallbacks: LoadingStatusCallbacks?, install: Install, key: ByteArray) {
         this.statusCallbacks = statusCallbacks
         gameDir = install.path
@@ -81,10 +85,12 @@ class FileManager : Thread() {
         start()
     }
 
-    fun addIMG(file: File) {
-        imgs.add(Img(file).apply {
-            isChanged = true
-        })
+    /**
+     * Should only be used for testing
+     */
+    fun setInstall(install: Install) {
+        gameDir = install.path
+        gameType = install.gameType
     }
 
     private fun startLoading() {
@@ -216,9 +222,9 @@ class FileManager : Thread() {
             }
         }
         imgs.forEach { img ->
-            if (img.isChanged) {
+            if (img.isSaveRequired) {
                 img.save()
-                img.isChanged = false
+                img.isSaveRequired = false
                 println("Saving img ${img.file.absolutePath}")
             }
         }
@@ -230,7 +236,7 @@ class FileManager : Thread() {
             if (gtaDat?.changed == true) saveModel.addElement("gta.dat")
             saveModel.addAll(ides.filter { it.changed }.map { it.fileName })
             saveModel.addAll(ipls.filter { it.changed }.map { it.fileName })
-            saveModel.addAll(imgs.filter { it.isChanged }.map { it.fileName })
+            saveModel.addAll(imgs.filter { it.isSaveRequired }.map { it.fileName })
             return saveModel
         }
 
@@ -409,6 +415,14 @@ class FileManager : Thread() {
     fun loadWaterTexture(): TextureDic {
         TODO("Fix this")
 //        return TextureDic("$gameDir/pc/textures/water.wtd", null, GameType.GTA_IV, 23655)
+    }
+
+    fun addNewImg(file: File): CommandResult {
+        if (!file.startsWith(gamePath)) return CommandResult.Failed("IMG should be inside the games folder")
+
+        imgs.add(Img.createNewImg(file))
+
+        return CommandResult.Success
     }
 
     override fun run() {

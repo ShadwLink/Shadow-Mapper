@@ -6,8 +6,11 @@ import nl.shadowlink.tools.shadowlib.img.Img
 import nl.shadowlink.tools.shadowlib.img.ImgItem
 import nl.shadowlink.tools.shadowlib.utils.filechooser.ExtensionFilter
 import nl.shadowlink.tools.shadowlib.utils.filechooser.FileChooserUtil.openFileChooser
+import nl.shadowlink.tools.shadowmapper.CommandResult
+import nl.shadowlink.tools.shadowmapper.FileManager
 import nl.shadowlink.tools.shadowmapper.preview.Preview
 import nl.shadowlink.tools.shadowmapper.utils.GuiFunctions.centerWindow
+import nl.shadowlink.tools.shadowmapper.utils.GuiFunctions.showError
 import org.netbeans.lib.awtextra.AbsoluteConstraints
 import org.netbeans.lib.awtextra.AbsoluteLayout
 import java.awt.Toolkit
@@ -69,7 +72,7 @@ class Browser : JFrame {
         initImgList()
     }
 
-    constructor(
+    private constructor(
         fm: FileManager,
         onFileSelected: (item: ImgItem, img: Img) -> Unit,
         isModelSelectionMode: Boolean
@@ -331,10 +334,14 @@ class Browser : JFrame {
     }
 
     private fun onAddImgClicked(evt: ActionEvent) {
-        val file = openFileChooser(this, ExtensionFilter(setOf("img"), "GTA IMG File"))
-        if (file != null && !file.exists()) {
-            fm.addIMG(file)
-            initImgList()
+        val file = openFileChooser(this, ExtensionFilter(setOf("img"), "GTA IMG File"), fm.gamePath)
+        if (file != null) {
+            val result = fm.addNewImg(file)
+            if (result is CommandResult.Failed) {
+                showError("Failed adding img", result.error)
+            } else {
+                initImgList()
+            }
         }
     }
 
@@ -382,5 +389,15 @@ class Browser : JFrame {
 
     companion object {
         private val supportedExtensions = setOf("wdr", "wtd", "wbd", "wbn", "wdd", "wft", "wpl")
+
+        fun createTxdPickerBrowser(
+            fm: FileManager,
+            onFileSelected: (item: ImgItem, img: Img) -> Unit,
+        ) = Browser(fm, onFileSelected, isModelSelectionMode = false)
+
+        fun createModelPickerBrowser(
+            fm: FileManager,
+            onFileSelected: (item: ImgItem, img: Img) -> Unit,
+        ) = Browser(fm, onFileSelected, isModelSelectionMode = true)
     }
 }

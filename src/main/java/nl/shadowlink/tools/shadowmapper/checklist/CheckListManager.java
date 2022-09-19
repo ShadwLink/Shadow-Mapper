@@ -2,7 +2,7 @@ package nl.shadowlink.tools.shadowmapper.checklist;
 
 // @author Santhosh Kumar T - santhosh@in.fiorano.com
 
-import nl.shadowlink.tools.shadowmapper.gui.FileManager;
+import nl.shadowlink.tools.shadowmapper.FileManager;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

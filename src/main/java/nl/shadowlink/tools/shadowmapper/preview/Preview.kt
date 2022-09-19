@@ -5,7 +5,7 @@ import com.jogamp.opengl.util.Animator
 import nl.shadowlink.tools.io.ReadFunctions
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic
 import nl.shadowlink.tools.shadowlib.utils.GameType
-import nl.shadowlink.tools.shadowmapper.gui.FileManager
+import nl.shadowlink.tools.shadowmapper.FileManager
 import nl.shadowlink.tools.shadowmapper.utils.GuiFunctions.centerWindow
 import java.awt.Toolkit
 import java.awt.event.*

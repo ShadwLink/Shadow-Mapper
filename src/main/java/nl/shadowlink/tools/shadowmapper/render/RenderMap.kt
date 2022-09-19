@@ -10,7 +10,7 @@ import nl.shadowlink.tools.shadowlib.ipl.Item_INST
 import nl.shadowlink.tools.shadowlib.model.model.Model
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic
 import nl.shadowlink.tools.shadowlib.utils.GameType
-import nl.shadowlink.tools.shadowmapper.gui.FileManager
+import nl.shadowlink.tools.shadowmapper.FileManager
 import nl.shadowlink.tools.shadowmapper.gui.PickingType
 import nl.shadowlink.tools.shadowmapper.utils.GlUtil.drawCube
 import java.util.*

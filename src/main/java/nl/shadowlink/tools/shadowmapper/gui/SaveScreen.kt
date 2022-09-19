@@ -5,6 +5,7 @@
  */
 package nl.shadowlink.tools.shadowmapper.gui
 
+import nl.shadowlink.tools.shadowmapper.FileManager
 import nl.shadowlink.tools.shadowmapper.utils.GuiFunctions.centerWindow
 import java.awt.Toolkit
 import java.awt.event.ActionEvent

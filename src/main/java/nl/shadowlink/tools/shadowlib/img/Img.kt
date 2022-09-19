@@ -16,11 +16,15 @@ class Img(
     val fileName: String
         get() = file.name
 
-    var isChanged = false
+    var isSaveRequired = false
+
+    private constructor(file: File) : this(file, items = mutableListOf()) {
+        isSaveRequired = true
+    }
 
     fun toggleEncryption(enabled: Boolean) {
         isEncrypted = enabled
-        isChanged = true
+        isSaveRequired = true
     }
 
     val totalItemCount: Int
@@ -78,17 +82,24 @@ class Img(
             } else {
                 println("Unable to close the file")
             }
-            isChanged = true
+            isSaveRequired = true
             rf.closeFile()
         }
     }
 
     fun removeItem(imgItem: ImgItem) {
         items.remove(imgItem)
-        isChanged = true
+        isSaveRequired = true
     }
 
     fun save() {
         TODO("IMG Saving is not implemented")
+    }
+
+    companion object {
+
+        fun createNewImg(file: File): Img {
+            return Img(file)
+        }
     }
 }

@@ -8,8 +8,8 @@ import javax.swing.filechooser.FileFilter
 object FileChooserUtil {
 
     @JvmStatic
-    fun openFileChooser(parent: Component, filter: FileFilter): File? {
-        val chooser = JFileChooser().apply {
+    fun openFileChooser(parent: Component, filter: FileFilter, initialPath: File? = null): File? {
+        val chooser = JFileChooser(initialPath).apply {
             removeChoosableFileFilter(acceptAllFileFilter)
             isMultiSelectionEnabled = false
             fileFilter = filter

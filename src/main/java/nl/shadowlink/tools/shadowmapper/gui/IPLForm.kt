@@ -6,6 +6,7 @@
 package nl.shadowlink.tools.shadowmapper.gui
 
 import nl.shadowlink.tools.io.Vector3D
+import nl.shadowlink.tools.shadowmapper.FileManager
 import java.awt.Toolkit
 import java.awt.event.ActionEvent
 import javax.swing.*

@@ -10,40 +10,23 @@ import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable
 class IPL_IV(
     private val hashTable: HashTable
 ) {
-    private var version // always 3
-            = 0
-    private var inst // Number of instances
-            = 0
-    private var unused1 // unused
-            = 0
-    private var grge // number of garages
-            = 0
-    private var cars // number of cars
-            = 0
-    private var cull // number of culls
-            = 0
-    private var unused2 // unused
-            = 0
-    private var unused3 // unsued
-            = 0
-    private var unused4 // unused
-            = 0
-    private var strbig // number of strbig
-            = 0
-    private var lcul // number of lod cull
-            = 0
-    private var zone // number of zones
-            = 0
-    private var unused5 // unused
-            = 0
-    private var unused6 // unused
-            = 0
-    private var unused7 // unused
-            = 0
-    private var unused8 // unused
-            = 0
-    private var blok // number of bloks
-            = 0
+    private var version = 0
+    private var inst = 0
+    private var unused1 = 0
+    private var grge = 0
+    private var cars = 0
+    private var cull = 0
+    private var unused2 = 0
+    private var unused3 = 0
+    private var unused4 = 0
+    private var strbig = 0
+    private var lcul = 0
+    private var zone = 0
+    private var unused5 = 0
+    private var unused6 = 0
+    private var unused7 = 0
+    private var unused8 = 0
+    private var blok = 0
 
     fun loadPlacement(wpl: IPL, printName: String) {
         println("Loading.. bin wpl $printName")
@@ -51,7 +34,7 @@ class IPL_IV(
         if (wpl.rf == null) {
             rf = ReadFunctions(wpl.fileName)
         } else {
-            wpl.stream = true
+            wpl.isStream = true
             rf = wpl.rf
         }
         readHeader(rf)
@@ -120,17 +103,9 @@ class IPL_IV(
         unused7 = rf.readInt() // unused
         unused8 = rf.readInt() // unused
         blok = rf.readInt() // number of bloks
-        // System.out.println(version);
-        // System.out.println(inst);
-        /* System.out.println(unused1); System.out.println(grge); System.out.println(cars); System.out.println(cull);
-         * System.out.println(unused2); System.out.println(unused3); System.out.println(unused4);
-         * System.out.println(strbig); System.out.println(lcul); System.out.println(zone); System.out.println(unused5);
-         * System.out.println(unused6); System.out.println(unused7); System.out.println(unused8);
-         * System.out.println(blok); */
-        // //Message.displayMsgHigh
     }
 
-    fun writeHeader(wf: WriteFunctions, wpl: IPL) {
+    private fun writeHeader(wf: WriteFunctions, wpl: IPL) {
         wf.write(3)
         wf.write(wpl.items_inst.size)
         wf.write(0)
@@ -151,30 +126,24 @@ class IPL_IV(
     }
 
     fun save(wpl: IPL) {
-        val fileName = if (wpl.stream) {
+        val fileName = if (wpl.isStream) {
             wpl.img.fileName
         } else {
             wpl.fileName
         }
         val wf = WriteFunctions(fileName!!)
-        if (wpl.stream) {
+        if (wpl.isStream) {
             println("Saving Stream WPL")
             wf.gotoEnd()
             wpl.imgItem.offset = wf.fileSize
         }
         writeHeader(wf, wpl)
-        for (i in wpl.items_inst.indices) {
-            wpl.items_inst[i].write(wf)
-        }
-        for (i in wpl.items_grge.indices) {
-            wpl.items_grge[i].write(wf)
-        }
-        for (i in wpl.items_cars.indices) {
-            wpl.items_cars[i].write(wf)
-        }
-        if (wpl.stream) {
+        wpl.items_inst.forEach { it.write(wf) }
+        wpl.items_grge.forEach { it.write(wf) }
+        wpl.items_cars.forEach { it.write(wf) }
+        if (wpl.isStream) {
             wpl.imgItem.size = wf.fileSize - wpl.imgItem.offset
-            wpl.img.isChanged = true
+            wpl.img.isSaveRequired = true
         }
         wf.closeFile()
     }

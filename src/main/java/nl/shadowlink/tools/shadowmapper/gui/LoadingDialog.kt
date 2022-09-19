@@ -1,5 +1,6 @@
 package nl.shadowlink.tools.shadowmapper.gui
 
+import nl.shadowlink.tools.shadowmapper.LoadingStatusCallbacks
 import nl.shadowlink.tools.shadowmapper.utils.GuiFunctions.centerWindow
 import javax.swing.*
 

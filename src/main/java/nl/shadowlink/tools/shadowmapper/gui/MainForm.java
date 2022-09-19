@@ -8,10 +8,12 @@ import nl.shadowlink.tools.shadowlib.ipl.Item_INST;
 import nl.shadowlink.tools.shadowlib.utils.encryption.EncryptionKeyExtractor;
 import nl.shadowlink.tools.shadowlib.utils.filechooser.ExtensionFilter;
 import nl.shadowlink.tools.shadowlib.utils.filechooser.FileChooserUtil;
+import nl.shadowlink.tools.shadowmapper.FileManager;
 import nl.shadowlink.tools.shadowmapper.checklist.CheckListManager;
 import nl.shadowlink.tools.shadowmapper.gui.about.About;
 import nl.shadowlink.tools.shadowmapper.gui.install.InstallDialog;
 import nl.shadowlink.tools.shadowmapper.render.GlListener;
+import nl.shadowlink.tools.shadowmapper.utils.GuiFunctions;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -63,17 +65,13 @@ public class MainForm extends javax.swing.JFrame {
             EncryptionKeyExtractor keyExtractor = new EncryptionKeyExtractor();
             byte[] key = keyExtractor.getKey(install.getPath());
             if (key == null) {
-                showError("Error loading install", "Unable to detect encryption key");
+                GuiFunctions.showError(this, "Error loading install", "Unable to detect encryption key");
                 dispose();
             }
 
             fm.startLoading(loadingDialog, install, key);
             return Unit.INSTANCE;
         }).setVisible(true);
-    }
-
-    private void showError(String title, String msg) {
-        JOptionPane.showMessageDialog(this, msg, title, JOptionPane.ERROR_MESSAGE);
     }
 
     private void initComponents() {
@@ -1267,7 +1265,7 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     private void onAddIdeClicked(ActionEvent evt) {
-        File file = FileChooserUtil.openFileChooser(this, new ExtensionFilter(Set.of("ide"), "IDE File"));
+        File file = FileChooserUtil.openFileChooser(this, new ExtensionFilter(Set.of("ide"), "IDE File"), null);
         fm.addNewIDE(file);
     }
 
@@ -1276,7 +1274,7 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     private void onAddIplClicked(ActionEvent evt) {
-        File file = FileChooserUtil.openFileChooser(this, new ExtensionFilter(Set.of("wpl"), "WPL File"));
+        File file = FileChooserUtil.openFileChooser(this, new ExtensionFilter(Set.of("wpl"), "WPL File"), null);
         fm.addNewIPL(file);
     }
 

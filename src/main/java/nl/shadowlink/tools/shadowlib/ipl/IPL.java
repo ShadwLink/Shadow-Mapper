@@ -21,7 +21,7 @@ public class IPL {
     public boolean selected = false;
     public boolean itemsLoaded = false;
 
-    public boolean stream = false; // if it's a stream wpl
+    public boolean isStream = false; // if it's a stream wpl
     public Img img = null; // the img it's in
     public ImgItem imgItem = null; // img item
 

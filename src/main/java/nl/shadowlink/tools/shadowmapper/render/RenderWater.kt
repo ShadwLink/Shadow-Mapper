@@ -1,7 +1,7 @@
 package nl.shadowlink.tools.shadowmapper.render
 
 import com.jogamp.opengl.GL2
-import nl.shadowlink.tools.shadowmapper.gui.FileManager
+import nl.shadowlink.tools.shadowmapper.FileManager
 import nl.shadowlink.tools.shadowmapper.gui.PickingType
 
 /**

@@ -5,7 +5,7 @@ import com.jogamp.opengl.*
 import com.jogamp.opengl.fixedfunc.GLMatrixFunc
 import com.jogamp.opengl.glu.GLU
 import nl.shadowlink.tools.shadowlib.utils.GameType
-import nl.shadowlink.tools.shadowmapper.gui.FileManager
+import nl.shadowlink.tools.shadowmapper.FileManager
 import nl.shadowlink.tools.shadowmapper.gui.MainForm
 import nl.shadowlink.tools.shadowmapper.gui.PickingType
 import java.awt.AWTException
