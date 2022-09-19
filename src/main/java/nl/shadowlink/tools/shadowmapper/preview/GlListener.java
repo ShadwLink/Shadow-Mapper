@@ -4,6 +4,7 @@ import com.jogamp.opengl.*;
 import com.jogamp.opengl.glu.GLU;
 import nl.shadowlink.tools.io.ByteReader;
 import nl.shadowlink.tools.shadowlib.model.model.Model;
+import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
 import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.FileManager;
 import nl.shadowlink.tools.shadowmapper.render.Camera;

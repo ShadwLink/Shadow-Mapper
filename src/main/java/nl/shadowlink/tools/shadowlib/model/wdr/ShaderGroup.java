@@ -4,6 +4,7 @@ import nl.shadowlink.tools.io.ByteReader;
 import nl.shadowlink.tools.shadowlib.model.collections.PtrCollection;
 import nl.shadowlink.tools.shadowlib.model.collections.SimpleArray;
 import nl.shadowlink.tools.shadowlib.model.collections.SimpleCollection;
+import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
 import nl.shadowlink.tools.shadowlib.utils.Utils;
 
 /**

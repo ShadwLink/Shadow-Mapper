@@ -3,7 +3,7 @@ package nl.shadowlink.tools.shadowlib.texturedic
 import nl.shadowlink.tools.io.WriteBuffer
 import nl.shadowlink.tools.io.WriteFunctions
 import nl.shadowlink.tools.shadowlib.utils.Utils
-import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher.Companion.getHashKey
+import nl.shadowlink.tools.shadowlib.utils.hashing.OneAtATimeHasher.Companion.getHashKey
 import java.util.zip.Deflater
 
 class WtdExporter {

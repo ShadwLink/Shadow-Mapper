@@ -1,6 +1,7 @@
 package nl.shadowlink.tools.shadowlib.model.model;
 
 import com.jogamp.opengl.GL2;
+import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
 
 import java.util.ArrayList;
 
