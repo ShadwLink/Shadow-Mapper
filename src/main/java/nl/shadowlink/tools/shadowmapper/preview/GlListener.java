@@ -178,7 +178,8 @@ public class GlListener implements GLEventListener {
 
             gl.glTranslatef(0, 512, 0);
             gl.glRotatef(-90, 0.0f, 0.0f, 1.0f);
-            gl.glBindTexture(gl.GL_TEXTURE_2D, txd.textureId[selected]);
+            // TODO: Fix this
+//            gl.glBindTexture(gl.GL_TEXTURE_2D, txd.textureId[selected]);
             gl.glBegin(gl.GL_QUADS);
             gl.glTexCoord2d(0.0, 0.0);
             gl.glVertex2f(0, 0);

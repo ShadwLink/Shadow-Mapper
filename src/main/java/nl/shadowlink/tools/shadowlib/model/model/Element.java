@@ -1,6 +1,7 @@
 package nl.shadowlink.tools.shadowlib.model.model;
 
 import com.jogamp.opengl.GL2;
+import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
 
 import java.util.ArrayList;
 
@@ -43,29 +44,26 @@ public class Element {
 
     /**
      * Attaches a TXD to this element
-     *
-     * @param texNames the names of the textures
-     * @param texID    the GL texture ids
      */
-    public void attachTXD(String[] texNames, int[] texID) {
+    public void attachTXD(TextureDic txd) {
         // TODO: Why can this be null?
-        if(texNames == null) {
+        if (txd == null) {
             return;
         }
 
-        for (int i = 0; i < shaders.size(); i++) {
-            // //Message.displayMsgLow("Started Shader " + i + " name is " + shaders.get(i).getTextureName());
-            for (int j = 0; j < texNames.length; j++) {
-                // //Message.displayMsgLow("texName" + j + ": " + texNames[j]);
-                if (texNames[j] != null) {
-                    if (shaders.get(i).getTextureName().equalsIgnoreCase(texNames[j])) {
-                        System.out.println("Connected tex: " + shaders.get(i).getTextureName() + " with " + texNames[j]);
-                        // //Message.displayMsgLow("Found " + j);
-                        shaders.get(i).setGLTex(texID[j]);
-                    }
-                }
-            }
-        }
+//        for (int i = 0; i < shaders.size(); i++) {
+//            // //Message.displayMsgLow("Started Shader " + i + " name is " + shaders.get(i).getTextureName());
+//            for (int j = 0; j < texNames.length; j++) {
+//                // //Message.displayMsgLow("texName" + j + ": " + texNames[j]);
+//                if (texNames[j] != null) {
+//                    if (shaders.get(i).getTextureName().equalsIgnoreCase(texNames[j])) {
+//                        System.out.println("Connected tex: " + shaders.get(i).getTextureName() + " with " + texNames[j]);
+//                        // //Message.displayMsgLow("Found " + j);
+//                        shaders.get(i).setGLTex(texID[j]);
+//                    }
+//                }
+//            }
+//        }
     }
 
     /**

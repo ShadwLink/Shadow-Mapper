@@ -1,158 +1,132 @@
-package nl.shadowlink.tools.shadowlib.texturedic;
+package nl.shadowlink.tools.shadowlib.texturedic
 
-import nl.shadowlink.tools.io.ByteReader;
-import nl.shadowlink.tools.io.ReadFunctions;
-import nl.shadowlink.tools.shadowlib.model.wdr.ResourceFile;
-
-import java.util.ArrayList;
+import nl.shadowlink.tools.io.ByteReader
+import nl.shadowlink.tools.io.ReadFunctions
+import nl.shadowlink.tools.shadowlib.model.wdr.ResourceFile
 
 /**
  * @author Shadow-Link
  */
-public class TextureDic_IV {
-    private int[] textureId;
-    private String[] texName;
-    private ArrayList<Texture> textures = new ArrayList<Texture>();
-    private int sysSize = 0;
+class TextureDicIV {
+    private val textures = ArrayList<Texture>()
+    private var sysSize = 0
 
-    public int[] loadTextureDic(TextureDic wtd, boolean compressed, int sysSize) {
-        this.sysSize = sysSize;
+    fun loadTextureDic(wtd: TextureDic, compressed: Boolean, sysSize: Int) {
+        this.sysSize = sysSize
         if (compressed) {
-            ByteReader br;
-            if (wtd.br == null) {
-                ReadFunctions rf = new ReadFunctions(wtd.getFileName());
-                System.out.println("WTD Opened");
-                br = rf.getByteReader();
+            val br: ByteReader? = if (wtd.br == null) {
+                val rf = ReadFunctions(wtd.fileName)
+                println("WTD Opened")
+                rf.byteReader
             } else {
-                br = wtd.br;
+                wtd.br
             }
-
-            byte stream[];
-
-            ResourceFile res = new ResourceFile();
-            stream = res.read(br, wtd.fileSize);
-
-            this.sysSize = res.getSystemSize();
-
-            ByteReader br2 = new ByteReader(stream, 0);
-            read(br2);
+            val stream: ByteArray
+            val res = ResourceFile()
+            stream = res.read(br, wtd.fileSize)
+            this.sysSize = res.systemSize
+            val br2 = ByteReader(stream, 0)
+            read(br2)
         } else {
-            read(wtd.br);
+            read(wtd.br)
         }
-
-        wtd.texName = texName;
-        wtd.textures = this.textures;
-        return textureId;
+        wtd.textures = textures
     }
 
-    public void read(ByteReader br) {
+    fun read(br: ByteReader) {
         // TODO: Move GL stuff to Shadow-Mapper
-        int VTable = br.readUInt32();
+        val VTable = br.readUInt32()
         // Message.displayMsgHigh("VTable: " + VTable);
-
-        int blockMapOffset = br.readOffset();
-
-        int parentDictionary = br.readUInt32();
-        int usageCount = br.readUInt32();
+        val blockMapOffset = br.readOffset()
+        val parentDictionary = br.readUInt32()
+        val usageCount = br.readUInt32()
 
         // SimpleCollection
-        int hashTableOffset = br.readOffset();
-        int texCount = br.readUInt16();
-        int texSize = br.readUInt16();
-        // Message.displayMsgHigh("HashTableOffset: " + hashTableOffset + " size: " + texCount);
-
-        textureId = new int[texCount];
-        texName = new String[texCount];
-        System.out.println("texcount: " + texCount);
-
+        val hashTableOffset = br.readOffset()
+        val texCount = br.readUInt16()
+        val texSize = br.readUInt16()
+        println("texcount: $texCount")
         if (texCount > 0) {
 
             // TODO: We need this somewhere
 //         if (gl != null) {
 //         gl.glGenTextures(texCount, textureId, 0);
 //         }
-
-            int save = br.getCurrentOffset();
-            br.setCurrentOffset(hashTableOffset);
-            for (int i = 0; i < texCount; i++) {
+            var save = br.getCurrentOffset()
+            br.setCurrentOffset(hashTableOffset)
+            for (i in 0 until texCount) {
                 // Message.displayMsgHigh("Hash: " + br.readUInt32());
             }
-
-            br.setCurrentOffset(save);
+            br.setCurrentOffset(save)
 
             // PointerCollection
-            int textureListOffset = br.readOffset();
-            int pTexCount = br.readUInt16();
-            int pTexSize = br.readUInt16();
+            val textureListOffset = br.readOffset()
+            val pTexCount = br.readUInt16()
+            val pTexSize = br.readUInt16()
             // Message.displayMsgHigh("TextureListOffset: " + textureListOffset);
-
-            save = br.getCurrentOffset();
-            br.setCurrentOffset(textureListOffset);
-
-            for (int i = 0; i < pTexCount; i++) {
-                Texture texture = new Texture();
-                int texOffset = br.readOffset();
-
-                save = br.getCurrentOffset();
-                br.setCurrentOffset(texOffset);
-
-                int TexVTable = br.readUInt32();
+            save = br.getCurrentOffset()
+            br.setCurrentOffset(textureListOffset)
+            for (i in 0 until pTexCount) {
+                val texOffset = br.readOffset()
+                save = br.getCurrentOffset()
+                br.setCurrentOffset(texOffset)
+                val TexVTable = br.readUInt32()
                 // Message.displayMsgHigh("VTable: " + TexVTable);
-                int unknown1 = br.readUInt32();
+                val unknown1 = br.readUInt32()
                 // Message.displayMsgHigh("Unknown1: " + unknown1);
-                int unknown2 = br.readUInt32();
+                val unknown2 = br.readUInt32()
                 // Message.displayMsgHigh("Unknown2: " + unknown2);
-                int unknown3 = br.readUInt32();
+                val unknown3 = br.readUInt32()
                 // Message.displayMsgHigh("Unknown3: " + unknown3);
-                int unknown4 = br.readUInt32();
+                val unknown4 = br.readUInt32()
                 // Message.displayMsgHigh("Unknown4: " + unknown4);
-                int texNameOffset = br.readOffset();
+                val texNameOffset = br.readOffset()
                 // //Message.displayMsgHigh("TexNameOffset: " +
                 // Utils.getHexString(texNameOffset));
-                int save2 = br.getCurrentOffset();
-                br.setCurrentOffset(texNameOffset);
-                String packName = br.readNullTerminatedString();
+                val save2 = br.getCurrentOffset()
+                br.setCurrentOffset(texNameOffset)
+                val packName = br.readNullTerminatedString()
                 // Message.displayMsgHigh("PackName: " + packName);
-                String name = packName.replace("pack:/", "").replace(".dds", "");
+                val name = packName.replace("pack:/", "").replace(".dds", "")
                 // Message.displayMsgHigh("Name: " + name);
-                texName[i] = name;
-                br.setCurrentOffset(save2);
-                int unknown5 = br.readUInt32();
+                val texture = Texture(name)
+                br.setCurrentOffset(save2)
+                val unknown5 = br.readUInt32()
                 // Message.displayMsgHigh("Unknown5: " + unknown5);
-                int width = br.readUInt16();
-                int height = br.readUInt16();
-                texture.width = width;
-                texture.height = height;
+                val width = br.readUInt16()
+                val height = br.readUInt16()
+                texture.width = width
+                texture.height = height
                 // Message.displayMsgHigh("Width x Height: " + width + "x" + height);
-                String compression = br.readString(4);
+                val compression = br.readString(4)
                 // Message.displayMsgHigh("Compression: " + compression);
-                int strideSize = br.readUInt16();
-                byte type = br.readByte();
-                byte levels = br.readByte();
+                val strideSize = br.readUInt16()
+                val type = br.readByte()
+                val levels = br.readByte()
                 // Message.displayMsgHigh("StideSize: " + strideSize);
                 // Message.displayMsgHigh("Type: " + type);
                 // Message.displayMsgHigh("Levels: " + levels);
-                float unk1 = br.readFloat();
-                float unk2 = br.readFloat();
-                float unk3 = br.readFloat();
+                var unk1 = br.readFloat()
+                var unk2 = br.readFloat()
+                var unk3 = br.readFloat()
                 // Message.displayMsgHigh("Floats: " + unk1 + ", " + unk2 + ", " + unk3);
-                unk1 = br.readFloat();
-                unk2 = br.readFloat();
-                unk3 = br.readFloat();
+                unk1 = br.readFloat()
+                unk2 = br.readFloat()
+                unk3 = br.readFloat()
                 // Message.displayMsgHigh("Floats: " + unk1 + ", " + unk2 + ", " + unk3);
-                int nextTexOffset = br.readOffset();
+                val nextTexOffset = br.readOffset()
                 // //Message.displayMsgHigh("Next texture is at: " +
                 // Utils.getHexString(nextTexOffset));
-                int unknown6 = br.readUInt32();
+                val unknown6 = br.readUInt32()
                 // //Message.displayMsgHigh("Unknown6: " + unknown6);
-                int dataOffset = br.readDataOffset();
+                val dataOffset = br.readDataOffset()
                 // //Message.displayMsgHigh("Data at: " +
                 // Utils.getHexString(dataOffset+sysSize));
-                int unknown7 = br.readUInt32();
+                val unknown7 = br.readUInt32()
                 // Message.displayMsgHigh("Unknown7: " + unknown7);
 
                 // load the texture
-                br.setCurrentOffset(dataOffset + sysSize);
+                br.setCurrentOffset(dataOffset + sysSize)
 
 //         if (gl != null) {
 //         gl.glBindTexture(GL.GL_TEXTURE_2D, textureId[i]);
@@ -189,12 +163,9 @@ public class TextureDic_IV {
 //         gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_REPEAT);
 //         gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_REPEAT);
 //         }
-
-                textures.add(texture);
-
-                br.setCurrentOffset(save);
+                textures.add(texture)
+                br.setCurrentOffset(save)
             }
         }
     }
-
 }

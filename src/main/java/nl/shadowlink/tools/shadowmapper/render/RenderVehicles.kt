@@ -2,8 +2,6 @@ package nl.shadowlink.tools.shadowmapper.render
 
 import com.jogamp.opengl.GL2
 import nl.shadowlink.tools.shadowlib.model.model.Model
-import nl.shadowlink.tools.shadowlib.texturedic.TextureDic
-import nl.shadowlink.tools.shadowlib.utils.GameType
 import nl.shadowlink.tools.shadowmapper.gui.FileManager
 import nl.shadowlink.tools.shadowmapper.gui.PickingType
 
@@ -17,27 +15,27 @@ class RenderVehicles(
     private val glCarList = IntArray(5)
 
     fun init(gl: GL2) {
-        val txd = TextureDic("resources/vehicles.txd", null, GameType.GTA_IV, 23655)
-        val tempCar = Model()
-        tempCar.loadDFF("resources/car.dff")
-        tempCar.attachTXD(txd.texName, txd.textureId)
-        createGenList(gl, 0, tempCar)
-        tempCar.reset()
-        tempCar.loadDFF("resources/boat.dff")
-        tempCar.attachTXD(txd.texName, txd.textureId)
-        createGenList(gl, 1, tempCar)
-        tempCar.reset()
-        tempCar.loadDFF("resources/plane.dff")
-        tempCar.attachTXD(txd.texName, txd.textureId)
-        createGenList(gl, 2, tempCar)
-        tempCar.reset()
-        tempCar.loadDFF("resources/heli.dff")
-        tempCar.attachTXD(txd.texName, txd.textureId)
-        createGenList(gl, 3, tempCar)
-        tempCar.reset()
-        tempCar.loadDFF("resources/bike.dff")
-        tempCar.attachTXD(txd.texName, txd.textureId)
-        createGenList(gl, 4, tempCar)
+//        val txd = TextureDic("resources/vehicles.txd", null, GameType.GTA_IV, 23655)
+//        val tempCar = Model()
+//        tempCar.loadDFF("resources/car.dff")
+//        tempCar.attachTXD(txd)
+//        createGenList(gl, 0, tempCar)
+//        tempCar.reset()
+//        tempCar.loadDFF("resources/boat.dff")
+//        tempCar.attachTXD(txd)
+//        createGenList(gl, 1, tempCar)
+//        tempCar.reset()
+//        tempCar.loadDFF("resources/plane.dff")
+//        tempCar.attachTXD(txd)
+//        createGenList(gl, 2, tempCar)
+//        tempCar.reset()
+//        tempCar.loadDFF("resources/heli.dff")
+//        tempCar.attachTXD(txd)
+//        createGenList(gl, 3, tempCar)
+//        tempCar.reset()
+//        tempCar.loadDFF("resources/bike.dff")
+//        tempCar.attachTXD(txd)
+//        createGenList(gl, 4, tempCar)
     }
 
     private fun createGenList(gl: GL2, id: Int, mdl: Model) {

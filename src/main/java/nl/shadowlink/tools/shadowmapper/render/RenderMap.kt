@@ -160,7 +160,7 @@ class RenderMap(
                             rf.seek(item.offset)
                             br = rf.getByteReader(item.size)
                             val txd = TextureDic(texName, br, gameType, item.size)
-                            mdl?.attachTXD(txd.texName, txd.textureId)
+                            mdl?.attachTXD(txd)
                         }
                         glDisplayList[i + 1] = gl.glGenLists(1)
                         gl.glNewList(glDisplayList[i + 1], GL2.GL_COMPILE)
@@ -218,7 +218,7 @@ class RenderMap(
                 rf.seek(item.offset)
                 br = rf.getByteReader(item.size)
                 val txd = TextureDic(tempIDE!!.textureName + ".wtd", br, gameType, item.size)
-                mdl?.attachTXD(txd.texName, txd.textureId)
+                mdl?.attachTXD(txd)
             }
             glDisplayList[tempList.size] = gl.glGenLists(1)
             gl.glNewList(glDisplayList[tempList.size], GL2.GL_COMPILE)

@@ -405,7 +405,8 @@ class FileManager : Thread() {
     }
 
     fun loadWaterTexture(): TextureDic {
-        return TextureDic("$gameDir/pc/textures/water.wtd", null, GameType.GTA_IV, 23655)
+        TODO("Fix this")
+//        return TextureDic("$gameDir/pc/textures/water.wtd", null, GameType.GTA_IV, 23655)
     }
 
     override fun run() {

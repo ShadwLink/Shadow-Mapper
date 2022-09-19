@@ -18,7 +18,7 @@ public class ResourceFile {
         _header.read(br);
 
         if (_header.Magic != ResourceHeader.MagicValue) {
-            // Message.displayMsgHigh("Iets mis met rcs file");
+            throw new IllegalStateException("Invalid resource file");
         }
 
         _codec = new Compression();
