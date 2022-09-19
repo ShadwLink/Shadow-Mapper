@@ -2,7 +2,7 @@ package nl.shadowlink.tools.shadowlib.utils.encryption
 
 import com.nikhaldimann.inieditor.IniEditor
 import nl.shadowlink.tools.io.ReadFunctions
-import nl.shadowlink.tools.shadowmapper.utils.hashing.SHA1Hasher
+import nl.shadowlink.tools.shadowlib.utils.hashing.SHA1Hasher
 
 class EncryptionKeyExtractor {
 

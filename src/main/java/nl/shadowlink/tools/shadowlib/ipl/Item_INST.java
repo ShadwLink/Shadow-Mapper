@@ -5,8 +5,8 @@ import nl.shadowlink.tools.io.Vector3D;
 import nl.shadowlink.tools.io.Vector4D;
 import nl.shadowlink.tools.io.WriteFunctions;
 import nl.shadowlink.tools.shadowlib.utils.GameType;
-import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
-import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher;
+import nl.shadowlink.tools.shadowlib.utils.hashing.HashTable;
+import nl.shadowlink.tools.shadowlib.utils.hashing.OneAtATimeHasher;
 
 /**
  * @author Shadow-Link

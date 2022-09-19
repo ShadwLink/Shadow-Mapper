@@ -1,7 +1,7 @@
 package nl.shadowlink.tools.shadowlib.ipl
 
 import nl.shadowlink.tools.io.ReadFunctions
-import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable
+import nl.shadowlink.tools.shadowlib.utils.hashing.HashTable
 
 /**
  * @author Shadow-Link

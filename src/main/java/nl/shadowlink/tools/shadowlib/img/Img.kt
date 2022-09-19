@@ -3,6 +3,8 @@ package nl.shadowlink.tools.shadowlib.img
 import nl.shadowlink.tools.io.ReadFunctions
 import nl.shadowlink.tools.io.WriteFunctions
 import nl.shadowlink.tools.shadowlib.utils.Utils
+import nl.shadowlink.tools.shadowlib.utils.saving.Saveable
+import nl.shadowlink.tools.shadowlib.utils.saving.SaveableFile
 import java.io.File
 
 /**
@@ -12,19 +14,17 @@ class Img(
     var file: File,
     var items: MutableList<ImgItem> = mutableListOf(),
     var isEncrypted: Boolean = false
-) {
+) : Saveable by SaveableFile() {
     val fileName: String
         get() = file.name
 
-    var isSaveRequired = false
-
     private constructor(file: File) : this(file, items = mutableListOf()) {
-        isSaveRequired = true
+        setSaveRequired()
     }
 
     fun toggleEncryption(enabled: Boolean) {
         isEncrypted = enabled
-        isSaveRequired = true
+        setSaveRequired()
     }
 
     val totalItemCount: Int
@@ -82,14 +82,14 @@ class Img(
             } else {
                 println("Unable to close the file")
             }
-            isSaveRequired = true
+            setSaveRequired()
             rf.closeFile()
         }
     }
 
     fun removeItem(imgItem: ImgItem) {
         items.remove(imgItem)
-        isSaveRequired = true
+        setSaveRequired()
     }
 
     fun save() {

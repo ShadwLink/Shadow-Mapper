@@ -4,7 +4,7 @@ import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.shadowlib.img.Img;
 import nl.shadowlink.tools.shadowlib.img.ImgItem;
 import nl.shadowlink.tools.shadowlib.utils.GameType;
-import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
+import nl.shadowlink.tools.shadowlib.utils.hashing.HashTable;
 
 import java.util.ArrayList;
 
@@ -64,18 +64,17 @@ public class IPL {
             loadPlacement(hashTable);
     }
 
-    private boolean loadPlacement(HashTable hashTable) {
+    private void loadPlacement(HashTable hashTable) {
         switch (gameType) {
             case GTA_IV:
                 if (fileName.contains("common"))
                     new IPL_III_ERA().loadPlacement(this);
                 else
-                    new IPL_IV(hashTable).loadPlacement(this, printName);
+                    new IplIV(hashTable).loadPlacement(this, printName);
                 break;
             default:
                 new IPL_III_ERA().loadPlacement(this);
         }
-        return true;
     }
 
     public String getFileName() {
@@ -100,7 +99,7 @@ public class IPL {
                 if (fileName.contains("common"))
                     new IPL_III_ERA().save(this);
                 else
-                    new IPL_IV(hashTable).save(this);
+                    new IplIV(hashTable).save(this);
                 break;
             default:
                 new IPL_III_ERA().save(this);

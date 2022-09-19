@@ -1,4 +1,4 @@
-package nl.shadowlink.tools.shadowmapper.utils.hashing
+package nl.shadowlink.tools.shadowlib.utils.hashing
 
 class HashTable(
     private val hasher: Hasher

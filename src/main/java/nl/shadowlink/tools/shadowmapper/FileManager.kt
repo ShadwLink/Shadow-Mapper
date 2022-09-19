@@ -11,11 +11,11 @@ import nl.shadowlink.tools.shadowlib.ipl.IPL
 import nl.shadowlink.tools.shadowlib.ipl.Item_INST
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic
 import nl.shadowlink.tools.shadowlib.utils.GameType
+import nl.shadowlink.tools.shadowlib.utils.hashing.HashTable
+import nl.shadowlink.tools.shadowlib.utils.hashing.OneAtATimeHasher
 import nl.shadowlink.tools.shadowlib.water.Water
 import nl.shadowlink.tools.shadowmapper.gui.PickingType
 import nl.shadowlink.tools.shadowmapper.gui.install.Install
-import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable
-import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -224,7 +224,7 @@ class FileManager : Thread() {
         imgs.forEach { img ->
             if (img.isSaveRequired) {
                 img.save()
-                img.isSaveRequired = false
+                img.setSaveRequired(false)
                 println("Saving img ${img.file.absolutePath}")
             }
         }

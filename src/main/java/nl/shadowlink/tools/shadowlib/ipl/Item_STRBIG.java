@@ -4,7 +4,7 @@ import nl.shadowlink.tools.io.ReadFunctions;
 import nl.shadowlink.tools.io.Vector3D;
 import nl.shadowlink.tools.io.Vector4D;
 import nl.shadowlink.tools.shadowlib.utils.GameType;
-import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable;
+import nl.shadowlink.tools.shadowlib.utils.hashing.HashTable;
 
 /**
  * @author Shadow-Link

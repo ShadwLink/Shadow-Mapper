@@ -1,4 +1,4 @@
-package nl.shadowlink.tools.shadowmapper.utils.hashing
+package nl.shadowlink.tools.shadowlib.utils.hashing
 
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException

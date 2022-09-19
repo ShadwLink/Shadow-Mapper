@@ -7,7 +7,7 @@ package nl.shadowlink.tools.shadowmapper.gui
 
 import nl.shadowlink.tools.shadowmapper.utils.GuiFunctions.centerWindow
 import nl.shadowlink.tools.shadowmapper.utils.GuiFunctions.setLookAndFeel
-import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher
+import nl.shadowlink.tools.shadowlib.utils.hashing.OneAtATimeHasher
 import java.awt.event.ActionEvent
 import javax.swing.*
 

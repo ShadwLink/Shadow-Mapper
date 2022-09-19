@@ -1,5 +1,6 @@
 package nl.shadowlink.tools.shadowmapper.utils.hashing
 
+import nl.shadowlink.tools.shadowlib.utils.hashing.OneAtATimeHasher
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

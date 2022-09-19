@@ -2,12 +2,12 @@ package nl.shadowlink.tools.shadowlib.ipl
 
 import nl.shadowlink.tools.io.ReadFunctions
 import nl.shadowlink.tools.io.WriteFunctions
-import nl.shadowlink.tools.shadowmapper.utils.hashing.HashTable
+import nl.shadowlink.tools.shadowlib.utils.hashing.HashTable
 
 /**
  * @author Shadow-Link
  */
-class IPL_IV(
+class IplIV(
     private val hashTable: HashTable
 ) {
     private var version = 0
@@ -143,7 +143,7 @@ class IPL_IV(
         wpl.items_cars.forEach { it.write(wf) }
         if (wpl.isStream) {
             wpl.imgItem.size = wf.fileSize - wpl.imgItem.offset
-            wpl.img.isSaveRequired = true
+            wpl.img.setSaveRequired()
         }
         wf.closeFile()
     }

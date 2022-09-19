@@ -9,9 +9,8 @@ import nl.shadowlink.tools.shadowlib.model.dff.LoadDFF;
 import nl.shadowlink.tools.shadowlib.model.dff.NewConvert;
 import nl.shadowlink.tools.shadowlib.model.wdr.*;
 import nl.shadowlink.tools.shadowlib.model.wft.FragTypeModel;
-import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
 import nl.shadowlink.tools.shadowlib.utils.GameType;
-import nl.shadowlink.tools.shadowmapper.utils.hashing.OneAtATimeHasher;
+import nl.shadowlink.tools.shadowlib.utils.hashing.OneAtATimeHasher;
 
 import java.util.ArrayList;
 
