@@ -35,27 +35,9 @@ public class Model {
     public Model() {
     }
 
-    /**
-     * ---UNUSED--- Load a model
-     *
-     * @param modelfile
-     *        String to the modelfile
-     * @param gl
-     *        used to load this model?
-     */
-    /* public Model(String modelfile, GL gl){ File file = new File(modelfile); if(file.exists() && file.canRead() &&
-     * !file.isDirectory()){ if(file.getName().endsWith(".dff")) loadDFF(modelfile); else
-     * if(file.getName().endsWith(".wdr")) loadWDR(modelfile, gl); } } */
-
-    /**
-     * Attach TXD to this model
-     *
-     * @param texNames Texture names
-     * @param texID    Texture IDS
-     */
-    public void attachTXD(String[] texNames, int[] texID) {
+    public void attachTXD(TextureDic txd) {
         for (int i = 0; i < elements.size(); i++) {
-            elements.get(i).attachTXD(texNames, texID);
+            elements.get(i).attachTXD(txd);
         }
     }
 
@@ -192,7 +174,7 @@ public class Model {
             if (sys.shaderGroup.TextureDictionaryOffset != 0) {
                 br.setCurrentOffset(sys.shaderGroup.TextureDictionaryOffset);
                 TextureDic wtd = new TextureDic("embed", br, GameType.GTA_IV, false, sysSize);
-                element.attachTXD(wtd.texName, wtd.textureId);
+                element.attachTXD(wtd);
             }
         }
     }

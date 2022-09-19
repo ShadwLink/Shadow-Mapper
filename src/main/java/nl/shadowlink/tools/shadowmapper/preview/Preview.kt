@@ -48,47 +48,56 @@ class Preview(
         val item = fm.imgs[imgID].items[itemID]
         val rf = ReadFunctions(fm.imgs[imgID].fileName)
         rf.seek(item.offset)
-        if (item.name.lowercase(Locale.getDefault()).endsWith(".wdr")) {
-            list.addElement(item.name)
-            glListener.type = 0
-        } else if (item.name.lowercase(Locale.getDefault()).endsWith(".wft")) {
-            list.addElement(item.name)
-            glListener.type = 1
-        } else if (item.name.lowercase(Locale.getDefault()).endsWith(".wtd")) {
-            val br = rf.getByteReader(item.size)
-            rf.seek(item.offset)
-            // TODO: Something changed here, what?
-            val txd = TextureDic("", br, GameType.GTA_IV, false, item.size)
-            for (i in txd.texName.indices) {
-                list.addElement(txd.texName[i])
+        val itemName = item.name.lowercase(Locale.getDefault())
+        when {
+            itemName.endsWith(".wdr") -> {
+                list.addElement(item.name)
+                glListener.type = 0
             }
-            glListener.type = 3
-        } else if (item.name.lowercase(Locale.getDefault()).endsWith(".wbd")) {
-            val br = rf.getByteReader(item.size)
-            rf.seek(item.offset)
-            // TODO: What happened to WBD files?
+
+            itemName.endsWith(".wft") -> {
+                list.addElement(item.name)
+                glListener.type = 1
+            }
+
+            itemName.endsWith(".wtd") -> {
+                val br = rf.getByteReader(item.size)
+                // TODO: Something changed here, what?
+                val txd = TextureDic(itemName, br, GameType.GTA_IV, true, item.size)
+                txd.textures.forEach { texture ->
+                    list.addElement(texture.diffuseTexName)
+                }
+                glListener.type = 3
+            }
+
+            itemName.endsWith(".wbd") -> {
+                val br = rf.getByteReader(item.size)
+                rf.seek(item.offset)
+                // TODO: What happened to WBD files?
 //            WBDFile wbd = new WBDFile(br);
 //            for (int i = 0; i < wbd.bounds.hashCount; i++) {
 //                list.addElement(wbd.bounds.hashes.Values.get(i) + "(" + wbd.bounds.phBounds._items.get(i).type + ")");
 //            }
 //            wbd = null;
-            glListener.type = 4
-        } else if (item.name.lowercase(Locale.getDefault()).endsWith(".wbn")) {
-            rf.getByteReader(item.size)
-            rf.seek(item.offset)
-            glListener.type = 5
-        } else {
-            JOptionPane.showMessageDialog(
-                this,
-                "Only WDR, WFT, WBD and WTD files are supported at this moment",
-                "Unable to preview file",
-                JOptionPane.ERROR_MESSAGE
-            )
+                glListener.type = 4
+            }
+
+            itemName.endsWith(".wbn") -> {
+                rf.getByteReader(item.size)
+                rf.seek(item.offset)
+                glListener.type = 5
+            }
+
+            else -> {
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Only WDR, WFT, WBD and WTD files are supported at this moment",
+                    "Unable to preview file",
+                    JOptionPane.ERROR_MESSAGE
+                )
+            }
         }
-        /*else if(item.getName().toLowerCase().endsWith(".wdd")){
-            list.addElement(item.getName());
-            glListener.type = 2;
-        }*/glListener.br = rf.getByteReader(item.size)
+        glListener.br = rf.getByteReader(item.size)
         glListener.size = item.size
         glListener.load = true
     }
@@ -118,7 +127,7 @@ class Preview(
                 gLCanvas1KeyPressed(evt)
             }
         })
-        jList1.setModel(list)
+        jList1.model = list
         jList1.selectionMode = ListSelectionModel.SINGLE_SELECTION
         jList1.addMouseListener(object : MouseAdapter() {
             override fun mouseClicked(evt: MouseEvent) {

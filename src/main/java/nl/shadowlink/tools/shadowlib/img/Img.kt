@@ -120,25 +120,26 @@ class Img(var fileName: String, var gameType: GameType, key: ByteArray, autoLoad
     }
 
     fun addItem(txd: TextureDic, name: String) {
-        var name = name
-        val wf = WriteFunctions(fileName!!)
-        name = name.toLowerCase()
-        name = name.replace(".txd".toRegex(), ".wtd")
-        val tempItem = ImgItem(name)
-        tempItem.type = Constants.rtWTD
-        tempItem.offset = wf.fileSize
-        wf.gotoEnd()
-        txd.convertToWTD(wf)
-        tempItem.size = txd.size
-        tempItem.flags = txd.flags
-
-        items.add(tempItem)
-        if (wf.closeFile()) {
-            println("Closed file")
-        } else {
-            println("Unable to close the file")
-        }
-        isChanged = true
+        TODO("Should we still implement this?")
+//        var name = name
+//        val wf = WriteFunctions(fileName!!)
+//        name = name.toLowerCase()
+//        name = name.replace(".txd".toRegex(), ".wtd")
+//        val tempItem = ImgItem(name)
+//        tempItem.type = Constants.rtWTD
+//        tempItem.offset = wf.fileSize
+//        wf.gotoEnd()
+//        txd.convertToWTD(wf)
+//        tempItem.size = txd.size
+//        tempItem.flags = txd.flags
+//
+//        items.add(tempItem)
+//        if (wf.closeFile()) {
+//            println("Closed file")
+//        } else {
+//            println("Unable to close the file")
+//        }
+//        isChanged = true
     }
 
     /**
