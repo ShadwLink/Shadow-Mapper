@@ -1,9 +1,10 @@
 *.class
 
 # Package Files #
-*.jar
 *.war
 *.ear
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
 
 # Intellij
 *.idea
