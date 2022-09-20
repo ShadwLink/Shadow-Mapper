@@ -5,8 +5,10 @@ import nl.shadowlink.tools.io.WriteFunctions
 import nl.shadowlink.tools.shadowlib.utils.Utils
 import nl.shadowlink.tools.shadowlib.utils.saving.Saveable
 import nl.shadowlink.tools.shadowlib.utils.saving.SaveableFile
-import java.io.File
 import java.nio.file.Path
+import kotlin.io.path.fileSize
+import kotlin.io.path.isReadable
+import kotlin.io.path.isRegularFile
 import kotlin.io.path.name
 
 /**
@@ -61,19 +63,17 @@ class Img(
     }
 
     /**
-     * Adds the [file] to the IMG
+     * Adds the [path] to the IMG
      */
-    fun addItem(file: File) {
-        if (file.isFile && file.canRead()) {
-            val rf = ReadFunctions(file.absolutePath)
-            println("File: " + file.absolutePath)
-            val wf = WriteFunctions(file.absolutePath)
-            println("File size: " + file.length())
-            val newFile: ByteArray = rf.readArray(file.length().toInt())
-            val tempItem = ImgItem(file.name)
-            tempItem.type = Utils.getResourceType(file.name)
+    fun addItem(path: Path) {
+        if (path.isRegularFile() && path.isReadable()) {
+            val rf = ReadFunctions(path)
+            val wf = WriteFunctions(path)
+            val newFile: ByteArray = rf.readArray(path.fileSize().toInt())
+            val tempItem = ImgItem(path.name)
+            tempItem.type = Utils.getResourceType(path.name)
             tempItem.offset = wf.fileSize
-            tempItem.size = file.length().toInt()
+            tempItem.size = path.fileSize().toInt()
             if (tempItem.isResource) {
                 rf.seek(0x8)
                 tempItem.flags = rf.readInt()

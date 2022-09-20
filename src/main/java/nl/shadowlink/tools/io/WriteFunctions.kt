@@ -1,10 +1,10 @@
 package nl.shadowlink.tools.io
 
-import jogamp.graph.font.typecast.ot.table.Table.name
 import java.io.IOException
 import java.io.RandomAccessFile
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import java.nio.file.Path
 import java.util.logging.Level
 import java.util.logging.Logger
 
@@ -16,6 +16,8 @@ class WriteFunctions(
 ) {
 
     constructor(name: String) : this(RandomAccessFile(name, "rw"))
+
+    constructor(path: Path) : this(path.toFile().absolutePath)
 
     fun closeFile(): Boolean {
         try {

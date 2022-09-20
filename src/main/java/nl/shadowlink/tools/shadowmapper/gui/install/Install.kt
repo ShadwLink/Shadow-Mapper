@@ -1,7 +1,8 @@
 package nl.shadowlink.tools.shadowmapper.gui.install
 
 import nl.shadowlink.tools.shadowlib.utils.GameType
-import java.io.File
+import kotlin.io.path.Path
+import kotlin.io.path.exists
 
 data class Install(
     val id: String,
@@ -11,5 +12,5 @@ data class Install(
 ) {
 
     val isValid: Boolean
-        get() = File(path).exists()
+        get() = Path(path).exists()
 }
