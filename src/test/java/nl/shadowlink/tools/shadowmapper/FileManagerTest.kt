@@ -4,7 +4,7 @@ import nl.shadowlink.tools.shadowlib.utils.GameType
 import nl.shadowlink.tools.shadowmapper.gui.install.Install
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.io.File
+import kotlin.io.path.Path
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
@@ -24,20 +24,20 @@ internal class FileManagerTest {
 
     @Test
     fun `when new img is not on the game path, then img is not created`() {
-        val result = fm.addNewImg(File("c:/other_path/test.img"))
+        val result = fm.addNewImg(Path("c:/other_path/test.img"))
 
         assertIs<CommandResult.Failed>(result)
     }
 
     @Test
     fun `when img can be added, then img is added to img list`() {
-        val imgFile = File("c:/test/test.img")
+        val imgFile = Path("c:/test/test.img")
         val result = fm.addNewImg(imgFile)
 
         val addedImg = fm.imgs.last()
         assertIs<CommandResult.Success>(result)
         assertEquals(1, fm.imgs.size)
-        assertEquals(imgFile, addedImg.file)
+        assertEquals(imgFile, addedImg.path)
         assertTrue(addedImg.isSaveRequired)
     }
 }

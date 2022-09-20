@@ -4,7 +4,7 @@ import nl.shadowlink.tools.io.ByteReader
 import nl.shadowlink.tools.io.ReadFunctions
 import nl.shadowlink.tools.shadowlib.utils.Utils
 import nl.shadowlink.tools.shadowlib.utils.encryption.Decrypter
-import java.io.File
+import java.nio.file.Path
 import java.util.logging.Level
 import java.util.logging.Logger
 
@@ -18,23 +18,23 @@ class ImgV3(
 
     private val identifier = ByteArray(4)
 
-    override fun load(file: File): Img {
-        val rf = ReadFunctions(file.absolutePath)
+    override fun load(path: Path): Img {
+        val rf = ReadFunctions(path)
 
         identifier[0] = rf.readByte()
         identifier[1] = rf.readByte()
         identifier[2] = rf.readByte()
         identifier[3] = rf.readByte()
         return if (identifier[0].toInt() == 82 && identifier[1].toInt() == 42 && identifier[2].toInt() == 78 && identifier[3].toInt() == -87) {
-            readUnEncryptedImg(file, rf)
+            readUnEncryptedImg(path, rf)
         } else {
-            readEncryptedImg(file, rf)
+            readEncryptedImg(path, rf)
         }.also {
             rf.closeFile()
         }
     }
 
-    private fun readUnEncryptedImg(file: File, rf: ReadFunctions): Img {
+    private fun readUnEncryptedImg(path: Path, rf: ReadFunctions): Img {
         val items = ArrayList<ImgItem>()
         // Message.displayMsgHigh("Version 3: " + rf.readInt());
         val itemCount = rf.readInt()
@@ -65,10 +65,10 @@ class ImgV3(
             items[curName].name = rf.readNullTerminatedString()
         }
 
-        return Img(file = file, items = items, isEncrypted = false)
+        return Img(path = path, items = items, isEncrypted = false)
     }
 
-    private fun readEncryptedImg(file: File, rf: ReadFunctions): Img {
+    private fun readEncryptedImg(path: Path, rf: ReadFunctions): Img {
         val items = ArrayList<ImgItem>()
 
         var data = withIdentifier(rf, encryptionKey)
@@ -133,7 +133,7 @@ class ImgV3(
 
         rf.closeFile()
 
-        return Img(file = file, items = items, isEncrypted = true)
+        return Img(path = path, items = items, isEncrypted = true)
     }
 
     private fun withIdentifier(rf: ReadFunctions, key: ByteArray): ByteArray {

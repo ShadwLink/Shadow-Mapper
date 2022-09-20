@@ -333,9 +333,9 @@ class Browser : JFrame {
     }
 
     private fun onAddImgClicked(evt: ActionEvent) {
-        val file = openFileChooser(this, ExtensionFilter(setOf("img"), "GTA IMG File"), fm.gamePath)
+        val file = openFileChooser(this, ExtensionFilter(setOf("img"), "GTA IMG File"), fm.gamePath.toFile())
         if (file != null) {
-            val result = fm.addNewImg(file)
+            val result = fm.addNewImg(file.toPath())
             if (result is CommandResult.Failed) {
                 showError("Failed adding img", result.error)
             } else {

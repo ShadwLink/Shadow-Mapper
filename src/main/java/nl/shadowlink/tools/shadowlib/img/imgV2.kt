@@ -2,17 +2,17 @@ package nl.shadowlink.tools.shadowlib.img
 
 import nl.shadowlink.tools.io.ReadFunctions
 import nl.shadowlink.tools.shadowlib.utils.Utils
-import java.io.File
+import java.nio.file.Path
 
 /**
  * @author Shadow-Link
  */
 class ImgV2 : ImgLoader {
 
-    override fun load(file: File): Img {
+    override fun load(path: Path): Img {
         val items = ArrayList<ImgItem>()
 
-        val rf = ReadFunctions(file.absolutePath)
+        val rf = ReadFunctions(path)
 
         var itemCount = 0
 
@@ -31,6 +31,6 @@ class ImgV2 : ImgLoader {
             items.add(item)
         }
 
-        return Img(file = file, items = items)
+        return Img(path = path, items = items)
     }
 }

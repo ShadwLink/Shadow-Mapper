@@ -36,7 +36,6 @@ class TextureDicIV {
     fun read(br: ByteReader) {
         // TODO: Move GL stuff to Shadow-Mapper
         val VTable = br.readUInt32()
-        // Message.displayMsgHigh("VTable: " + VTable);
         val blockMapOffset = br.readOffset()
         val parentDictionary = br.readUInt32()
         val usageCount = br.readUInt32()

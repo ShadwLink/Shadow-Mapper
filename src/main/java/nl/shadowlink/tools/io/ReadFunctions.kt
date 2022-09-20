@@ -4,6 +4,7 @@ import java.io.File
 import java.io.IOException
 import java.io.RandomAccessFile
 import java.nio.ByteBuffer
+import java.nio.file.Path
 import java.util.logging.Level
 import java.util.logging.Logger
 
@@ -13,6 +14,8 @@ class ReadFunctions(
     private val dataIn: RandomAccessFile
 
     constructor(file: File) : this(file.absolutePath)
+
+    constructor(path: Path) : this(path.toFile())
 
     init {
         dataIn = RandomAccessFile(name, "r")

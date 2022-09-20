@@ -18,11 +18,13 @@ import nl.shadowlink.tools.shadowmapper.gui.PickingType
 import nl.shadowlink.tools.shadowmapper.gui.install.Install
 import java.io.File
 import java.io.IOException
+import java.nio.file.Path
 import java.util.*
 import java.util.function.Consumer
 import javax.swing.DefaultComboBoxModel
 import javax.swing.DefaultListModel
 import javax.swing.JOptionPane
+import kotlin.io.path.Path
 
 /**
  * @author Shadow-Link
@@ -74,8 +76,8 @@ class FileManager : Thread() {
     private var gameDir: String? = null
     private var gameType: GameType? = null
 
-    val gamePath: File
-        get() = File(requireNotNull(gameDir))
+    val gamePath: Path
+        get() = Path(requireNotNull(gameDir))
 
     fun startLoading(statusCallbacks: LoadingStatusCallbacks?, install: Install, key: ByteArray) {
         this.statusCallbacks = statusCallbacks
@@ -135,7 +137,7 @@ class FileManager : Thread() {
             line = line.substring(0, line.length - 1)
             line = "$line.img"
 
-            imgs.add(imgLoader.load(File(line)))
+            imgs.add(imgLoader.load(Path(line)))
 
             statusCallbacks?.onLoadingValueIncreased()
         }
@@ -157,7 +159,7 @@ class FileManager : Thread() {
 
         statusCallbacks?.onStartLoadingWpl(imgWPLCount)
         imgs.forEach { img ->
-            val rf = ReadFunctions(img.file)
+            val rf = ReadFunctions(img.path)
             img.getItemsOfType(".wpl")
                 .forEach { wplEntry ->
                     rf.seek(wplEntry.offset)
@@ -225,7 +227,6 @@ class FileManager : Thread() {
             if (img.isSaveRequired) {
                 img.save()
                 img.setSaveRequired(false)
-                println("Saving img ${img.file.absolutePath}")
             }
         }
     }
@@ -417,10 +418,10 @@ class FileManager : Thread() {
 //        return TextureDic("$gameDir/pc/textures/water.wtd", null, GameType.GTA_IV, 23655)
     }
 
-    fun addNewImg(file: File): CommandResult {
-        if (!file.startsWith(gamePath)) return CommandResult.Failed("IMG should be inside the games folder")
+    fun addNewImg(path: Path): CommandResult {
+        if (!path.startsWith(gamePath)) return CommandResult.Failed("IMG should be inside the games folder")
 
-        imgs.add(Img.createNewImg(file))
+        imgs.add(Img.createNewImg(path))
 
         return CommandResult.Success
     }

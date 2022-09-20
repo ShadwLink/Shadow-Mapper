@@ -46,7 +46,7 @@ class Preview(
 
     private fun init() {
         val item = fm.imgs[imgID].items[itemID]
-        val rf = ReadFunctions(fm.imgs[imgID].fileName)
+        val rf = ReadFunctions(fm.imgs[imgID].path)
         rf.seek(item.offset)
         val itemName = item.name.lowercase(Locale.getDefault())
         when {

@@ -1,8 +1,8 @@
 package nl.shadowlink.tools.shadowlib.img
 
-import java.io.File
+import java.nio.file.Path
 
 interface ImgLoader {
 
-    fun load(file: File): Img
+    fun load(path: Path): Img
 }

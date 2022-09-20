@@ -6,19 +6,21 @@ import nl.shadowlink.tools.shadowlib.utils.Utils
 import nl.shadowlink.tools.shadowlib.utils.saving.Saveable
 import nl.shadowlink.tools.shadowlib.utils.saving.SaveableFile
 import java.io.File
+import java.nio.file.Path
+import kotlin.io.path.name
 
 /**
  * @author Shadow-Link
  */
 class Img(
-    var file: File,
-    var items: MutableList<ImgItem> = mutableListOf(),
+    val path: Path,
+    val items: MutableList<ImgItem> = mutableListOf(),
     var isEncrypted: Boolean = false
 ) : Saveable by SaveableFile() {
     val fileName: String
-        get() = file.name
+        get() = path.name
 
-    private constructor(file: File) : this(file, items = mutableListOf()) {
+    private constructor(path: Path) : this(path, items = mutableListOf()) {
         setSaveRequired()
     }
 
@@ -100,8 +102,8 @@ class Img(
 
     companion object {
 
-        fun createNewImg(file: File): Img {
-            return Img(file)
+        fun createNewImg(path: Path): Img {
+            return Img(path)
         }
     }
 }
