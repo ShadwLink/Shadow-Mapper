@@ -1,8 +1,10 @@
 package nl.shadowlink.tools.shadowlib.utils.encryption
 
 import com.nikhaldimann.inieditor.IniEditor
-import nl.shadowlink.tools.io.ReadFunctions
 import nl.shadowlink.tools.shadowlib.utils.hashing.SHA1Hasher
+import okio.FileSystem
+import okio.Path.Companion.toPath
+import okio.buffer
 
 class EncryptionKeyExtractor {
 
@@ -23,7 +25,7 @@ class EncryptionKeyExtractor {
             return iniEditor.sectionNames().mapNotNull { sectionName ->
                 iniEditor.getSectionMap(sectionName).run {
                     val name = get(INI_KEY_NAME)
-                    val offset = get(INI_KEY_OFFSET)?.let { Integer.decode(it) }
+                    val offset = get(INI_KEY_OFFSET)?.let { Integer.decode(it).toLong() }
                     if (name != null && offset != null) {
                         Version(name, offset)
                     } else {
@@ -38,23 +40,25 @@ class EncryptionKeyExtractor {
     }
 
     fun getKey(gameDir: String): ByteArray? {
-        val rf = ReadFunctions(gameDir + "GTAIV.exe")
-        val key = ByteArray(32)
-
-        val version = versionData.firstOrNull { versionData ->
-            rf.seek(versionData.offset)
-            rf.readBytes(key)
-
-            HASHED_KEY == SHA1Hasher.hash(key)
+        var key = ByteArray(32)
+        val version = FileSystem.SYSTEM.source((gameDir + "GTAIV.exe").toPath()).use { fileSource ->
+            fileSource.buffer().use { bs ->
+                versionData.firstOrNull { versionData ->
+                    bs.peek().use {
+                        it.skip(versionData.offset)
+                        key = it.readByteArray(32)
+                        HASHED_KEY == SHA1Hasher.hash(key)
+                    }
+                }
+            }
         }
-        rf.closeFile()
 
         return if (version != null) key else null
     }
 
     data class Version(
         val name: String,
-        val offset: Int
+        val offset: Long
     )
 
     private companion object {

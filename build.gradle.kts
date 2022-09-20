@@ -15,6 +15,8 @@ repositories {
 dependencies {
     implementation("com.nikhaldimann:inieditor:r6")
 
+    implementation("com.squareup.okio:okio:3.2.0")
+
     implementation("org.jogamp.jogl:jogl-all-main:2.3.2")
     implementation("org.jogamp.gluegen:gluegen-rt-main:2.3.2")
     implementation("org.netbeans.external:AbsoluteLayout:RELEASE150")
