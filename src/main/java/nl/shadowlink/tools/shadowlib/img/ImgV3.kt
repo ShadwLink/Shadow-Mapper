@@ -1,12 +1,16 @@
 package nl.shadowlink.tools.shadowlib.img
 
-import nl.shadowlink.tools.io.ByteReader
-import nl.shadowlink.tools.io.ReadFunctions
+import nl.shadowlink.tools.io.readNullTerminatedString
 import nl.shadowlink.tools.shadowlib.utils.Utils
 import nl.shadowlink.tools.shadowlib.utils.encryption.Decrypter
+import okio.BufferedSource
+import okio.FileSystem
+import okio.Path.Companion.toOkioPath
+import okio.buffer
+import okio.source
+import java.io.ByteArrayInputStream
 import java.nio.file.Path
-import java.util.logging.Level
-import java.util.logging.Logger
+import kotlin.experimental.and
 
 /**
  * @author Shadow-Link
@@ -16,146 +20,90 @@ class ImgV3(
 ) : ImgLoader {
     private val decrypter = Decrypter(encryptionKey)
 
-    private val identifier = ByteArray(4)
-
     override fun load(path: Path): Img {
-        val rf = ReadFunctions(path)
+        FileSystem.SYSTEM.source(path.toOkioPath()).buffer().use { fs ->
+            val identifier = fs.peek().readByteArray(4)
 
-        identifier[0] = rf.readByte()
-        identifier[1] = rf.readByte()
-        identifier[2] = rf.readByte()
-        identifier[3] = rf.readByte()
-        return if (identifier[0].toInt() == 82 && identifier[1].toInt() == 42 && identifier[2].toInt() == 78 && identifier[3].toInt() == -87) {
-            readUnEncryptedImg(path, rf)
-        } else {
-            readEncryptedImg(path, rf)
-        }.also {
-            rf.closeFile()
+            return if (identifier[0].toInt() == 82 && identifier[1].toInt() == 42 && identifier[2].toInt() == 78 && identifier[3].toInt() == -87) {
+                readUnencryptedImg(path, fs)
+            } else {
+                readEncryptedImg(path, fs)
+            }
         }
     }
 
-    private fun readUnEncryptedImg(path: Path, rf: ReadFunctions): Img {
-        val items = ArrayList<ImgItem>()
-        // Message.displayMsgHigh("Version 3: " + rf.readInt());
+    private fun readUnencryptedImg(path: Path, rf: BufferedSource): Img {
         val itemCount = rf.readInt()
         val tableSize = rf.readInt();
         val sizeOfTableItems = rf.readShort();
         val unknown = rf.readShort();
 
-        // read table
+        val items = readTable(itemCount, rf)
+
+        return Img(path = path, items = items, isEncrypted = false)
+    }
+
+    private fun readTable(itemCount: Int, bs: BufferedSource): MutableList<ImgItem> {
+        val items = ArrayList<ImgItem>()
+
         for (curItem in 0 until itemCount) {
-            var itemSize = rf.readInt() // or flags
-            val itemType = rf.readInt()
-            val itemOffset = rf.readInt() * 0x800
-            val usedBlocks = rf.readShort()
-            val padding = rf.readShort() and 0x7FF
+            var itemSize = bs.readIntLe() // or flags
+            val itemType = bs.readIntLe()
+            val itemOffset = bs.readIntLe() * BLOCK_SIZE
+            val usedBlocks = bs.readShortLe()
+            val padding = bs.readShortLe() and 0x7FF
             val item = ImgItem("")
             if (itemType <= 0x6E) {
                 item.flags = itemSize
                 itemSize = Utils.getTotalMemSize(itemSize)
             }
             item.offset = itemOffset
-            item.size = usedBlocks * 0x800 - padding
+            item.size = usedBlocks * BLOCK_SIZE - padding
             item.type = itemType
             items.add(item)
         }
 
         // read names
         for (curName in 0 until itemCount) {
-            items[curName].name = rf.readNullTerminatedString()
+            items[curName].name = bs.readNullTerminatedString()
         }
-
-        return Img(path = path, items = items, isEncrypted = false)
+        return items
     }
 
-    private fun readEncryptedImg(path: Path, rf: ReadFunctions): Img {
-        val items = ArrayList<ImgItem>()
+    private fun readEncryptedImg(path: Path, rf: BufferedSource): Img {
+        var data = decrypter.decrypt16byteBlock(rf)
 
-        var data = withIdentifier(rf, encryptionKey)
+        var itemCount = 0
+        var tableSize = 0
+        ByteArrayInputStream(data).source().buffer().use { br ->
+            // TODO: Implement readUInt32
+            val id = br.readIntLe()
+            val version = br.readIntLe()
+            itemCount = br.readIntLe()
+            tableSize = br.readIntLe()
+        }
 
-        var br = ByteReader(data, 0)
-        val id = br.readUInt32()
-        val version = br.readUInt32()
-        val itemCount = br.readUInt32()
-        val tableSize = br.readUInt32()
-
-        var itemSize = rf.readShort()
-        val unknown = rf.readShort()
+        val itemSize = rf.readShortLe()
+        val unknown = rf.readShortLe()
 
         val namesSize = tableSize - itemCount * itemSize
 
-        for (i in 0 until itemCount) {
-            data = decrypter.decrypt16byteBlock(rf) // decrypt all table items
-            br = ByteReader(data, 0)
-            val item = ImgItem("")
-            itemSize = br.readUInt32() // or flags
-            val itemType = br.readUInt32()
-            val itemOffset = br.readUInt32() * 2048
-            val usedBlocks = br.readUInt16()
-            val padding = br.readUInt16() and 0x7FF
-            if (itemType <= 0x6E) {
-                item.flags = itemSize
-                itemSize = Utils.getTotalMemSize(itemSize)
-            }
-            item.offset = itemOffset
-            item.size = usedBlocks * 0x800 - padding
-            item.type = itemType
-            items.add(item)
+        // Decrypt the table
+        var bytesRead = 0
+        val decryptedTableData = ByteArray(tableSize)
+        while (bytesRead + 16 < tableSize) {
+            data = decrypter.decrypt16byteBlock(rf)
+            data.copyInto(destination = decryptedTableData, destinationOffset = bytesRead)
+            bytesRead += 16
         }
+        // Copy left over bytes which are unencrypted
+        rf.readByteArray((tableSize - bytesRead).toLong()).copyInto(decryptedTableData, bytesRead)
 
-        var i = 0
-        val names = ByteArray(namesSize)
-        while (i < namesSize) {
-            data = decrypter.decrypt16byteBlock(rf) // decrypt all table names
-            for (j in 0..15) {
-                names[i + j] = data[j]
-            }
-            i += 16
-            if (i + 16 > namesSize) {
-                val lastName = rf.readNullTerminatedString()
-                val lastBytes = lastName.toByteArray()
-                for (j in lastBytes.indices) {
-                    names[i + j] = lastBytes[j]
-                }
-                i += 16
-            }
+        val items = ByteArrayInputStream(decryptedTableData).source().buffer().use { br ->
+            readTable(itemCount, br)
         }
-
-        br = ByteReader(names, 0)
-
-        i = 0
-        while (i < itemCount) {
-            val name = br.readNullTerminatedString()
-            items[i].name = name
-            br.readByte()
-            i++
-        }
-
-        rf.closeFile()
 
         return Img(path = path, items = items, isEncrypted = true)
-    }
-
-    private fun withIdentifier(rf: ReadFunctions, key: ByteArray): ByteArray {
-        var data = ByteArray(16)
-
-        data[0] = identifier[0]
-        data[1] = identifier[1]
-        data[2] = identifier[2]
-        data[3] = identifier[3]
-
-        for (j in 4..15) {
-            data[j] = rf.readByte()
-        }
-        for (j in 1..16) { // 16 (pointless) repetitions
-            try {
-                data = decrypter.decrypt(data)
-            } catch (ex: Exception) {
-                Logger.getLogger(ImgV3::class.java.name).log(Level.SEVERE, null, ex)
-            }
-
-        }
-        return data
     }
 
     fun saveImg(img: Img) {
@@ -246,5 +194,9 @@ class ImgV3(
 //            println("Unable to rename file")
 //        }
 //        newFile.delete()
+    }
+
+    companion object {
+        private const val BLOCK_SIZE = 0x800
     }
 }

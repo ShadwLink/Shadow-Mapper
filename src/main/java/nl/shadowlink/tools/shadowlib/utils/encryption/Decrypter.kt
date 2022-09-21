@@ -1,7 +1,7 @@
 package nl.shadowlink.tools.shadowlib.utils.encryption
 
-import nl.shadowlink.tools.io.ReadFunctions
 import nl.shadowlink.tools.shadowlib.img.ImgV3
+import okio.BufferedSource
 import java.util.logging.Level
 import java.util.logging.Logger
 import javax.crypto.Cipher
@@ -21,8 +21,8 @@ class Decrypter(
         }
     }
 
-    fun decrypt16byteBlock(rf: ReadFunctions): ByteArray {
-        rf.readBytes(tempBuffer)
+    fun decrypt16byteBlock(rf: BufferedSource): ByteArray {
+        rf.read(tempBuffer)
 
         for (j in 1..16) { // 16 (pointless) repetitions
             try {

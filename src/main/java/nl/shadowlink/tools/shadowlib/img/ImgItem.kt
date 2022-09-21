@@ -23,4 +23,8 @@ class ImgItem(
 
     var isResource = false
     var flags = 0
+
+    override fun toString(): String {
+        return "$name @ 0x${offset.toString(16)}"
+    }
 }
