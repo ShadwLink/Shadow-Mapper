@@ -5,8 +5,6 @@ import nl.shadowlink.tools.io.ReadFunctions
 import nl.shadowlink.tools.shadowlib.utils.Utils
 import nl.shadowlink.tools.shadowlib.utils.encryption.Decrypter
 import java.nio.file.Path
-import java.util.logging.Level
-import java.util.logging.Logger
 
 /**
  * @author Shadow-Link
@@ -71,7 +69,7 @@ class ImgV3(
     private fun readEncryptedImg(path: Path, rf: ReadFunctions): Img {
         val items = ArrayList<ImgItem>()
 
-        var data = withIdentifier(rf, encryptionKey)
+        var data = withIdentifier(rf)
 
         var br = ByteReader(data, 0)
         val id = br.readUInt32()
@@ -136,8 +134,8 @@ class ImgV3(
         return Img(path = path, items = items, isEncrypted = true)
     }
 
-    private fun withIdentifier(rf: ReadFunctions, key: ByteArray): ByteArray {
-        var data = ByteArray(16)
+    private fun withIdentifier(rf: ReadFunctions): ByteArray {
+        val data = ByteArray(16)
 
         data[0] = identifier[0]
         data[1] = identifier[1]
@@ -147,15 +145,8 @@ class ImgV3(
         for (j in 4..15) {
             data[j] = rf.readByte()
         }
-        for (j in 1..16) { // 16 (pointless) repetitions
-            try {
-                data = decrypter.decrypt(data)
-            } catch (ex: Exception) {
-                Logger.getLogger(ImgV3::class.java.name).log(Level.SEVERE, null, ex)
-            }
 
-        }
-        return data
+        return decrypter.decrypt(data)
     }
 
     fun saveImg(img: Img) {

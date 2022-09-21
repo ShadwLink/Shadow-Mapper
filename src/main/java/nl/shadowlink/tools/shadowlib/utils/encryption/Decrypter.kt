@@ -36,6 +36,15 @@ class Decrypter(
     }
 
     fun decrypt(data: ByteArray): ByteArray {
-        return cipher.doFinal(data)
+        var tempData = data
+        for (j in 1..16) { // 16 (pointless) repetitions
+            try {
+                tempData = cipher.doFinal(tempData)
+            } catch (ex: Exception) {
+                Logger.getLogger(ImgV3::class.java.name).log(Level.SEVERE, null, ex)
+            }
+
+        }
+        return tempData
     }
 }
