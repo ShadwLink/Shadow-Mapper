@@ -324,7 +324,7 @@ class Browser : JFrame {
     private fun onImportFileClicked(evt: ActionEvent) {
         val selectedImg = getSelectedImg() ?: return
         val file = openFileChooser(this, ExtensionFilter(supportedExtensions, "GTA File")) ?: return
-        selectedImg.addItem(file)
+        selectedImg.addItem(file.toPath())
         updateItemTable()
     }
 
