@@ -6,42 +6,23 @@ import nl.shadowlink.tools.shadowlib.utils.GameType
 /**
  * @author Shadow-Link
  */
-class TextureDic {
-    var fileName: String
-    private var gameType: GameType
+class TextureDic(
+    var fileName: String,
+    var br: ByteReader,
+    private val gameType: GameType,
+    private val compressed: Boolean,
+    sysSize: Int
+) {
 
-    //    public int[] textureId;
     var textureCount = 0
     var flags = 0
     var size = 0
 
     @JvmField
     var textures = ArrayList<Texture>()
-    var br: ByteReader
-    var fileSize = -1
-    private var compressed = true
+    var fileSize = sysSize
 
-    constructor(fileName: String, br: ByteReader, gameType: GameType, fileSize: Int) {
-        this.fileName = fileName
-        this.gameType = gameType
-        this.br = br
-        this.fileSize = fileSize
-        loadTextureDic()
-    }
-
-    constructor(fileName: String, br: ByteReader, gameType: GameType) {
-        this.fileName = fileName
-        this.gameType = gameType
-        this.br = br
-        loadTextureDic()
-    }
-
-    constructor(fileName: String, br: ByteReader, gameType: GameType, compressed: Boolean, sysSize: Int) {
-        this.fileName = fileName
-        this.gameType = gameType
-        this.br = br
-        fileSize = sysSize
-        this.compressed = compressed
+    init {
         loadTextureDic()
     }
 

@@ -5,9 +5,9 @@ import com.jogamp.opengl.glu.GLU;
 import nl.shadowlink.tools.io.ByteReader;
 import nl.shadowlink.tools.shadowlib.model.model.Model;
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic;
-import nl.shadowlink.tools.shadowlib.utils.GameType;
 import nl.shadowlink.tools.shadowmapper.FileManager;
 import nl.shadowlink.tools.shadowmapper.render.Camera;
+import nl.shadowlink.tools.shadowmapper.utils.TextureLoaderKt;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,8 +30,6 @@ public class GlListener implements GLEventListener {
 
     private Point mousePos = new Point(0, 0);
     private Point canvasPos = new Point(0, 0);
-
-    private boolean takeScreen = false;
 
     // used for FPS
     private float fps = 0.0f;
@@ -68,12 +66,6 @@ public class GlListener implements GLEventListener {
     }
 
     public void keyPressed(KeyEvent evt) {
-        /*
-         * if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) { System.exit(0); }
-         */
-        if (evt.getKeyCode() == KeyEvent.VK_F12) {
-            takeScreen = true;
-        }
         if (evt.getKeyCode() == KeyEvent.VK_UP) {
             selPoly += 1;
         }
@@ -83,26 +75,6 @@ public class GlListener implements GLEventListener {
         if (evt.getKeyCode() == KeyEvent.VK_P) {
             System.out.println("Sel poly: " + selPoly);
         }
-    }
-
-    private void takeScreenshot(GL gl) {
-        // TODO: Fix this if needed?
-//        try {
-//            int[] viewport = {0, 0, 0, 0};
-//            gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
-//            int screenNumber = 1;
-//            File file = new File("Shadow" + screenNumber + ".png");
-//            while (file.exists()) {
-//                screenNumber++;
-//                file = new File("Shadow" + screenNumber + ".png");
-//            }
-//            Screenshot.writeToFile(file, viewport[2], viewport[3]);
-//            file = null;
-//        } catch (IOException ex) {
-//            Logger.getLogger(glListener.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (GLException ex) {
-//            Logger.getLogger(glListener.class.getName()).log(Level.SEVERE, null, ex);
-//        }
     }
 
     public void mouseMoved(MouseEvent evt) {
@@ -116,9 +88,10 @@ public class GlListener implements GLEventListener {
         }
     }
 
+    private int[] txdArray = null;
+
     private void loadModel(GL2 gl) {
         mdl = null;
-        txd = null;
         mdl = new Model();
         switch (type) {
             case 0:
@@ -131,7 +104,8 @@ public class GlListener implements GLEventListener {
                 mdl.loadWDD(br, size, null);
                 break;
             case 3:
-                txd = new TextureDic("", br, GameType.GTA_IV, size);
+                txdArray = TextureLoaderKt.toGl(txd, gl);
+                //txd = new TextureDic("", br, GameType.GTA_IV, size);
                 break;
             case 4:
                 // wbd = new WBDFile(br);
@@ -141,6 +115,12 @@ public class GlListener implements GLEventListener {
                 break;
         }
         load = false;
+    }
+
+    public void loadTxdIntoGl(TextureDic txd) {
+        this.txd = txd;
+        type = 3;
+        load = true;
     }
 
     public void display(GLAutoDrawable drawable) {
@@ -164,7 +144,7 @@ public class GlListener implements GLEventListener {
             gl.glPolygonMode(GL2.GL_FRONT, GL2.GL_FILL);
         }
 
-        if (type == 3) {
+        if (type == 3 && txdArray != null) {
             int height = 512;
             int width = 512;
             gl.glMatrixMode(gl.GL_PROJECTION);
@@ -179,16 +159,16 @@ public class GlListener implements GLEventListener {
             gl.glTranslatef(0, 512, 0);
             gl.glRotatef(-90, 0.0f, 0.0f, 1.0f);
             // TODO: Fix this
-//            gl.glBindTexture(gl.GL_TEXTURE_2D, txd.textureId[selected]);
+            gl.glBindTexture(gl.GL_TEXTURE_2D, txdArray[selected]);
             gl.glBegin(gl.GL_QUADS);
             gl.glTexCoord2d(0.0, 0.0);
             gl.glVertex2f(0, 0);
             gl.glTexCoord2d(0.0, 1.0);
-            gl.glVertex2f(txd.textures.get(selected).height, 0);
+            gl.glVertex2f(txd.textures.get(selected).getHeight(), 0);
             gl.glTexCoord2d(1.0, 1.0);
-            gl.glVertex2f(txd.textures.get(selected).height, txd.textures.get(selected).width);
+            gl.glVertex2f(txd.textures.get(selected).getHeight(), txd.textures.get(selected).getWidth());
             gl.glTexCoord2d(1.0, 0.0);
-            gl.glVertex2f(0, txd.textures.get(selected).width);
+            gl.glVertex2f(0, txd.textures.get(selected).getWidth());
             gl.glEnd();
 
             gl.glMatrixMode(gl.GL_PROJECTION); // Select Projection
@@ -440,11 +420,6 @@ public class GlListener implements GLEventListener {
             }
 
             gl.glPopMatrix();
-        }
-
-        if (takeScreen) {
-            takeScreenshot(gl);
-            takeScreen = false;
         }
 
         updateFPS();

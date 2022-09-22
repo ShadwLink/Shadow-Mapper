@@ -67,7 +67,7 @@ class Preview(
                 txd.textures.forEach { texture ->
                     list.addElement(texture.diffuseTexName)
                 }
-                glListener.type = 3
+                glListener.loadTxdIntoGl(txd);
             }
 
             itemName.endsWith(".wbd") -> {
