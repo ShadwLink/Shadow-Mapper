@@ -10,24 +10,6 @@ import nl.shadowlink.tools.shadowlib.utils.hashing.HashTable
 class IplIV(
     private val hashTable: HashTable
 ) {
-    private var version = 0
-    private var inst = 0
-    private var unused1 = 0
-    private var grge = 0
-    private var cars = 0
-    private var cull = 0
-    private var unused2 = 0
-    private var unused3 = 0
-    private var unused4 = 0
-    private var strbig = 0
-    private var lcul = 0
-    private var zone = 0
-    private var unused5 = 0
-    private var unused6 = 0
-    private var unused7 = 0
-    private var unused8 = 0
-    private var blok = 0
-
     fun loadPlacement(wpl: Ipl, printName: String) {
         println("Loading.. bin wpl $printName")
         val rf: ReadFunctions
@@ -37,44 +19,61 @@ class IplIV(
             wpl.isStream = true
             rf = wpl.rf!!
         }
-        readHeader(rf)
 
-        for (i in 0 until inst) {
+        val version = rf.readInt() // always 3
+        val instanceCount = rf.readInt() // Number of instances
+        val unused1 = rf.readInt() // unused
+        val garageCount = rf.readInt() // number of garages
+        val carCount = rf.readInt() // number of cars
+        val cullCount = rf.readInt() // number of culls
+        val unused2 = rf.readInt() // unused
+        val unused3 = rf.readInt() // unused
+        val unused4 = rf.readInt() // unused
+        val strBigCount = rf.readInt() // number of strbig
+        val lodCullCount = rf.readInt() // number of lod cull
+        val zoneCount = rf.readInt() // number of zones
+        val unused5 = rf.readInt() // unused
+        val unused6 = rf.readInt() // unused
+        val unused7 = rf.readInt() // unused
+        val unused8 = rf.readInt() // unused
+        val blokCount = rf.readInt() // number of bloks
+
+        for (i in 0 until instanceCount) {
             val item = Item_INST(wpl.gameType)
             item.read(rf, hashTable)
             wpl.itemsInst.add(item)
         }
-        for (i in 0 until grge) {
+        for (i in 0 until garageCount) {
             val item = Item_GRGE(wpl.gameType)
             item.read(rf, hashTable)
             wpl.itemsGrge.add(item)
         }
-        for (i in 0 until cars) {
+        for (i in 0 until carCount) {
             val item = Item_CARS(wpl.gameType)
             item.read(rf, hashTable)
             wpl.itemsCars.add(item)
         }
-        for (i in 0 until cull) {
+        for (i in 0 until cullCount) {
             val item = Item_CULL(wpl.gameType)
             item.read(rf, hashTable)
             wpl.itemsCull.add(item)
         }
-        for (i in 0 until strbig) {
+        for (i in 0 until strBigCount) {
             val item = Item_STRBIG(wpl.gameType)
             item.read(rf)
             wpl.itemsStrBig.add(item)
         }
-        for (i in 0 until lcul) {
+        for (i in 0 until lodCullCount) {
             val item = Item_LCUL(wpl.gameType)
             item.read(rf, hashTable)
             wpl.itemsLCul.add(item)
         }
-        for (i in 0 until zone) {
+        for (i in 0 until zoneCount) {
             val item = Item_ZONE(wpl.gameType)
             item.read(rf, hashTable)
             wpl.itemsZone.add(item)
         }
-        for (i in 0 until blok) {
+        for (i in 0 until blokCount) {
             val item = Item_BLOK(wpl.gameType)
             item.read(rf, hashTable)
             wpl.itemsBlok.add(item)
@@ -83,26 +82,6 @@ class IplIV(
             rf.closeFile()
         }
         wpl.loaded = true
-    }
-
-    fun readHeader(rf: ReadFunctions) {
-        version = rf.readInt() // always 3
-        inst = rf.readInt() // Number of instances
-        unused1 = rf.readInt() // unused
-        grge = rf.readInt() // number of garages
-        cars = rf.readInt() // number of cars
-        cull = rf.readInt() // number of culls
-        unused2 = rf.readInt() // unused
-        unused3 = rf.readInt() // unsued
-        unused4 = rf.readInt() // unused
-        strbig = rf.readInt() // number of strbig
-        lcul = rf.readInt() // number of lod cull
-        zone = rf.readInt() // number of zones
-        unused5 = rf.readInt() // unused
-        unused6 = rf.readInt() // unused
-        unused7 = rf.readInt() // unused
-        unused8 = rf.readInt() // unused
-        blok = rf.readInt() // number of bloks
     }
 
     private fun writeHeader(wf: WriteFunctions, wpl: Ipl) {
@@ -115,14 +94,14 @@ class IplIV(
         wf.write(0)
         wf.write(0)
         wf.write(0)
-        wf.write(strbig) // temp
-        wf.write(lcul) // temp
-        wf.write(zone) // temp
+        wf.write(wpl.itemsStrBig.size)
+        wf.write(wpl.itemsLCul.size)
+        wf.write(wpl.itemsZone.size)
         wf.write(0)
         wf.write(0)
         wf.write(0)
         wf.write(0)
-        wf.write(blok) // temp
+        wf.write(wpl.itemsBlok.size)
     }
 
     fun save(wpl: Ipl) {
