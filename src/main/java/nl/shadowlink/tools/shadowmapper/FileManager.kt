@@ -185,12 +185,12 @@ class FileManager : Thread() {
     }
 
     private fun HashTable.addHashes(ide: IDE) {
-        ide.items_objs.forEach { item: Item_OBJS -> add(item.modelName) }
-        ide.items_tobj.forEach { item: Item_TOBJ -> add(item.modelName) }
-        ide.items_cars.forEach { item: Item_CARS -> add(item.modelName) }
-        ide.items_anim.forEach { item: Item_ANIM -> add(item.modelName) }
-        ide.items_2dfx.forEach { item: Item_2DFX -> add(item.name) }
-        ide.items_tanm.forEach { item: Item_TANM -> add(item.modelName) }
+        ide.items_objs.forEach { item: ItemObject -> add(item.modelName) }
+        ide.items_tobj.forEach { item: ItemTimedObject -> add(item.modelName) }
+        ide.items_cars.forEach { item: ItemCars -> add(item.modelName) }
+        ide.items_anim.forEach { item: ItemAnimated -> add(item.modelName) }
+        ide.items_2dfx.forEach { item: Item2DFX -> add(item.name) }
+        ide.items_tanm.forEach { item: ItemTimedAnimated -> add(item.modelName) }
     }
 
     private fun loadHashesFromIni() {
@@ -254,7 +254,7 @@ class FileManager : Thread() {
         modelIPLItems.addElement(name)
     }
 
-    fun addIDEItem(tmp: Item_OBJS, ideID: Int): Int {
+    fun addIDEItem(tmp: ItemObject, ideID: Int): Int {
         ides[ideID].items_objs.add(tmp)
         ides[ideID].changed = true
         modelIDEItems.addElement(tmp.modelName)

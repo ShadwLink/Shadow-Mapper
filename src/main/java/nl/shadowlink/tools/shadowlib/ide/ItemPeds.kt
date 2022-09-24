@@ -9,21 +9,23 @@ import java.util.logging.Logger
 /**
  * @author Shadow-Link
  */
-class WeapIdeItem(
-    private val gameType: GameType
-) : IdeItem() {
-
-    private lateinit var line: String
-
+class ItemPeds(private val gameType: GameType) : IdeItem() {
     override fun read(line: String) {
-        this.line = line
+        // TODO: Implement
     }
 
     fun save(output: BufferedWriter) {
         try {
-            output.write(line)
+            val line = ""
+            output.write(
+                """
+    $line
+    
+    """.trimIndent()
+            )
+            println("Line: $line")
         } catch (ex: IOException) {
-            Logger.getLogger(WeapIdeItem::class.java.name).log(Level.SEVERE, null, ex)
+            Logger.getLogger(ItemObject::class.java.name).log(Level.SEVERE, null, ex)
         }
     }
 }

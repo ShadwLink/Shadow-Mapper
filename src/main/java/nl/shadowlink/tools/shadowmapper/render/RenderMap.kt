@@ -4,7 +4,7 @@ import com.jogamp.opengl.GL2
 import nl.shadowlink.tools.io.ByteReader
 import nl.shadowlink.tools.io.ReadFunctions
 import nl.shadowlink.tools.io.Vector3D
-import nl.shadowlink.tools.shadowlib.ide.Item_OBJS
+import nl.shadowlink.tools.shadowlib.ide.ItemObject
 import nl.shadowlink.tools.shadowlib.img.ImgItem
 import nl.shadowlink.tools.shadowlib.ipl.Item_INST
 import nl.shadowlink.tools.shadowlib.model.model.Model
@@ -29,7 +29,7 @@ class RenderMap(
     var reload = false
     var loading = false
     var added = false
-    var tempIDE: Item_OBJS? = null
+    var tempIDE: ItemObject? = null
     var tempIPL: Item_INST? = null
 
     fun display(gl: GL2) {
@@ -85,16 +85,16 @@ class RenderMap(
         glDisplayList.forEach { dl -> gl.glDeleteLists(dl, 1) }
 
         val boolList: ArrayList<Boolean> = ArrayList<Boolean>()
-        val ideList: ArrayList<Item_OBJS> = ArrayList<Item_OBJS>()
+        val ideList: ArrayList<ItemObject> = ArrayList<ItemObject>()
         fm.ipls.forEach { ipl ->
             if (ipl.selected) {
                 ipl.items_inst.forEach { instance ->
                     var ideNumber = 0
-                    var ideItem = fm.ides[ideNumber].findItem(instance.name) as? Item_OBJS
+                    var ideItem = fm.ides[ideNumber].findItem(instance.name) as? ItemObject
                     while (ideItem == null) {
                         ideNumber++
                         ideItem = if (ideNumber < fm.ides.size) {
-                            fm.ides[ideNumber].findItem(instance.name) as? Item_OBJS
+                            fm.ides[ideNumber].findItem(instance.name) as? ItemObject
                         } else {
                             println("I really can't find in IDE: ${instance.name}")
                             break
@@ -244,7 +244,7 @@ class RenderMap(
         return sqrt((dx * dx + dy * dy + dz * dz).toDouble()).toFloat()
     }
 
-    fun addLoadModelToLoad(tempIPL: Item_INST?, tempIDE: Item_OBJS?) {
+    fun addLoadModelToLoad(tempIPL: Item_INST?, tempIDE: ItemObject?) {
         this.tempIPL = tempIPL
         this.tempIDE = tempIDE
         added = true

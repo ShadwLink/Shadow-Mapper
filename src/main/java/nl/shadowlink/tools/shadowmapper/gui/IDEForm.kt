@@ -4,7 +4,7 @@ import com.jogamp.opengl.awt.GLCanvas
 import nl.shadowlink.tools.io.ReadFunctions
 import nl.shadowlink.tools.io.Vector3D
 import nl.shadowlink.tools.io.Vector4D
-import nl.shadowlink.tools.shadowlib.ide.Item_OBJS
+import nl.shadowlink.tools.shadowlib.ide.ItemObject
 import nl.shadowlink.tools.shadowlib.img.Img
 import nl.shadowlink.tools.shadowlib.img.ImgItem
 import nl.shadowlink.tools.shadowlib.model.model.Model
@@ -166,7 +166,7 @@ class IDEForm : JFrame {
             saveIDEItem()
             fm.ides[ideID].changed = true
         } else if (mode == 2) {
-            val tmpItem = Item_OBJS(GameType.GTA_IV)
+            val tmpItem = ItemObject(GameType.GTA_IV)
             itemID = fm.addIDEItem(tmpItem, ideID)
             saveIDEItem()
         }
@@ -177,15 +177,14 @@ class IDEForm : JFrame {
         val objs = fm.ides[ideID].items_objs[itemID]
         objs.modelName = textModel.text
         objs.textureName = textText.text
-        objs.WDD = textWDD.text
-        if (objs.WDD.isEmpty()) objs.WDD = "null"
+        objs.WDD = textWDD.text.ifEmpty { "null" }
         objs.drawDistance = FloatArray(1)
         objs.drawDistance[0] = textDraw.text.toFloat()
         objs.flag1 = textFlag1.text.toInt()
         objs.flag2 = textFlag2.text.toInt()
-        objs.boundsMax = boundsMax
-        objs.boundsMin = boundsMin
-        objs.boundsSphere = boundsSphere
+        boundsMax?.let { objs.boundsMax = it }
+        boundsMin?.let { objs.boundsMin = it }
+        boundsSphere?.let { objs.boundsSphere = it }
     }
 
     private fun setModel(imgItem: ImgItem, img: Img) {

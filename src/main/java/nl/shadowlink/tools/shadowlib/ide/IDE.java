@@ -22,17 +22,17 @@ public class IDE {
 
     private int readItem = -1; //used to identify what type of section we are reading
 
-    public ArrayList<Item_OBJS> items_objs = new ArrayList();
-    public ArrayList<Item_TOBJ> items_tobj = new ArrayList();
-    public ArrayList<Item_TREE> items_tree = new ArrayList();
-    public ArrayList<Item_PATH> items_path = new ArrayList();
-    public ArrayList<Item_ANIM> items_anim = new ArrayList();
-    public ArrayList<Item_TANM> items_tanm = new ArrayList();
-    public ArrayList<Item_MLO> items_mlo = new ArrayList();
-    public ArrayList<Item_2DFX> items_2dfx = new ArrayList();
-    public ArrayList<Item_AMAT> items_amat = new ArrayList();
-    public ArrayList<Item_TXDP> items_txdp = new ArrayList();
-    public ArrayList<Item_CARS> items_cars = new ArrayList();
+    public ArrayList<ItemObject> items_objs = new ArrayList();
+    public ArrayList<ItemTimedObject> items_tobj = new ArrayList();
+    public ArrayList<ItemTree> items_tree = new ArrayList();
+    public ArrayList<ItemPath> items_path = new ArrayList();
+    public ArrayList<ItemAnimated> items_anim = new ArrayList();
+    public ArrayList<ItemTimedAnimated> items_tanm = new ArrayList();
+    public ArrayList<ItemMlo> items_mlo = new ArrayList();
+    public ArrayList<Item2DFX> items_2dfx = new ArrayList();
+    public ArrayList<ItemAnimatedMaterial> items_amat = new ArrayList();
+    public ArrayList<ItemTxdPack> items_txdp = new ArrayList();
+    public ArrayList<ItemCars> items_cars = new ArrayList();
 
     public IDE(String fileName, GameType gameType, boolean autoLoad) {
         this.fileName = fileName;
@@ -88,47 +88,47 @@ public class IDE {
                             IdeItem item = null;
                             switch (readItem) {
                                 case Constants.i2DFX:
-                                    item = new Item_2DFX(gameType);
+                                    item = new Item2DFX(gameType);
                                     break;
                                 case Constants.iANIM:
-                                    item = new Item_ANIM(gameType);
+                                    item = new ItemAnimated(gameType);
                                     break;
                                 case Constants.iCARS:
-                                    item = new Item_CARS(gameType);
-                                    items_cars.add((Item_CARS) item);
+                                    item = new ItemCars(gameType);
+                                    items_cars.add((ItemCars) item);
                                     break;
                                 case Constants.iHIER:
-                                    item = new Item_HIER(gameType);
+                                    item = new ItemHier(gameType);
                                     break;
                                 case Constants.iMLO:
-                                    item = new Item_MLO(gameType);
+                                    item = new ItemMlo(gameType);
                                     break;
                                 case Constants.iOBJS:
-                                    item = new Item_OBJS(gameType);
-                                    items_objs.add((Item_OBJS) item);
+                                    item = new ItemObject(gameType);
+                                    items_objs.add((ItemObject) item);
                                     break;
                                 case Constants.iPATH:
-                                    item = new Item_PATH(gameType);
+                                    item = new ItemPath(gameType);
                                     break;
                                 case Constants.iPEDS:
-                                    item = new Item_PEDS(gameType);
+                                    item = new ItemPeds(gameType);
                                     break;
                                 case Constants.iTANM:
-                                    item = new Item_TANM(gameType);
+                                    item = new ItemTimedAnimated(gameType);
                                     break;
                                 case Constants.iTOBJ:
-                                    item = new Item_TOBJ(gameType);
-                                    items_tobj.add((Item_TOBJ) item);
+                                    item = new ItemTimedObject(gameType);
+                                    items_tobj.add((ItemTimedObject) item);
                                     break;
                                 case Constants.iTREE:
-                                    item = new Item_TREE(gameType);
+                                    item = new ItemTree(gameType);
                                     break;
                                 case Constants.iTXDP:
-                                    item = new Item_TXDP(gameType);
-                                    items_txdp.add((Item_TXDP) item);
+                                    item = new ItemTxdPack(gameType);
+                                    items_txdp.add((ItemTxdPack) item);
                                     break;
                                 case Constants.iWEAP:
-                                    item = new WeapIdeItem(gameType);
+                                    item = new ItemWeapon(gameType);
                                     break;
                                 default:
                                     //Message.displayMsgHigh("Unknown item " + line);
@@ -151,7 +151,7 @@ public class IDE {
         IdeItem ret = null;
         if (items_objs.size() != 0) {
             int i = 0;
-            Item_OBJS item = items_objs.get(i);
+            ItemObject item = items_objs.get(i);
             while (!item.modelName.equals(name)) {
                 if (i < items_objs.size() - 1) {
                     i++;
