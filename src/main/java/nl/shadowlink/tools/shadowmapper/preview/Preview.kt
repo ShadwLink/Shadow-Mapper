@@ -40,7 +40,6 @@ class Preview(
 
         animator = Animator(gLCanvas)
         animator.start()
-        glListener.setCanvasPosition(gLCanvas.location)
         init()
     }
 
