@@ -7,7 +7,7 @@ import nl.shadowlink.tools.shadowlib.dat.GtaDat
 import nl.shadowlink.tools.shadowlib.ide.*
 import nl.shadowlink.tools.shadowlib.img.Img
 import nl.shadowlink.tools.shadowlib.img.ImgLoaderFactory
-import nl.shadowlink.tools.shadowlib.ipl.IPL
+import nl.shadowlink.tools.shadowlib.ipl.Ipl
 import nl.shadowlink.tools.shadowlib.ipl.Item_INST
 import nl.shadowlink.tools.shadowlib.texturedic.TextureDic
 import nl.shadowlink.tools.shadowlib.utils.GameType
@@ -37,7 +37,7 @@ class FileManager : Thread() {
     var gtaDat: GtaDat? = null
 
     @JvmField
-    var ipls = mutableListOf<IPL>()
+    var ipls = mutableListOf<Ipl>()
 
     @JvmField
     var ides = mutableListOf<IDE>()
@@ -144,7 +144,7 @@ class FileManager : Thread() {
 
         gtaDat.ipl.forEach { iplPath ->
             statusCallbacks?.onLoadingStatusChanged("<IPL> $iplPath")
-            ipls.add(IPL("$gameDir$iplPath", hashTable, gameType, true))
+            ipls.add(Ipl("$gameDir$iplPath", hashTable, gameType!!, true))
             modelIPL.addElement(iplPath)
             statusCallbacks?.onLoadingValueIncreased()
         }
@@ -163,7 +163,7 @@ class FileManager : Thread() {
             img.getItemsOfType(".wpl")
                 .forEach { wplEntry ->
                     rf.seek(wplEntry.offset)
-                    val ipl = IPL(rf, hashTable, gameType, true, img, wplEntry, wplEntry.name).apply {
+                    val ipl = Ipl(rf, hashTable, gameType!!, true, img, wplEntry, wplEntry.name).apply {
                         fileName = wplEntry.name
                     }
                     ipls.add(ipl)
@@ -242,14 +242,14 @@ class FileManager : Thread() {
         }
 
     fun addIPLItem(name: String, iplID: Int, pos: Vector3D) {
-        val iplItem = Item_INST(gameType)
+        val iplItem = Item_INST(gameType!!)
         iplItem.name = name
         iplItem.interior = 0
         iplItem.lod = -1
         iplItem.position.x = pos.x
         iplItem.position.y = 0 - pos.z
         iplItem.position.z = pos.y
-        ipls[iplID].items_inst.add(iplItem)
+        ipls[iplID].itemsInst.add(iplItem)
         ipls[iplID].changed = true
         modelIPLItems.addElement(name)
     }
@@ -279,25 +279,25 @@ class FileManager : Thread() {
         when (type) {
             0 -> {
                 var i = 0
-                while (i < ipls[iplID].items_inst.size) {
-                    modelIPLItems.addElement(ipls[iplID].items_inst[i].name)
+                while (i < ipls[iplID].itemsInst.size) {
+                    modelIPLItems.addElement(ipls[iplID].itemsInst[i].name)
                     i++
                 }
             }
 
             1 -> {
                 var i = 0
-                while (i < ipls[iplID].items_grge.size) {
-                    modelIPLItems.addElement(ipls[iplID].items_grge[i].name)
+                while (i < ipls[iplID].itemsGrge.size) {
+                    modelIPLItems.addElement(ipls[iplID].itemsGrge[i].name)
                     i++
                 }
             }
 
             2 -> {
                 var i = 0
-                while (i < ipls[iplID].items_cars.size) {
-                    if (ipls[iplID].items_cars[i].name != "") {
-                        modelIPLItems.addElement(ipls[iplID].items_cars[i].name)
+                while (i < ipls[iplID].itemsCars.size) {
+                    if (ipls[iplID].itemsCars[i].name != "") {
+                        modelIPLItems.addElement(ipls[iplID].itemsCars[i].name)
                     } else {
                         modelIPLItems.addElement("Random")
                     }
@@ -307,40 +307,40 @@ class FileManager : Thread() {
 
             3 -> {
                 var i = 0
-                while (i < ipls[iplID].items_cull.size) {
-                    modelIPLItems.addElement(ipls[iplID].items_cull[i].name)
+                while (i < ipls[iplID].itemsCull.size) {
+                    modelIPLItems.addElement(ipls[iplID].itemsCull[i].name)
                     i++
                 }
             }
 
             4 -> {
                 var i = 0
-                while (i < ipls[iplID].items_strbig.size) {
-                    modelIPLItems.addElement(ipls[iplID].items_strbig[i].modelName)
+                while (i < ipls[iplID].itemsStrBig.size) {
+                    modelIPLItems.addElement(ipls[iplID].itemsStrBig[i].modelName)
                     i++
                 }
             }
 
             5 -> {
                 var i = 0
-                while (i < ipls[iplID].items_lcul.size) {
-                    modelIPLItems.addElement(ipls[iplID].items_lcul[i].name1)
+                while (i < ipls[iplID].itemsLCul.size) {
+                    modelIPLItems.addElement(ipls[iplID].itemsLCul[i].name1)
                     i++
                 }
             }
 
             6 -> {
                 var i = 0
-                while (i < ipls[iplID].items_zone.size) {
-                    modelIPLItems.addElement(ipls[iplID].items_zone[i].toString())
+                while (i < ipls[iplID].itemsZone.size) {
+                    modelIPLItems.addElement(ipls[iplID].itemsZone[i].toString())
                     i++
                 }
             }
 
             7 -> {
                 var i = 0
-                while (i < ipls[iplID].items_blok.size) {
-                    modelIPLItems.addElement(ipls[iplID].items_blok[i].toString())
+                while (i < ipls[iplID].itemsBlok.size) {
+                    modelIPLItems.addElement(ipls[iplID].itemsBlok[i].toString())
                     i++
                 }
             }
@@ -366,7 +366,7 @@ class FileManager : Thread() {
             if (file.exists()) {
                 JOptionPane.showMessageDialog(null, "File already exists")
             } else {
-                val ipl = IPL(file.absolutePath, hashTable, gameType, false).apply {
+                val ipl = Ipl(file.absolutePath, hashTable, gameType!!, false).apply {
                     changed = true
                 }
                 ipls.add(ipl)
@@ -384,9 +384,9 @@ class FileManager : Thread() {
     fun setSelection(selType: Int, selParam1: Int, selParam2: Int) {
         if (this.selType != -1) {
             when (this.selType) {
-                PickingType.map -> ipls[this.selParam1].items_inst[this.selParam2].selected = false
+                PickingType.map -> ipls[this.selParam1].itemsInst[this.selParam2].selected = false
                 PickingType.water -> waters[0].planes[this.selParam1].selected = false
-                PickingType.car -> ipls[this.selParam1].items_cars[this.selParam2].selected = false
+                PickingType.car -> ipls[this.selParam1].itemsCars[this.selParam2].selected = false
                 else -> {
                     println("--Something went wrong--")
                     println("SelType: $selType")
@@ -400,9 +400,9 @@ class FileManager : Thread() {
         this.selParam2 = selParam2
         if (this.selType != -1) {
             when (selType) {
-                PickingType.map -> ipls[selParam1].items_inst[selParam2].selected = true
+                PickingType.map -> ipls[selParam1].itemsInst[selParam2].selected = true
                 PickingType.water -> waters[0].planes[selParam1].selected = true
-                PickingType.car -> ipls[selParam1].items_cars[selParam2].selected = true
+                PickingType.car -> ipls[selParam1].itemsCars[selParam2].selected = true
                 else -> {
                     println("--Something went wrong--")
                     println("SelType: $selType")

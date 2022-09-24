@@ -54,7 +54,7 @@ class RenderMap(
             fm.ipls.forEachIndexed { iplIndex, ipl ->
                 if (ipl.selected && ipl.itemsLoaded) {
                     gl.glPushName(iplIndex)
-                    ipl.items_inst.forEachIndexed { instanceIndex, item ->
+                    ipl.itemsInst.forEachIndexed { instanceIndex, item ->
                         if (!item.name.lowercase(Locale.getDefault()).contains("lod")) {
                             if (getDistance(camera.pos, item.position) < item.drawDistance) {
                                 gl.glPushName(instanceIndex)
@@ -88,7 +88,7 @@ class RenderMap(
         val ideList: ArrayList<ItemObject> = ArrayList<ItemObject>()
         fm.ipls.forEach { ipl ->
             if (ipl.selected) {
-                ipl.items_inst.forEach { instance ->
+                ipl.itemsInst.forEach { instance ->
                     var ideNumber = 0
                     var ideItem = fm.ides[ideNumber].findItem(instance.name) as? ItemObject
                     while (ideItem == null) {

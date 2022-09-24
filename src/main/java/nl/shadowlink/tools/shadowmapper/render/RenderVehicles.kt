@@ -50,7 +50,7 @@ class RenderVehicles(
         fm.ipls.forEachIndexed { index, ipl ->
             gl.glPushName(index)
             if (ipl.selected) {
-                ipl.items_cars.forEachIndexed { vehicleIndex, car ->
+                ipl.itemsCars.forEachIndexed { vehicleIndex, car ->
                     gl.glPushName(vehicleIndex)
                     gl.glPushMatrix()
                     if (car.selected) gl.glColor3f(0.9f, 0f, 0f) else gl.glColor3f(1f, 1f, 1f)

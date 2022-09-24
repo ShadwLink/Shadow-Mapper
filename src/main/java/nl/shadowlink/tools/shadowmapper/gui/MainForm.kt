@@ -1092,7 +1092,7 @@ class MainForm : JFrame() {
         if (evt.keyCode == KeyEvent.VK_DELETE) {
             when (fm.selType) {
                 PickingType.map -> if (fm.selParam1 != -1 && fm.selParam2 != -1) {
-                    fm.ipls[fm.selParam1].items_inst.removeAt(fm.selParam2)
+                    fm.ipls[fm.selParam1].itemsInst.removeAt(fm.selParam2)
                     fm.updateIPLItemList(fm.selParam1, fm.selParam1)
                 }
 
@@ -1128,7 +1128,7 @@ class MainForm : JFrame() {
     private fun spinnerPosXStateChanged(evt: ChangeEvent) { // GEN-FIRST:event_spinnerPosXStateChanged
         when (fm.selType) {
             PickingType.map -> {
-                fm.ipls[fm.selParam1].items_inst[fm.selParam2].position.x = (spinnerPosX.value as Float)
+                fm.ipls[fm.selParam1].itemsInst[fm.selParam2].position.x = (spinnerPosX.value as Float)
                 fm.ipls[fm.selParam1].changed = true
             }
         }
@@ -1137,7 +1137,7 @@ class MainForm : JFrame() {
     private fun spinnerPosYStateChanged(evt: ChangeEvent) { // GEN-FIRST:event_spinnerPosYStateChanged
         when (fm.selType) {
             PickingType.map -> {
-                fm.ipls[fm.selParam1].items_inst[fm.selParam2].position.y = (spinnerPosY.value as Float)
+                fm.ipls[fm.selParam1].itemsInst[fm.selParam2].position.y = (spinnerPosY.value as Float)
                 fm.ipls[fm.selParam1].changed = true
             }
         }
@@ -1146,7 +1146,7 @@ class MainForm : JFrame() {
     private fun spinnerPosZStateChanged(evt: ChangeEvent) { // GEN-FIRST:event_spinnerPosZStateChanged
         when (fm.selType) {
             PickingType.map -> {
-                fm.ipls[fm.selParam1].items_inst[fm.selParam2].position.z = (spinnerPosZ.value as Float)
+                fm.ipls[fm.selParam1].itemsInst[fm.selParam2].position.z = (spinnerPosZ.value as Float)
                 fm.ipls[fm.selParam1].changed = true
             }
         }
@@ -1185,11 +1185,11 @@ class MainForm : JFrame() {
 
     private fun buttonDeleteIPLItemActionPerformed(evt: ActionEvent) {
         when (comboIPLType.selectedIndex) {
-            0 -> fm.ipls[listIPL.selectedIndex].items_inst.removeAt(
+            0 -> fm.ipls[listIPL.selectedIndex].itemsInst.removeAt(
                 listIPLItems.selectedIndex
             )
 
-            2 -> fm.ipls[listIPL.selectedIndex].items_cars.removeAt(listIPLItems.selectedIndex)
+            2 -> fm.ipls[listIPL.selectedIndex].itemsCars.removeAt(listIPLItems.selectedIndex)
         }
         fm.ipls[listIPL.selectedIndex].changed = true
         fm.updateIPLItemList(listIPL.selectedIndex, comboIPLType.selectedIndex)
@@ -1239,7 +1239,7 @@ class MainForm : JFrame() {
 
     private fun listSceneMouseClicked(evt: MouseEvent) {
         if (evt.clickCount == 2) {
-            val instance = fm.ipls[listScene.selectedIndex].items_inst[0]
+            val instance = fm.ipls[listScene.selectedIndex].itemsInst[0]
             glListener.camera.pos.x = instance.position.x
             glListener.camera.pos.z = 0 - instance.position.y
             glListener.camera.pos.y = instance.position.z
@@ -1300,7 +1300,7 @@ class MainForm : JFrame() {
     private fun spinnerRotXStateChanged(evt: ChangeEvent) {
         when (fm.selType) {
             PickingType.map -> {
-                fm.ipls[fm.selParam1].items_inst[fm.selParam2].axisAngle.x = (spinnerRotX.value as Float)
+                fm.ipls[fm.selParam1].itemsInst[fm.selParam2].axisAngle.x = (spinnerRotX.value as Float)
                 fm.ipls[fm.selParam1].changed = true
             }
         }
@@ -1309,7 +1309,7 @@ class MainForm : JFrame() {
     private fun spinnerRotYStateChanged(evt: ChangeEvent) {
         when (fm.selType) {
             PickingType.map -> {
-                fm.ipls[fm.selParam1].items_inst[fm.selParam2].axisAngle.y = (spinnerRotY.value as Float)
+                fm.ipls[fm.selParam1].itemsInst[fm.selParam2].axisAngle.y = (spinnerRotY.value as Float)
                 fm.ipls[fm.selParam1].changed = true
             }
         }
@@ -1318,7 +1318,7 @@ class MainForm : JFrame() {
     private fun spinnerRotZStateChanged(evt: ChangeEvent) {
         when (fm.selType) {
             PickingType.map -> {
-                fm.ipls[fm.selParam1].items_inst[fm.selParam2].axisAngle.z = (spinnerRotZ.value as Float)
+                fm.ipls[fm.selParam1].itemsInst[fm.selParam2].axisAngle.z = (spinnerRotZ.value as Float)
                 fm.ipls[fm.selParam1].changed = true
             }
         }
@@ -1331,7 +1331,7 @@ class MainForm : JFrame() {
     fun selectionChanged() {
         when (fm.selType) {
             PickingType.map -> {
-                val instance = fm.ipls[fm.selParam1].items_inst[fm.selParam2]
+                val instance = fm.ipls[fm.selParam1].itemsInst[fm.selParam2]
                 textModelName.text = instance.name
                 spinnerPosX.value = instance.position.x
                 spinnerPosY.value = instance.position.y
@@ -1345,7 +1345,7 @@ class MainForm : JFrame() {
 
             PickingType.water -> textModelName.text = "Water"
             PickingType.car -> {
-                val car = fm.ipls[fm.selParam1].items_cars[fm.selParam2]
+                val car = fm.ipls[fm.selParam1].itemsCars[fm.selParam2]
                 textModelName.text = car.name
                 spinnerPosX.value = car.position.x
                 spinnerPosY.value = car.position.y

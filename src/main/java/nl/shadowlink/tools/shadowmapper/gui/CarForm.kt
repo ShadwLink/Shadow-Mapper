@@ -85,7 +85,7 @@ class CarForm(
             unknown7 = 0
         }
 
-        fm.ipls[ipl].items_cars.add(iplItem)
+        fm.ipls[ipl].itemsCars.add(iplItem)
         fm.ipls[ipl].changed = true
 
         fm.modelIPLItems.addElement(iplItem.name)

@@ -7,7 +7,7 @@ import nl.shadowlink.tools.shadowlib.utils.hashing.HashTable
  * @author Shadow-Link
  */
 abstract class IplItem {
-    abstract fun read(line: String?)
-    abstract fun read(rf: ReadFunctions?)
-    abstract fun read(rf: ReadFunctions?, hashTable: HashTable?)
+    abstract fun read(line: String)
+    abstract fun read(rf: ReadFunctions)
+    abstract fun read(rf: ReadFunctions, hashTable: HashTable)
 }
