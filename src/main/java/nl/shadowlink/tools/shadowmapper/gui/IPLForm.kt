@@ -136,8 +136,8 @@ class IPLForm(private val fm: FileManager, private val iplID: Int, private val p
 
     private fun onIdeSelectionChanged(evt: ListSelectionEvent) {
         modelIdeItems.clear()
-        for (i in fm.ides[ideJList.selectedIndex].items_objs.indices) {
-            modelIdeItems.addElement(fm.ides[ideJList.selectedIndex].items_objs[i].modelName)
+        for (i in fm.ides[ideJList.selectedIndex].itemObjs.indices) {
+            modelIdeItems.addElement(fm.ides[ideJList.selectedIndex].itemObjs[i].modelName)
         }
     }
 

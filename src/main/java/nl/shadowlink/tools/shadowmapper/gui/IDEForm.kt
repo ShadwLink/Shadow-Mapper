@@ -55,7 +55,7 @@ class IDEForm : JFrame {
         this.itemID = itemID
         mode = 1 //edit item
         initComponents()
-        val objs = fm.ides[ideID].items_objs[itemID]
+        val objs = fm.ides[ideID].itemObjs[itemID]
         textModel.text = objs.modelName
         textText.text = objs.textureName
         textWDD.text = objs.WDD
@@ -174,7 +174,7 @@ class IDEForm : JFrame {
     }
 
     private fun saveIDEItem() {
-        val objs = fm.ides[ideID].items_objs[itemID]
+        val objs = fm.ides[ideID].itemObjs[itemID]
         objs.modelName = textModel.text
         objs.textureName = textText.text
         objs.WDD = textWDD.text.ifEmpty { "null" }

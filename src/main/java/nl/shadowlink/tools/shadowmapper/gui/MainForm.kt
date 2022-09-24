@@ -1261,7 +1261,7 @@ class MainForm : JFrame() {
     }
 
     private fun buttonDelIDEItemActionPerformed(evt: ActionEvent) {
-        fm.ides[idesJList.selectedIndex].items_objs.removeAt(listIDEItems.selectedIndex)
+        fm.ides[idesJList.selectedIndex].itemObjs.removeAt(listIDEItems.selectedIndex)
         fm.ides[idesJList.selectedIndex].changed = true
         fm.updateIDEItemList(idesJList.selectedIndex, 0)
     }

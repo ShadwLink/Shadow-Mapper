@@ -106,7 +106,7 @@ class FileManager : Thread() {
         statusCallbacks?.onStartLoading(itemsToLoad)
 
         defaultDat.ide.forEach(Consumer { idePath: String ->
-            val ide = IDE("$gameDir$idePath", gameType, true)
+            val ide = IDE("$gameDir$idePath", gameType!!, true)
             hashTable.addHashes(ide)
             ides.add(ide)
 
@@ -116,7 +116,7 @@ class FileManager : Thread() {
         gtaDat.ide.forEach { idePath ->
             statusCallbacks?.onLoadingStatusChanged("<IDE> $idePath")
 
-            val ide = IDE("$gameDir$idePath", gameType, true)
+            val ide = IDE("$gameDir$idePath", gameType!!, true)
             hashTable.addHashes(ide)
             ides.add(ide)
 
@@ -185,12 +185,12 @@ class FileManager : Thread() {
     }
 
     private fun HashTable.addHashes(ide: IDE) {
-        ide.items_objs.forEach { item: ItemObject -> add(item.modelName) }
-        ide.items_tobj.forEach { item: ItemTimedObject -> add(item.modelName) }
-        ide.items_cars.forEach { item: ItemCars -> add(item.modelName) }
-        ide.items_anim.forEach { item: ItemAnimated -> add(item.modelName) }
-        ide.items_2dfx.forEach { item: Item2DFX -> add(item.name) }
-        ide.items_tanm.forEach { item: ItemTimedAnimated -> add(item.modelName) }
+        ide.itemObjs.forEach { item: ItemObject -> add(item.modelName) }
+        ide.itemTobj.forEach { item: ItemTimedObject -> add(item.modelName) }
+        ide.itemCars.forEach { item: ItemCars -> add(item.modelName) }
+        ide.itemAnim.forEach { item: ItemAnimated -> add(item.modelName) }
+        ide.item2dfx.forEach { item: Item2DFX -> add(item.name) }
+        ide.itemTAnm.forEach { item: ItemTimedAnimated -> add(item.modelName) }
     }
 
     private fun loadHashesFromIni() {
@@ -255,10 +255,10 @@ class FileManager : Thread() {
     }
 
     fun addIDEItem(tmp: ItemObject, ideID: Int): Int {
-        ides[ideID].items_objs.add(tmp)
+        ides[ideID].itemObjs.add(tmp)
         ides[ideID].changed = true
         modelIDEItems.addElement(tmp.modelName)
-        return ides[ideID].items_objs.size - 1
+        return ides[ideID].itemObjs.size - 1
     }
 
     fun updateIDEItemList(ideID: Int, type: Int) {
@@ -266,8 +266,8 @@ class FileManager : Thread() {
         when (type) {
             0 -> {
                 var i = 0
-                while (i < ides[ideID].items_objs.size) {
-                    modelIDEItems.addElement(ides[ideID].items_objs[i].modelName)
+                while (i < ides[ideID].itemObjs.size) {
+                    modelIDEItems.addElement(ides[ideID].itemObjs[i].modelName)
                     i++
                 }
             }
@@ -352,7 +352,7 @@ class FileManager : Thread() {
             if (file.exists()) {
                 JOptionPane.showMessageDialog(null, "File already exists")
             } else {
-                val ide = IDE(file.absolutePath, gameType, true).apply {
+                val ide = IDE(file.absolutePath, gameType!!, true).apply {
                     changed = true
                 }
                 ides.add(ide)
