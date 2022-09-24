@@ -210,9 +210,9 @@ class FileManager : Thread() {
             gtaDat?.save()
         }
         ides.forEach { ide ->
-            if (ide.changed) {
+            if (ide.isSaveRequired) {
                 ide.save()
-                ide.changed = false
+                ide.setSaveRequired(false)
                 println("Saving ide ${ide.fileName}")
             }
         }
@@ -235,7 +235,7 @@ class FileManager : Thread() {
         get() {
             val saveModel = DefaultListModel<String>()
             if (gtaDat?.changed == true) saveModel.addElement("gta.dat")
-            saveModel.addAll(ides.filter { it.changed }.map { it.fileName })
+            saveModel.addAll(ides.filter { it.isSaveRequired }.map { it.fileName })
             saveModel.addAll(ipls.filter { it.changed }.map { it.fileName })
             saveModel.addAll(imgs.filter { it.isSaveRequired }.map { it.fileName })
             return saveModel
@@ -256,7 +256,7 @@ class FileManager : Thread() {
 
     fun addIDEItem(tmp: ItemObject, ideID: Int): Int {
         ides[ideID].itemObjs.add(tmp)
-        ides[ideID].changed = true
+        ides[ideID].setSaveRequired()
         modelIDEItems.addElement(tmp.modelName)
         return ides[ideID].itemObjs.size - 1
     }
@@ -353,7 +353,7 @@ class FileManager : Thread() {
                 JOptionPane.showMessageDialog(null, "File already exists")
             } else {
                 val ide = IDE(file.absolutePath, gameType!!, true).apply {
-                    changed = true
+                    setSaveRequired()
                 }
                 ides.add(ide)
                 modelIDE.addElement(file.name)

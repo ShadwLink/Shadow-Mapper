@@ -15,7 +15,6 @@ import nl.shadowlink.tools.shadowmapper.utils.GuiFunctions.showError
 import java.awt.Dimension
 import java.awt.Toolkit
 import java.awt.event.*
-import java.util.Set
 import javax.swing.*
 import javax.swing.event.ChangeEvent
 import javax.swing.event.ListSelectionEvent
@@ -1262,12 +1261,12 @@ class MainForm : JFrame() {
 
     private fun buttonDelIDEItemActionPerformed(evt: ActionEvent) {
         fm.ides[idesJList.selectedIndex].itemObjs.removeAt(listIDEItems.selectedIndex)
-        fm.ides[idesJList.selectedIndex].changed = true
+        fm.ides[idesJList.selectedIndex].setSaveRequired()
         fm.updateIDEItemList(idesJList.selectedIndex, 0)
     }
 
     private fun onAddIdeClicked(evt: ActionEvent) {
-        val file = openFileChooser(this, ExtensionFilter(Set.of("ide"), "IDE File"), null)
+        val file = openFileChooser(this, ExtensionFilter(setOf("ide"), "IDE File"), null)
         fm.addNewIDE(file)
     }
 
@@ -1276,7 +1275,7 @@ class MainForm : JFrame() {
     }
 
     private fun onAddIplClicked(evt: ActionEvent) {
-        val file = openFileChooser(this, ExtensionFilter(Set.of("wpl"), "WPL File"), null)
+        val file = openFileChooser(this, ExtensionFilter(setOf("wpl"), "WPL File"), null)
         fm.addNewIPL(file)
     }
 

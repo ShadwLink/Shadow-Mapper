@@ -164,7 +164,7 @@ class IDEForm : JFrame {
     private fun buttonOkActionPerformed(evt: ActionEvent) {
         if (mode == 1) {
             saveIDEItem()
-            fm.ides[ideID].changed = true
+            fm.ides[ideID].setSaveRequired()
         } else if (mode == 2) {
             val tmpItem = ItemObject(GameType.GTA_IV)
             itemID = fm.addIDEItem(tmpItem, ideID)

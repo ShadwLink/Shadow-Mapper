@@ -2,6 +2,8 @@ package nl.shadowlink.tools.shadowlib.ide
 
 import nl.shadowlink.tools.shadowlib.utils.Constants
 import nl.shadowlink.tools.shadowlib.utils.GameType
+import nl.shadowlink.tools.shadowlib.utils.saving.Saveable
+import nl.shadowlink.tools.shadowlib.utils.saving.SaveableFile
 import java.io.*
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -13,10 +15,9 @@ class IDE(
     var fileName: String,
     var gameType: GameType,
     autoLoad: Boolean
-) {
+) : Saveable by SaveableFile() {
     private var fileReader: FileReader? = null
     private var input: BufferedReader? = null
-    var changed = false
     private var readItem = -1 //used to identify what type of section we are reading
     val itemObjs = mutableListOf<ItemObject>()
     val itemTobj = mutableListOf<ItemTimedObject>()
