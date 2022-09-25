@@ -6,8 +6,8 @@ import nl.shadowlink.tools.shadowlib.utils.encryption.EncryptionKeyExtractor
 import nl.shadowlink.tools.shadowlib.utils.filechooser.ExtensionFilter
 import nl.shadowlink.tools.shadowlib.utils.filechooser.FileChooserUtil.openFileChooser
 import nl.shadowlink.tools.shadowmapper.FileManager
-import nl.shadowlink.tools.shadowmapper.checklist.CheckListManager
 import nl.shadowlink.tools.shadowmapper.gui.about.About
+import nl.shadowlink.tools.shadowmapper.gui.checklist.CheckListManager
 import nl.shadowlink.tools.shadowmapper.gui.install.Install
 import nl.shadowlink.tools.shadowmapper.gui.install.InstallDialog
 import nl.shadowlink.tools.shadowmapper.render.GlListener
@@ -26,7 +26,7 @@ import javax.swing.event.ListSelectionListener
 class MainForm : JFrame() {
     private val animator: FPSAnimator
     var glListener: GlListener
-    var checkList: CheckListManager? = null
+    var checkList: CheckListManager<String>? = null
     private val fm = FileManager()
 
     private var buttonDelIDEItem = JButton()

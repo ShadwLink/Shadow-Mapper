@@ -1,4 +1,4 @@
-package nl.shadowlink.tools.shadowmapper.preview
+package nl.shadowlink.tools.shadowmapper.gui.preview
 
 import com.jogamp.opengl.awt.GLCanvas
 import com.jogamp.opengl.util.Animator

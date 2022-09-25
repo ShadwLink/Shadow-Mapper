@@ -1,4 +1,4 @@
-package nl.shadowlink.tools.shadowmapper.preview
+package nl.shadowlink.tools.shadowmapper.gui.preview
 
 import com.jogamp.opengl.*
 import com.jogamp.opengl.fixedfunc.GLMatrixFunc

@@ -8,7 +8,7 @@ import nl.shadowlink.tools.shadowlib.utils.filechooser.ExtensionFilter
 import nl.shadowlink.tools.shadowlib.utils.filechooser.FileChooserUtil.openFileChooser
 import nl.shadowlink.tools.shadowmapper.CommandResult
 import nl.shadowlink.tools.shadowmapper.FileManager
-import nl.shadowlink.tools.shadowmapper.preview.Preview
+import nl.shadowlink.tools.shadowmapper.gui.preview.Preview
 import nl.shadowlink.tools.shadowmapper.utils.GuiFunctions.centerWindow
 import nl.shadowlink.tools.shadowmapper.utils.GuiFunctions.showError
 import org.netbeans.lib.awtextra.AbsoluteConstraints
