@@ -164,8 +164,8 @@ class MainForm : JFrame() {
         jButton1.text = "Render"
         jButton1.addActionListener { evt -> jButton1ActionPerformed(evt) }
         listScene.model = fm.modelIPL
-        checkList = CheckListManager(listScene).apply {
-            setFileManager(fm)
+        checkList = CheckListManager(listScene) { index, isSelected ->
+            fm.ipls[index].selected = isSelected
         }
         listScene.addMouseListener(object : MouseAdapter() {
             override fun mouseClicked(evt: MouseEvent) {

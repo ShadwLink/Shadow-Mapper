@@ -1,6 +1,5 @@
 package nl.shadowlink.tools.shadowmapper.gui.checklist
 
-import nl.shadowlink.tools.shadowmapper.FileManager
 import java.awt.event.*
 import javax.swing.*
 import javax.swing.event.ListSelectionEvent
@@ -8,12 +7,12 @@ import javax.swing.event.ListSelectionListener
 
 // @author Santhosh Kumar T - santhosh@in.fiorano.com
 class CheckListManager<T>(
-    private val list: JList<T>
+    private val list: JList<T>,
+    private val onSelectionToggled: (index: Int, isSelected: Boolean) -> Unit,
 ) : MouseAdapter(), ListSelectionListener, ActionListener {
 
     private val selectionModel: ListSelectionModel = DefaultListSelectionModel()
     var hotspot = JCheckBox().preferredSize.width
-    private var fm: FileManager? = null
 
     init {
         list.cellRenderer = CheckListCellRenderer(list.cellRenderer, selectionModel)
@@ -26,10 +25,10 @@ class CheckListManager<T>(
         if (index < 0) return
         if (selectionModel.isSelectedIndex(index)) {
             selectionModel.removeSelectionInterval(index, index)
-            fm!!.ipls[index].selected = false
+            onSelectionToggled(index, false)
         } else {
             selectionModel.addSelectionInterval(index, index)
-            fm!!.ipls[index].selected = true
+            onSelectionToggled(index, true)
         }
     }
 
@@ -46,9 +45,5 @@ class CheckListManager<T>(
 
     override fun actionPerformed(e: ActionEvent) {
         toggleSelection(list.selectedIndex)
-    }
-
-    fun setFileManager(fm: FileManager?) {
-        this.fm = fm
     }
 }
